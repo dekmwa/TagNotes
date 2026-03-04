@@ -52,3 +52,7 @@ void NotesWidget::setupNavigation() {
     navigation->addWidget(backToMenu, 0);
     navigation->addWidget(widgetTite, 1);
 }
+
+void NotesWidget::onBecomeActive() {
+    selectTagsWidget->updateCategories();
+}

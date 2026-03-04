@@ -11,8 +11,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), stackedWidget(new
 
     stackedWidget->setCurrentIndex(1);
 
-    connect(mainMenuWidget, &MainMenuWidget::onShowNotesClicked, this, &MainWindow::showNotesWidget);
+    connect(mainMenuWidget, &MainMenuWidget::onShowNotesClicked, this, [this](){
+        notesWidget->onBecomeActive();
+        stackedWidget->setCurrentIndex(0);
+    });
     connect(mainMenuWidget, &MainMenuWidget::onShowDeleteClicked, this, [this](){
+        deleteTagsOrCategoriesWidget->onBecomeActive();
         stackedWidget->setCurrentIndex(2);
     });
 
@@ -27,7 +31,3 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), stackedWidget(new
 }
 
 MainWindow::~MainWindow() {}
-
-void MainWindow::showNotesWidget() {
-    stackedWidget->setCurrentIndex(0);
-}

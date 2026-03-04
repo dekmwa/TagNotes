@@ -19,6 +19,8 @@ class NotesWidget : public QWidget
 public:
     explicit NotesWidget(QWidget *parent = nullptr);
 
+    void onBecomeActive();
+
 private:
     QCalendarWidget *calendar;
 

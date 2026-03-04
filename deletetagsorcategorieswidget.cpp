@@ -55,3 +55,7 @@ void DeleteTagsOrCategoriesWidget::deleteCategoryDialog(int categoryId) {
     } else if (msgBox.clickedButton() == cancelButton) {
     }
 }
+
+void DeleteTagsOrCategoriesWidget::onBecomeActive() {
+    selectTagsWidget->updateCategories();
+}

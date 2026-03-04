@@ -15,6 +15,8 @@ class DeleteTagsOrCategoriesWidget : public QWidget
 public:
     explicit DeleteTagsOrCategoriesWidget(QWidget *parent = nullptr);
 
+    void onBecomeActive();
+
 private:
     Database& database;
 

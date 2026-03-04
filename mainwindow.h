@@ -16,8 +16,6 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    void showNotesWidget();
-
 private:
     MainMenuWidget *mainMenuWidget;
     NotesWidget *notesWidget;
