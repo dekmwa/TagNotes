@@ -219,10 +219,12 @@ bool Database::deleteEmptyCategory(int categoryId) {
 
     QSqlQuery deleteCategory;
     deleteCategory.prepare("DELETE FROM tag_categories WHERE id = :categoryId");
+    deleteCategory.bindValue(":categoryId", categoryId);
     if (!deleteCategory.exec()) {
         qDebug() << "Database::deleteEmptyCategory: " << deleteCategory.lastError().text();
         return false;
     }
 
+    qDebug() << "Database::deleteEmptyCategory " << categoryId;
     return true;
 }
