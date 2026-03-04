@@ -76,6 +76,10 @@ void SelectTagsWidget::updateTagsByCategoryId(int categoryId) {
     }
 }
 
+void SelectTagsWidget::updateTagsByCurrentCategory() {
+    updateTagsByCategoryId(currentSelectedCategoryId);
+}
+
 void SelectTagsWidget::clearDisplayedTags() {
     for (QPushButton* tag : currentDisplayedTags) {
         if (tag == addTagButton) {

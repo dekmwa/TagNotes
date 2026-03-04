@@ -20,6 +20,7 @@ public:
     explicit SelectTagsWidget(QWidget *parent = nullptr);
 
     void updateCategories();
+    void updateTagsByCurrentCategory();
 
 private:
     QFlowLayout *tagsByCategory;
