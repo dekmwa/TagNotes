@@ -5,11 +5,11 @@
 #include <QCalendarWidget>
 #include <QHBoxLayout>
 #include <QLabel>
-#include "qflowlayout.h"
 #include <QPushButton>
 #include <QScrollArea>
 #include <QVBoxLayout>
 #include "selecttagswidget.h"
+#include "tagsbydatewidget.h"
 
 
 class NotesWidget : public QWidget
@@ -26,7 +26,7 @@ private:
     QHBoxLayout *calendarAndSelectedTags;
 
     QLabel *selectedDay;
-    QFlowLayout *selectedTags;
+    TagsByDateWidget *selectedTags;
     QPushButton *saveDay;
 
     SelectTagsWidget *selectTagsWidget;

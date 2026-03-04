@@ -2,7 +2,8 @@
 
 SelectTagsWidget::SelectTagsWidget(QWidget *parent) : QWidget{parent},
     categories(new QScrollArea(this)), categoriesWidget(new QWidget()), categoriesLayout(new QHBoxLayout()),
-    categoriesAndTags(new QVBoxLayout()),
+    categoriesAndAddButton(new QHBoxLayout()), addCategory(new QPushButton("+")),
+    categoriesAndTags(new QVBoxLayout()), addTagButton(new QPushButton("+")),
     tagsByCategory(new QFlowLayout()),
     database(Database::instance())
 {
@@ -11,35 +12,137 @@ SelectTagsWidget::SelectTagsWidget(QWidget *parent) : QWidget{parent},
     categories->setWidgetResizable(true);
     categories->setFixedHeight(60);
 
+    addTagButton->setFixedWidth(25);
+    addTagButton->setDisabled(true);
+    currentDisplayedTags.append(addTagButton);
+    tagsByCategory->addWidget(addTagButton);
+    connect(addTagButton, &QPushButton::clicked, this, [this](){
+        addTagDialog();
+    });
+
+    addCategory->setFixedWidth(25);
+    connect(addCategory, &QPushButton::clicked, this, [this](){
+        addCategoryDialog();
+    });
+
     categoriesWidget->setLayout(categoriesLayout);
     categories->setWidget(categoriesWidget);
 
-    QPushButton *tag11 = new QPushButton("тег", this);
-    QPushButton *tag21 = new QPushButton("rthreh", this);
-    QPushButton *tag31 = new QPushButton("теhhhhhhhг", this);
-    QPushButton *tag41 = new QPushButton("тhehег", this);
-    QPushButton *tag51 = new QPushButton("тhrhrehег", this);
+    categoriesAndAddButton->addWidget(categories, 1);
+    categoriesAndAddButton->addWidget(addCategory, 0);
 
-    categoriesLayout->addWidget(tag11);
-    categoriesLayout->addWidget(tag21);
-    categoriesLayout->addWidget(tag31);
-    categoriesLayout->addWidget(tag41);
-    categoriesLayout->addWidget(tag51);
+    categoriesAndTags->addLayout(categoriesAndAddButton, 0);
+    categoriesAndTags->addLayout(tagsByCategory, 1);
 
-    QPushButton *tag1 = new QPushButton("тег", this);
-    QPushButton *tag2 = new QPushButton("rthreh", this);
-    QPushButton *tag3 = new QPushButton("теhhhhhhhг", this);
-    QPushButton *tag4 = new QPushButton("тhehег", this);
-    QPushButton *tag5 = new QPushButton("тhrhrehег", this);
+    updateCategories();
 
-    tagsByCategory->addWidget(tag1);
-    tagsByCategory->addWidget(tag2);
-    tagsByCategory->addWidget(tag3);
-    tagsByCategory->addWidget(tag4);
-    tagsByCategory->addWidget(tag5);
-
-    categoriesAndTags->addWidget(categories);
-    categoriesAndTags->addLayout(tagsByCategory);
+    connect(this, &SelectTagsWidget::onCategoryClicked, this, [this](int categoryId){
+        updateTagsByCategoryId(categoryId);
+    });
 
     setLayout(categoriesAndTags);
+}
+
+void SelectTagsWidget::updateCategories() {
+    clearDisplayedCategories();
+
+    QMap<int, QString> categories = database.getAllCategories();
+
+    for (const auto& categoryId : categories.keys()) {
+        QPushButton *categoryButton = new QPushButton(categories[categoryId], categoriesWidget);
+        categoriesBtns.append(categoryButton);
+        connect(categoryButton, &QPushButton::clicked, this, [this, categoryId](){
+            emit onCategoryClicked(categoryId);
+        });
+
+        categoriesLayout->addWidget(categoryButton);
+    }
+}
+
+void SelectTagsWidget::updateTagsByCategoryId(int categoryId) {
+    clearDisplayedTags();
+    currentSelectedCategoryId = categoryId;
+    addTagButton->setDisabled(false);
+
+    QMap<int, QString> tags = database.getTagsByCategoryId(categoryId);
+
+    for (const auto& tagId : tags.keys()) {
+        QPushButton *tag = new QPushButton(tags[tagId]);
+        connect(tag, &QPushButton::clicked, this, [this, tagId](){
+            emit onTagClicked(tagId);
+        });
+        currentDisplayedTags.append(tag);
+        tagsByCategory->addWidget(tag);
+    }
+}
+
+void SelectTagsWidget::clearDisplayedTags() {
+    for (QPushButton* tag : currentDisplayedTags) {
+        if (tag == addTagButton) {
+            continue;
+        }
+        tagsByCategory->removeWidget(tag);
+        delete tag;
+    }
+    currentDisplayedTags.erase(currentDisplayedTags.begin() + 1, currentDisplayedTags.end());
+}
+
+void SelectTagsWidget::clearDisplayedCategories() {
+    for (const auto& category : categoriesBtns) {
+        categoriesLayout->removeWidget(category);
+        delete category;
+    }
+    categoriesBtns.clear();
+}
+
+void SelectTagsWidget::addCategoryDialog() {
+    bool ok;
+    QString title = QInputDialog::getText(
+        this,
+        "Добавление категории",
+        "Название категории",
+        QLineEdit::Normal,
+        "",
+        &ok
+        );
+
+    if (ok && !title.isEmpty()) {
+        if (database.addCategory(title)) {
+            updateCategories();
+            QMessageBox success;
+            success.setText("Категория добавлена");
+            success.exec();
+        } else {
+            QMessageBox error;
+            error.setText("Ошибка добавления категории");
+            error.setIcon(QMessageBox::Warning);
+            error.exec();
+        }
+    }
+}
+
+void SelectTagsWidget::addTagDialog() {
+    bool ok;
+    QString title = QInputDialog::getText(
+        this,
+        "Добавление тега",
+        "Что хотите отмечать?",
+        QLineEdit::Normal,
+        "",
+        &ok
+        );
+
+    if (ok && !title.isEmpty()) {
+        if (database.addTag(title, currentSelectedCategoryId)) {
+            updateTagsByCategoryId(currentSelectedCategoryId);
+            QMessageBox success;
+            success.setText("Тег добавлен");
+            success.exec();
+        } else {
+            QMessageBox error;
+            error.setText("Ошибка добавления тега");
+            error.setIcon(QMessageBox::Warning);
+            error.exec();
+        }
+    }
 }

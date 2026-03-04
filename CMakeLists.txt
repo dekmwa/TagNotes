@@ -13,6 +13,7 @@ find_package(Qt6 REQUIRED COMPONENTS
     Widgets
     Sql        # Добавили SQL
 )
+find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
 # Список исходников
 set(SOURCES
@@ -32,13 +33,15 @@ set(HEADERS
 
 # Создание исполняемого файла
 qt_add_executable(TagNotes ${SOURCES} ${HEADERS}
-    database.h database.cpp)
+    database.h database.cpp
+    tagsbydatewidget.h tagsbydatewidget.cpp)
 
 # Линковка с Qt библиотеками
 target_link_libraries(TagNotes PRIVATE
     Qt6::Widgets
     Qt6::Sql      # Вот здесь добавляем SQL
 )
+target_link_libraries(TagNotes PRIVATE Qt6::Widgets)
 
 # Настройки для Windows
 if(WIN32)

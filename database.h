@@ -5,6 +5,9 @@
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QDebug>
+#include <QDate>
+
+using namespace std;
 
 
 class Database
@@ -21,6 +24,16 @@ public:
     Database& operator=(Database&&) = delete;
 
     bool connectDatabase();
+
+    bool addCategory(QString title);
+    bool addTag(QString title, int categoryId);
+    bool updateAllTagsByDate(QDate date, const QVector<int>& tagsId);
+
+    QMap<int, QString> getAllCategories();
+    QMap<int, QString> getTagsByCategoryId(int categoryId);
+    QMap<int, QString> getTagsByDate(QDate date);
+
+    const QString getTagTitleById(int tagId);
 
 private:
     Database() = default;
