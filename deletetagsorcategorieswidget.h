@@ -6,6 +6,7 @@
 #include <QLabel>
 #include <QPushButton>
 #include "selecttagswidget.h"
+#include "database.h"
 
 
 class DeleteTagsOrCategoriesWidget : public QWidget
@@ -15,6 +16,8 @@ public:
     explicit DeleteTagsOrCategoriesWidget(QWidget *parent = nullptr);
 
 private:
+    Database& database;
+
     QVBoxLayout *mainLay;
 
     QLabel *widgetTite;
@@ -23,7 +26,7 @@ private:
 
     SelectTagsWidget *selectTagsWidget;
 
-    // void deleteCategoryDialog();
+    void deleteCategoryDialog(int categoryId);
     // void deleteTagDialog();
 
     void setupNavigation();

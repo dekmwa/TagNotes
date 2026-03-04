@@ -1,7 +1,8 @@
 #include "deletetagsorcategorieswidget.h"
 
 DeleteTagsOrCategoriesWidget::DeleteTagsOrCategoriesWidget(QWidget *parent) : QWidget{parent},
-    mainLay(new QVBoxLayout())
+    mainLay(new QVBoxLayout()),
+    database(Database::instance())
 {
     setupNavigation();
     setupTagsAndCategories();
@@ -30,5 +31,27 @@ void DeleteTagsOrCategoriesWidget::setupNavigation() {
 void DeleteTagsOrCategoriesWidget::setupTagsAndCategories() {
     selectTagsWidget = new SelectTagsWidget();
 
-    // connect(selectTagsWidget, &SelectTagsWidget::onCategoryClicked, this)
+    connect(selectTagsWidget, &SelectTagsWidget::onCategoryClicked, this, [this](int categoryId){
+        deleteCategoryDialog(categoryId);
+    });
+}
+
+void DeleteTagsOrCategoriesWidget::deleteCategoryDialog(int categoryId) {
+    QMessageBox msgBox(QMessageBox::Question,
+                       "Удаление категории",
+                       "Вы хотите удалить эту категорию?",
+                       QMessageBox::NoButton,
+                       this);
+
+    QPushButton *deleteButton = msgBox.addButton("Да", QMessageBox::YesRole);
+    QPushButton *cancelButton = msgBox.addButton("Нет", QMessageBox::RejectRole);
+
+    msgBox.exec();
+
+    if (msgBox.clickedButton() == deleteButton) {
+        database.deleteEmptyCategory(categoryId);
+        selectTagsWidget->updateCategories();
+        qDebug() << "oid DeleteTagsOrCategoriesWidget::deleteCategoryDialog " << categoryId;
+    } else if (msgBox.clickedButton() == cancelButton) {
+    }
 }

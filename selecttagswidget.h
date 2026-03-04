@@ -19,6 +19,8 @@ class SelectTagsWidget : public QWidget
 public:
     explicit SelectTagsWidget(QWidget *parent = nullptr);
 
+    void updateCategories();
+
 private:
     QFlowLayout *tagsByCategory;
 
@@ -39,7 +41,6 @@ private:
     QVector<QPushButton*> currentDisplayedTags;
     int currentSelectedCategoryId;
 
-    void updateCategories();
     void updateTagsByCategoryId(int categoryId);
     void clearDisplayedTags();
 
