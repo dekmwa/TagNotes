@@ -73,7 +73,7 @@ void DeleteTagsOrCategoriesWidget::deleteTagDialog(int tagId) {
 
     if (msgBox.clickedButton() == deleteButton) {
         database.deleteTag(tagId);
-        selectTagsWidget->updateCategories();
+        selectTagsWidget->updateTagsByCurrentCategory();
     } else if (msgBox.clickedButton() == cancelButton) {
     }
 }
