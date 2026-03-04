@@ -14,6 +14,9 @@ NotesWidget::NotesWidget(QWidget *parent) : QWidget{parent}, calendar(new QCalen
     calendarAndSelectedTags->addWidget(calendar, 4);
     calendarAndSelectedTags->addLayout(selectedTagsLay, 6);
 
+    setupNavigation();
+
+    mainLay->addLayout(navigation, 0);
     mainLay->addLayout(calendarAndSelectedTags, 0);
     mainLay->addWidget(selectTagsWidget, 1);
 
@@ -33,4 +36,19 @@ NotesWidget::NotesWidget(QWidget *parent) : QWidget{parent}, calendar(new QCalen
     selectedTags->updateTagsByDate(QDate::currentDate());
 
     setLayout(mainLay);
+}
+
+void NotesWidget::setupNavigation() {
+    widgetTite = new QLabel();
+    widgetTite->setText("Создание заметок");
+
+    backToMenu = new QPushButton();
+    backToMenu->setText("Меню");
+    connect(backToMenu, &QPushButton::clicked, this, [this](){
+        emit onBackToMenu();
+    });
+
+    navigation = new QHBoxLayout();
+    navigation->addWidget(backToMenu, 0);
+    navigation->addWidget(widgetTite, 1);
 }

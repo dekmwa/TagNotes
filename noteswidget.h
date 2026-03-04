@@ -25,6 +25,10 @@ private:
     QVBoxLayout *selectedTagsLay;
     QHBoxLayout *calendarAndSelectedTags;
 
+    QLabel *widgetTite;
+    QPushButton *backToMenu;
+    QHBoxLayout *navigation;
+
     QLabel *selectedDay;
     TagsByDateWidget *selectedTags;
     QPushButton *saveDay;
@@ -32,6 +36,11 @@ private:
     SelectTagsWidget *selectTagsWidget;
 
     QVBoxLayout *mainLay;
+
+    void setupNavigation();
+
+signals:
+    void onBackToMenu();
 };
 
 #endif // NOTESWIDGET_H

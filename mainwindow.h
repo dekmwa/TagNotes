@@ -3,6 +3,9 @@
 
 #include <QMainWindow>
 #include "noteswidget.h"
+#include "deletetagsorcategorieswidget.h"
+#include "mainmenuwidget.h"
+#include <QStackedWidget>
 
 
 class MainWindow : public QMainWindow
@@ -13,7 +16,13 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void showNotesWidget();
+
 private:
+    MainMenuWidget *mainMenuWidget;
     NotesWidget *notesWidget;
+    DeleteTagsOrCategoriesWidget *deleteTagsOrCategoriesWidget;
+
+    QStackedWidget *stackedWidget;
 };
 #endif // MAINWINDOW_H
