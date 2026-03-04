@@ -29,7 +29,7 @@ private:
     SelectTagsWidget *selectTagsWidget;
 
     void deleteCategoryDialog(int categoryId);
-    // void deleteTagDialog();
+    void deleteTagDialog(int tagId);
 
     void setupNavigation();
     void setupTagsAndCategories();

@@ -34,6 +34,9 @@ void DeleteTagsOrCategoriesWidget::setupTagsAndCategories() {
     connect(selectTagsWidget, &SelectTagsWidget::onCategoryClicked, this, [this](int categoryId){
         deleteCategoryDialog(categoryId);
     });
+    connect(selectTagsWidget, &SelectTagsWidget::onTagClicked, this, [this](int tagId){
+        deleteTagDialog(tagId);
+    });
 }
 
 void DeleteTagsOrCategoriesWidget::deleteCategoryDialog(int categoryId) {
@@ -52,6 +55,25 @@ void DeleteTagsOrCategoriesWidget::deleteCategoryDialog(int categoryId) {
         database.deleteEmptyCategory(categoryId);
         selectTagsWidget->updateCategories();
         qDebug() << "oid DeleteTagsOrCategoriesWidget::deleteCategoryDialog " << categoryId;
+    } else if (msgBox.clickedButton() == cancelButton) {
+    }
+}
+
+void DeleteTagsOrCategoriesWidget::deleteTagDialog(int tagId) {
+    QMessageBox msgBox(QMessageBox::Question,
+                       "Удаление тега",
+                       "Вы хотите удалить этот тег?",
+                       QMessageBox::NoButton,
+                       this);
+
+    QPushButton *deleteButton = msgBox.addButton("Да", QMessageBox::YesRole);
+    QPushButton *cancelButton = msgBox.addButton("Нет", QMessageBox::RejectRole);
+
+    msgBox.exec();
+
+    if (msgBox.clickedButton() == deleteButton) {
+        database.deleteTag(tagId);
+        selectTagsWidget->updateCategories();
     } else if (msgBox.clickedButton() == cancelButton) {
     }
 }
