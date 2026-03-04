@@ -30,6 +30,7 @@ public:
     bool updateAllTagsByDate(QDate date, const QVector<int>& tagsId);
 
     bool deleteEmptyCategory(int categoryId);
+    bool deleteTag(int tagId);
 
     QMap<int, QString> getAllCategories();
     QMap<int, QString> getTagsByCategoryId(int categoryId);

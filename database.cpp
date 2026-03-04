@@ -228,3 +228,37 @@ bool Database::deleteEmptyCategory(int categoryId) {
     qDebug() << "Database::deleteEmptyCategory " << categoryId;
     return true;
 }
+
+bool Database::deleteTag(int tagId) {
+    if (!m_dataBase.transaction()) {
+        qDebug() << "Database::deleteTag - Не удалось начать транзакцию: " << m_dataBase.lastError().text();
+        return false;
+    }
+
+    QSqlQuery deleteFromTagsByDate;
+    deleteFromTagsByDate.prepare("DELETE FROM tags_by_date WHERE tag_id = :tagId");
+    deleteFromTagsByDate.bindValue(":tagId", tagId);
+
+    if (!deleteFromTagsByDate.exec()) {
+        qDebug() << "Database::deleteTag - ошибка во время удаления из таблицы tags_by_date: " << deleteFromTagsByDate.lastError().text();
+        m_dataBase.rollback();
+        return false;
+    }
+
+    QSqlQuery deleteFromTags;
+    deleteFromTags.prepare("DELETE FROM tags WHERE id = :tagId");
+    deleteFromTags.bindValue(":tagId", tagId);
+
+    if (!deleteFromTags.exec()) {
+        qDebug() << "Database::deleteTag - ошибка во время удаления из таблицы tags: " << deleteFromTags.lastError().text();
+        m_dataBase.rollback();
+        return false;
+    }
+
+    if (!m_dataBase.commit()) {
+        qDebug() << "Database::deleteTag - Не удалось сделать commit изменений: " << m_dataBase.lastError().text();
+        return false;
+    }
+
+    return true;
+}
