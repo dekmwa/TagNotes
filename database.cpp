@@ -198,3 +198,31 @@ const QString Database::getTagTitleById(int tagId) {
     query.next();
     return query.value(0).toString();
 }
+
+bool Database::deleteEmptyCategory(int categoryId) {
+    QSqlQuery tagsByCategory;
+    tagsByCategory.prepare("SELECT COUNT(*) FROM tags WHERE category_id = :categoryId");
+    tagsByCategory.bindValue(":categoryId", categoryId);
+
+    if (!tagsByCategory.exec()) {
+        qDebug() << "Database::deleteEmptyCategory: " << tagsByCategory.lastError().text();
+        return false;
+    }
+
+    if (tagsByCategory.next()) {
+        int tagsCount = tagsByCategory.value(0).toInt();
+        if (tagsCount > 0) {
+            qDebug() << "Database::deleteEmptyCategory: в категории есть теги";
+            return false;
+        }
+    }
+
+    QSqlQuery deleteCategory;
+    deleteCategory.prepare("DELETE FROM tag_categories WHERE id = :categoryId");
+    if (!deleteCategory.exec()) {
+        qDebug() << "Database::deleteEmptyCategory: " << deleteCategory.lastError().text();
+        return false;
+    }
+
+    return true;
+}
