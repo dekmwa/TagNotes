@@ -17,6 +17,7 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
 # Список исходников
 set(SOURCES
@@ -40,13 +41,15 @@ qt_add_executable(TagNotes ${SOURCES} ${HEADERS}
     tagsbydatewidget.h tagsbydatewidget.cpp
     deletetagsorcategorieswidget.h deletetagsorcategorieswidget.cpp
     mainmenuwidget.h mainmenuwidget.cpp
-    tagsviewer.h tagsviewer.cpp)
+    tagsviewer.h tagsviewer.cpp
+    tagsbydatewidget2.h tagsbydatewidget2.cpp)
 
 # Линковка с Qt библиотеками
 target_link_libraries(TagNotes PRIVATE
     Qt6::Widgets
     Qt6::Sql      # Вот здесь добавляем SQL
 )
+target_link_libraries(TagNotes PRIVATE Qt6::Widgets)
 target_link_libraries(TagNotes PRIVATE Qt6::Widgets)
 target_link_libraries(TagNotes PRIVATE Qt6::Widgets)
 target_link_libraries(TagNotes PRIVATE Qt6::Widgets)
