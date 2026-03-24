@@ -3,7 +3,7 @@
 TagsViewer::TagsViewer(QWidget *parent) : QWidget{parent}, database(Database::instance()),
     m_mainLay(new QFlowLayout())
 {
-
+    setLayout(m_mainLay);
 }
 
 void TagsViewer::addTag(int tagId) {
