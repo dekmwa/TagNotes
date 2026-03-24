@@ -9,7 +9,7 @@
 #include <QScrollArea>
 #include <QVBoxLayout>
 #include "selecttagswidget.h"
-#include "tagsbydatewidget.h"
+#include "tagsbydatewidget2.h"
 
 
 class NotesWidget : public QWidget
@@ -32,7 +32,7 @@ private:
     QHBoxLayout *navigation;
 
     QLabel *selectedDay;
-    TagsByDateWidget *selectedTags;
+    TagsByDateWidget2 *selectedTags;
     QPushButton *saveDay;
 
     SelectTagsWidget *selectTagsWidget;

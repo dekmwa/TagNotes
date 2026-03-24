@@ -3,7 +3,7 @@
 
 NotesWidget::NotesWidget(QWidget *parent) : QWidget{parent}, calendar(new QCalendarWidget()),
     calendarAndSelectedTags(new QHBoxLayout()), selectedTagsLay(new QVBoxLayout()),
-    selectedDay(new QLabel(this)), selectedTags(new TagsByDateWidget()), saveDay(new QPushButton("Сохранить", this)),
+    selectedDay(new QLabel(this)), selectedTags(new TagsByDateWidget2()), saveDay(new QPushButton("Сохранить", this)),
     mainLay(new QVBoxLayout()),
     selectTagsWidget(new SelectTagsWidget())
 {
