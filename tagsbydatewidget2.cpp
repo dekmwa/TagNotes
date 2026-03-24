@@ -1,9 +1,11 @@
 #include "tagsbydatewidget2.h"
 
-TagsByDateWidget2::TagsByDateWidget2(QWidget *parent) : QWidget{parent}, database(Database::instance()),
-    m_taskViewer(new TagsViewer())
+TagsByDateWidget2::TagsByDateWidget2(QWidget *parent) : QWidget{parent},
+    m_mainLay(new QHBoxLayout(this)),
+    database(Database::instance()),
+    m_taskViewer(new TagsViewer(this))
 {
-
+    m_mainLay->addWidget(m_taskViewer);
 }
 
 void TagsByDateWidget2::updateTagsByDate(QDate date) {
@@ -13,19 +15,11 @@ void TagsByDateWidget2::updateTagsByDate(QDate date) {
 
     for (const auto& tagId : tags.keys()) {
         m_taskViewer->addTag(tagId);
-
-        connect(m_taskViewer, &TagsViewer::tagClicked, [this, tagId](){
-            m_taskViewer->removeTag(tagId);
-        });
     }
 }
 
 void TagsByDateWidget2::addTagToSelected(int tagId) {
     m_taskViewer->addTag(tagId);
-
-    connect(m_taskViewer, &TagsViewer::tagClicked, [this, tagId](){
-        m_taskViewer->removeTag(tagId);
-    });
 }
 
 void TagsByDateWidget2::saveTags(QDate date) {

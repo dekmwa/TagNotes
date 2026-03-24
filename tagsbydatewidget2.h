@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "tagsviewer.h"
+#include <QHBoxLayout>
 
 
 class TagsByDateWidget2 : public QWidget
@@ -17,6 +18,7 @@ public:
     void saveTags(QDate date);
 
 private:
+    QHBoxLayout *m_mainLay;
     TagsViewer *m_taskViewer;
     void clearDisplayedTags();
 
