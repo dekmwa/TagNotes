@@ -36,6 +36,7 @@ void TagsViewer::removeTag(int tagId) {
     }
 
     m_mainLay->removeWidget(m_tags[tagId]);
+    delete m_tags[tagId];
     m_tags.remove(tagId);
 
     emit tagRemoved(tagId);
