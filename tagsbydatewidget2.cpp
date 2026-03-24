@@ -6,6 +6,7 @@ TagsByDateWidget2::TagsByDateWidget2(QWidget *parent) : QWidget{parent},
     m_taskViewer(new TagsViewer(this))
 {
     m_mainLay->addWidget(m_taskViewer);
+    connect(m_taskViewer, &TagsViewer::tagClicked, this, &TagsByDateWidget2::onTagClicked);
 }
 
 void TagsByDateWidget2::updateTagsByDate(QDate date) {
@@ -24,4 +25,8 @@ void TagsByDateWidget2::addTagToSelected(int tagId) {
 
 void TagsByDateWidget2::saveTags(QDate date) {
     database.updateAllTagsByDate(date, m_taskViewer->getTagIds());
+}
+
+void TagsByDateWidget2::onTagClicked(int tagId) {
+    m_taskViewer->removeTag(tagId);
 }

@@ -24,6 +24,9 @@ private:
 
     Database& database;
 
+private slots:
+    void onTagClicked(int tagId);
+
 signals:
 };
 
