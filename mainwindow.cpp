@@ -3,7 +3,6 @@
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), stackedWidget(new QStackedWidget()),
     notesWidget(new NotesWidget(this)), mainMenuWidget(new MainMenuWidget),
     deleteTagsOrCategoriesWidget(new DeleteTagsOrCategoriesWidget)
-
 {
     stackedWidget->addWidget(notesWidget);
     stackedWidget->addWidget(mainMenuWidget);
@@ -27,7 +26,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), stackedWidget(new
         stackedWidget->setCurrentIndex(1);
     });
 
+    setupWindowSettings();
+
     setCentralWidget(stackedWidget);
+}
+
+void MainWindow::setupWindowSettings() {
+    resize(800, 500);
+    setMinimumWidth(500);
+    setMinimumHeight(300);
 }
 
 MainWindow::~MainWindow() {}

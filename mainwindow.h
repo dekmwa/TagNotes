@@ -22,5 +22,7 @@ private:
     DeleteTagsOrCategoriesWidget *deleteTagsOrCategoriesWidget;
 
     QStackedWidget *stackedWidget;
+
+    void setupWindowSettings();
 };
 #endif // MAINWINDOW_H
