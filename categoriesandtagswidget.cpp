@@ -11,6 +11,9 @@ CategoriesAndTagsWidget::CategoriesAndTagsWidget(QWidget *parent, Mode mode) : Q
     connect(categoriesViewer, &CategoriesViewer::categoryClicked, [this](int categoryId){
         updateTagsByCategoryId(categoryId);
     });
+    connect(tagsViewer, &TagsViewer::tagClicked, this, [this](int tagId){
+        emit onTagClicked(tagId);
+    });
 
     setupWidget();
     refresh();
@@ -51,9 +54,6 @@ void CategoriesAndTagsWidget::updateTagsByCategoryId(int categoryId) {
 
     for (const auto& tagId : tags.keys()) {
         tagsViewer->addTag(tagId);
-        connect(tagsViewer, &TagsViewer::tagClicked, this, [this, tagId](){
-            emit onTagClicked(tagId);
-        });
     }
 
     tagsViewer->unlockAddButton();

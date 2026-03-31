@@ -19,6 +19,7 @@ class CategoriesAndTagsWidget : public QWidget
 
 public:
     explicit CategoriesAndTagsWidget(QWidget *parent, Mode mode);
+    void refresh();
 
 private:
     Database& database;
@@ -30,7 +31,6 @@ private:
     //QPushButton *addTagButton;
 
     void setupWidget();
-    void refresh();
     void updateTagsByCategoryId(int categoryId);
     void updateTagsByCurrentCategory();
 
