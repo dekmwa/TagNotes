@@ -5,28 +5,16 @@ project(TagNotes VERSION 0.1 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTOUIC ON)
-set(CMAKE_AUTORCC ON)
 
-# Поиск Qt6 с нужными компонентами
-find_package(Qt6 REQUIRED COMPONENTS
-    Widgets
-    Sql        # Добавили SQL
-)
-find_package(Qt6 REQUIRED COMPONENTS Widgets)
-find_package(Qt6 REQUIRED COMPONENTS Widgets)
-find_package(Qt6 REQUIRED COMPONENTS Widgets)
-find_package(Qt6 REQUIRED COMPONENTS Widgets)
-find_package(Qt6 REQUIRED COMPONENTS Widgets)
-find_package(Qt6 REQUIRED COMPONENTS Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Widgets Sql)
 
-# Список исходников
 set(SOURCES
     main.cpp
     mainwindow.cpp
     noteswidget.cpp
     qflowlayout.cpp
     selecttagswidget.cpp
+    database.cpp
 )
 
 set(HEADERS
@@ -34,23 +22,25 @@ set(HEADERS
     noteswidget.h
     qflowlayout.h
     selecttagswidget.h
+    database.h
 )
 
 # Создание исполняемого файла
 qt_add_executable(TagNotes ${SOURCES} ${HEADERS}
-    database.h database.cpp
     tagsbydatewidget.h tagsbydatewidget.cpp
     deletetagsorcategorieswidget.h deletetagsorcategorieswidget.cpp
     mainmenuwidget.h mainmenuwidget.cpp
     tagsviewer.h tagsviewer.cpp
     tagsbydatewidget2.h tagsbydatewidget2.cpp
-    categoriesviewer.h categoriesviewer.cpp)
+    categoriesviewer.h categoriesviewer.cpp
+    categoriesandtagswidget.h categoriesandtagswidget.cpp)
 
 # Линковка с Qt библиотеками
 target_link_libraries(TagNotes PRIVATE
     Qt6::Widgets
     Qt6::Sql      # Вот здесь добавляем SQL
 )
+target_link_libraries(TagNotes PRIVATE Qt6::Widgets)
 target_link_libraries(TagNotes PRIVATE Qt6::Widgets)
 target_link_libraries(TagNotes PRIVATE Qt6::Widgets)
 target_link_libraries(TagNotes PRIVATE Qt6::Widgets)
