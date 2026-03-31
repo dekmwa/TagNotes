@@ -5,8 +5,7 @@ CategoriesAndTagsWidget::CategoriesAndTagsWidget(QWidget *parent, Mode mode) : Q
     currentMode(mode),
     mainLay(new QVBoxLayout(this)),
     tagsViewer(new TagsViewer(this, WidgetMode::WITH_PLUS_BUTTON)),
-    categoriesViewer(new CategoriesViewer(this))//,
-    //addTagButton(new QPushButton(this))
+    categoriesViewer(new CategoriesViewer(this))
 {
     connect(categoriesViewer, &CategoriesViewer::categoryClicked, [this](int categoryId){
         updateTagsByCategoryId(categoryId);
@@ -29,15 +28,9 @@ void CategoriesAndTagsWidget::setupWidget() {
     categoriesAndPlus->addWidget(categoriesViewer);
     categoriesAndPlus->addWidget(addCategory);
 
-    mainLay->addLayout(categoriesAndPlus);
+    mainLay->addLayout(categoriesAndPlus, 0);
+    mainLay->addWidget(tagsViewer, 1);
 
-    QHBoxLayout *tagsAndPlus = new QHBoxLayout();
-    //if (currentMode == Mode::VIEW_ONLY) addTagButton->hide();
-
-    tagsAndPlus->addWidget(tagsViewer);
-    //tagsAndPlus->addWidget(addTagButton);
-
-    mainLay->addLayout(tagsAndPlus);
     setLayout(mainLay);
 }
 

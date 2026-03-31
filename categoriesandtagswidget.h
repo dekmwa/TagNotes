@@ -28,7 +28,6 @@ private:
     TagsViewer *tagsViewer;
     CategoriesViewer *categoriesViewer;
     int currentSelectedCategoryId;
-    //QPushButton *addTagButton;
 
     void setupWidget();
     void updateTagsByCategoryId(int categoryId);
