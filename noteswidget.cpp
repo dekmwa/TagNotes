@@ -5,7 +5,6 @@ NotesWidget::NotesWidget(QWidget *parent) : QWidget{parent}, calendar(new QCalen
     calendarAndSelectedTags(new QHBoxLayout()), selectedTagsLay(new QVBoxLayout()),
     selectedDay(new QLabel(this)), selectedTags(new TagsByDateWidget2()), saveDay(new QPushButton("Сохранить", this)),
     mainLay(new QVBoxLayout()),
-    selectTagsWidget(new SelectTagsWidget()),
     categoriesAndTagsWidget(new CategoriesAndTagsWidget(this, Mode::ADD_TAGS_AND_ADD_CATEGORIES))
 {
     selectedTagsLay->addWidget(selectedDay, 0);
@@ -19,7 +18,6 @@ NotesWidget::NotesWidget(QWidget *parent) : QWidget{parent}, calendar(new QCalen
 
     mainLay->addLayout(navigation, 0);
     mainLay->addLayout(calendarAndSelectedTags, 0);
-    mainLay->addWidget(selectTagsWidget, 1);
     mainLay->addWidget(categoriesAndTagsWidget, 1);
 
     connect(calendar, &QCalendarWidget::clicked, this, [this](QDate date){
@@ -27,9 +25,6 @@ NotesWidget::NotesWidget(QWidget *parent) : QWidget{parent}, calendar(new QCalen
         selectedTags->updateTagsByDate(date);
     });
 
-    connect(selectTagsWidget, &SelectTagsWidget::onTagClicked, this, [this](int tagId){
-        selectedTags->addTagToSelected(tagId);
-    });
     connect(categoriesAndTagsWidget, &CategoriesAndTagsWidget::onTagClicked, this, [this](int tagId){
         selectedTags->addTagToSelected(tagId);
     });
@@ -59,6 +54,5 @@ void NotesWidget::setupNavigation() {
 }
 
 void NotesWidget::onBecomeActive() {
-    selectTagsWidget->updateCategories();
     categoriesAndTagsWidget->refresh();
 }
