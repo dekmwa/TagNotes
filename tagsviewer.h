@@ -37,6 +37,7 @@ private:
 
 signals:
     void tagClicked(int tagId);
+    void addTagClicked();
     void tagRemoved(int tagId);
     void plusButtonClicked();
 };

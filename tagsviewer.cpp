@@ -65,6 +65,9 @@ void TagsViewer::addPlusButton() {
     plusButton->setText("+");
     plusButton->setDisabled(true);
     plusButton->setFixedWidth(25);
+    connect(plusButton, &QPushButton::clicked, this, [this](){
+        emit addTagClicked();
+    });
     m_mainLay->addWidget(plusButton);
 }
 
