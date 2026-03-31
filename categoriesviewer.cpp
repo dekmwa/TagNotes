@@ -13,6 +13,9 @@ void CategoriesViewer::setupCategoriesArea() {
     categoriesWidget = new QWidget();
     categoriesLayout = new QHBoxLayout();
 
+    categoriesSrcAr->setWidgetResizable(true);
+    categoriesSrcAr->setFixedHeight(60);
+
     categoriesWidget->setLayout(categoriesLayout);
     categoriesSrcAr->setWidget(categoriesWidget);
     m_lay->addWidget(categoriesSrcAr);
