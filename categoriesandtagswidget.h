@@ -8,6 +8,9 @@ enum class Mode {
 
 #include <QWidget>
 #include <QVBoxLayout>
+#include <QInputDialog>
+#include <QLineEdit>
+#include <QMessageBox>
 #include "tagsviewer.h"
 #include "categoriesviewer.h"
 #include "database.h"
@@ -32,6 +35,9 @@ private:
     void setupWidget();
     void updateTagsByCategoryId(int categoryId);
     void updateTagsByCurrentCategory();
+
+    void addCategoryDialog();
+    void addTagDialog();
 
 signals:
     void onTagClicked(int tagId);

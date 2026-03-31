@@ -13,6 +13,7 @@ CategoriesAndTagsWidget::CategoriesAndTagsWidget(QWidget *parent, Mode mode) : Q
     connect(tagsViewer, &TagsViewer::tagClicked, this, [this](int tagId){
         emit onTagClicked(tagId);
     });
+    connect(tagsViewer, &TagsViewer::addTagClicked, this, &CategoriesAndTagsWidget::addTagDialog);
 
     setupWidget();
     refresh();
@@ -20,9 +21,12 @@ CategoriesAndTagsWidget::CategoriesAndTagsWidget(QWidget *parent, Mode mode) : Q
 
 void CategoriesAndTagsWidget::setupWidget() {
     QHBoxLayout *categoriesAndPlus = new QHBoxLayout();
+
     QPushButton *addCategory = new QPushButton(this);
+    connect(addCategory, &QPushButton::clicked, this, &CategoriesAndTagsWidget::addCategoryDialog);
     addCategory->setText("+");
     addCategory->setFixedWidth(20);
+
     if (currentMode == Mode::VIEW_ONLY) addCategory->hide();
 
     categoriesAndPlus->addWidget(categoriesViewer);
@@ -54,4 +58,56 @@ void CategoriesAndTagsWidget::updateTagsByCategoryId(int categoryId) {
 
 void CategoriesAndTagsWidget::updateTagsByCurrentCategory() {
     updateTagsByCategoryId(currentSelectedCategoryId);
+}
+
+void CategoriesAndTagsWidget::addCategoryDialog() {
+    bool ok;
+    QString title = QInputDialog::getText(
+        this,
+        "Добавление категории",
+        "Название категории",
+        QLineEdit::Normal,
+        "",
+        &ok
+        );
+
+    if (ok && !title.isEmpty()) {
+        if (database.addCategory(title)) {
+            categoriesViewer->updateCategories();
+            QMessageBox success;
+            success.setText("Категория добавлена");
+            success.exec();
+        } else {
+            QMessageBox error;
+            error.setText("Ошибка добавления категории");
+            error.setIcon(QMessageBox::Warning);
+            error.exec();
+        }
+    }
+}
+
+void CategoriesAndTagsWidget::addTagDialog() {
+    bool ok;
+    QString title = QInputDialog::getText(
+        this,
+        "Добавление тега",
+        "Что хотите отмечать?",
+        QLineEdit::Normal,
+        "",
+        &ok
+        );
+
+    if (ok && !title.isEmpty()) {
+        if (database.addTag(title, currentSelectedCategoryId)) {
+            updateTagsByCategoryId(currentSelectedCategoryId);
+            QMessageBox success;
+            success.setText("Тег добавлен");
+            success.exec();
+        } else {
+            QMessageBox error;
+            error.setText("Ошибка добавления тега");
+            error.setIcon(QMessageBox::Warning);
+            error.exec();
+        }
+    }
 }
