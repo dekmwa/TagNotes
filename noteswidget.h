@@ -10,6 +10,7 @@
 #include <QVBoxLayout>
 #include "selecttagswidget.h"
 #include "tagsbydatewidget2.h"
+#include "categoriesandtagswidget.h"
 
 
 class NotesWidget : public QWidget
@@ -40,6 +41,8 @@ private:
     QVBoxLayout *mainLay;
 
     void setupNavigation();
+
+    CategoriesAndTagsWidget *categoriesAndTagsWidget;
 
 signals:
     void onBackToMenu();
