@@ -3,7 +3,7 @@
 TagsByDateWidget2::TagsByDateWidget2(QWidget *parent) : QWidget{parent},
     m_mainLay(new QHBoxLayout(this)),
     database(Database::instance()),
-    m_taskViewer(new TagsViewer(this, WidgetMode::CLEAR))
+    m_taskViewer(new TagsViewer(this))
 {
     m_mainLay->addWidget(m_taskViewer);
     connect(m_taskViewer, &TagsViewer::tagClicked, this, &TagsByDateWidget2::onTagClicked);

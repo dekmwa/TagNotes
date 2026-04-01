@@ -1,10 +1,11 @@
 #include "tagsviewer.h"
 
-TagsViewer::TagsViewer(QWidget *parent, WidgetMode mode) : QWidget{parent}, database(Database::instance()),
+TagsViewer::TagsViewer(QWidget *parent) : QWidget{parent},
+    database(Database::instance()),
     m_mainLay(new QFlowLayout()),
-    currentMode(mode)
+    plusButton(nullptr)
 {
-    if (currentMode == WidgetMode::WITH_PLUS_BUTTON) addPlusButton();
+    setupAddTagButton();
     setLayout(m_mainLay);
 }
 
@@ -60,10 +61,13 @@ QVector<int> TagsViewer::getTagIds() {
     return ids;
 }
 
-void TagsViewer::addPlusButton() {
-    plusButton = new QPushButton();
+void TagsViewer::setupAddTagButton() {
+    if (plusButton != nullptr) return;
+
+    plusButton = new QPushButton(this);
     plusButton->setText("+");
     plusButton->setDisabled(true);
+    plusButton->hide();
     plusButton->setFixedWidth(25);
     connect(plusButton, &QPushButton::clicked, this, [this](){
         emit addTagClicked();
@@ -72,5 +76,9 @@ void TagsViewer::addPlusButton() {
 }
 
 void TagsViewer::unlockAddButton() {
-    plusButton->setDisabled(false);
+    if (plusButton != nullptr) plusButton->setDisabled(false);
+}
+
+void TagsViewer::showAddTagButton() {
+    if (plusButton != nullptr) plusButton->show();
 }

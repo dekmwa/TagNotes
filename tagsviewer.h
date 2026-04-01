@@ -1,10 +1,6 @@
 #ifndef TAGSVIEWER_H
 #define TAGSVIEWER_H
 
-enum class WidgetMode {
-    WITH_PLUS_BUTTON,
-    CLEAR
-};
 
 #include <QWidget>
 #include "qflowlayout.h"
@@ -18,22 +14,22 @@ class TagsViewer : public QWidget
     Q_OBJECT
 
 public:
-    explicit TagsViewer(QWidget *parent, WidgetMode mode);
+    explicit TagsViewer(QWidget *parent);
 
     void addTag(int tagId);
     void removeTag(int tagId);
     void clearAll();
     QVector<int> getTagIds();
     void unlockAddButton();
+    void showAddTagButton();
 
 private:
     Database& database;
-    WidgetMode currentMode;
     QFlowLayout *m_mainLay;
     QMap<int, QPushButton*> m_tags;
 
     QPushButton *plusButton;
-    void addPlusButton();
+    void setupAddTagButton();
 
 signals:
     void tagClicked(int tagId);

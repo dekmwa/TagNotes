@@ -4,7 +4,7 @@ CategoriesAndTagsWidget::CategoriesAndTagsWidget(QWidget *parent, Mode mode) : Q
     database(Database::instance()),
     currentMode(mode),
     mainLay(new QVBoxLayout(this)),
-    tagsViewer(new TagsViewer(this, WidgetMode::WITH_PLUS_BUTTON)),
+    tagsViewer(new TagsViewer(this)),
     categoriesViewer(new CategoriesViewer(this))
 {
     connect(categoriesViewer, &CategoriesViewer::categoryClicked, [this](int categoryId){
@@ -27,7 +27,12 @@ void CategoriesAndTagsWidget::setupWidget() {
     addCategory->setText("+");
     addCategory->setFixedWidth(20);
 
-    if (currentMode == Mode::VIEW_ONLY) addCategory->hide();
+    if (currentMode == Mode::VIEW_ONLY) {
+        addCategory->hide();
+    } else if (currentMode == Mode::ADD_TAGS_AND_ADD_CATEGORIES) {
+        addCategory->show();
+        tagsViewer->showAddTagButton();
+    }
 
     categoriesAndPlus->addWidget(categoriesViewer);
     categoriesAndPlus->addWidget(addCategory);
@@ -45,7 +50,6 @@ void CategoriesAndTagsWidget::refresh() {
 void CategoriesAndTagsWidget::updateTagsByCategoryId(int categoryId) {
     tagsViewer->clearAll();
     currentSelectedCategoryId = categoryId;
-    //addTagButton->setDisabled(false);
 
     QMap<int, QString> tags = database.getTagsByCategoryId(categoryId);
 
