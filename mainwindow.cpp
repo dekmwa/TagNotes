@@ -1,12 +1,16 @@
 #include "mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), stackedWidget(new QStackedWidget()),
-    notesWidget(new NotesWidget(this)), mainMenuWidget(new MainMenuWidget),
-    deleteTagsOrCategoriesWidget(new DeleteTagsOrCategoriesWidget)
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
+    stackedWidget(new QStackedWidget()),
+    notesWidget(new NotesWidget(this)),
+    mainMenuWidget(new MainMenuWidget(this)),
+    deleteTagsOrCategoriesWidget(new DeleteTagsOrCategoriesWidget(this)),
+    charts(new Charts(this))
 {
     stackedWidget->addWidget(notesWidget);
     stackedWidget->addWidget(mainMenuWidget);
     stackedWidget->addWidget(deleteTagsOrCategoriesWidget);
+    stackedWidget->addWidget(charts);
 
     stackedWidget->setCurrentIndex(1);
 
@@ -18,11 +22,18 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), stackedWidget(new
         deleteTagsOrCategoriesWidget->onBecomeActive();
         stackedWidget->setCurrentIndex(2);
     });
+    connect(mainMenuWidget, &MainMenuWidget::onShowChartsClicked, this, [this](){
+        charts->onBecomeActive();
+        stackedWidget->setCurrentIndex(3);
+    });
 
     connect(notesWidget, &NotesWidget::onBackToMenu, this, [this](){
         stackedWidget->setCurrentIndex(1);
     });
     connect(deleteTagsOrCategoriesWidget, &DeleteTagsOrCategoriesWidget::onBackToMenu, this, [this](){
+        stackedWidget->setCurrentIndex(1);
+    });
+    connect(charts, &Charts::onBackToMenu, this, [this](){
         stackedWidget->setCurrentIndex(1);
     });
 

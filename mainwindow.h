@@ -2,10 +2,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QStackedWidget>
 #include "noteswidget.h"
 #include "deletetagsorcategorieswidget.h"
 #include "mainmenuwidget.h"
-#include <QStackedWidget>
+#include "charts.h"
 
 
 class MainWindow : public QMainWindow
@@ -20,6 +21,7 @@ private:
     MainMenuWidget *mainMenuWidget;
     NotesWidget *notesWidget;
     DeleteTagsOrCategoriesWidget *deleteTagsOrCategoriesWidget;
+    Charts *charts;
 
     QStackedWidget *stackedWidget;
 

@@ -22,11 +22,12 @@ private:
 
     QPushButton *toDeleteWidget;
     QPushButton *toCreateNotes;
-    QPushButton *toGraphics;
+    QPushButton *toCharts;
 
 signals:
     void onShowNotesClicked();
     void onShowDeleteClicked();
+    void onShowChartsClicked();
 };
 
 #endif // MAINMENUWIDGET_H

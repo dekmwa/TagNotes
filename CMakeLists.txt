@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Widgets Sql)
+find_package(Qt6 REQUIRED COMPONENTS Widgets Sql Charts)
 
 set(SOURCES
     main.cpp
@@ -33,20 +33,17 @@ qt_add_executable(TagNotes ${SOURCES} ${HEADERS}
     tagsviewer.h tagsviewer.cpp
     tagsbydatewidget2.h tagsbydatewidget2.cpp
     categoriesviewer.h categoriesviewer.cpp
-    categoriesandtagswidget.h categoriesandtagswidget.cpp)
+    categoriesandtagswidget.h categoriesandtagswidget.cpp
+    charts.h charts.cpp
+)
 
 # Линковка с Qt библиотеками
 target_link_libraries(TagNotes PRIVATE
+    Qt6::Core
     Qt6::Widgets
-    Qt6::Sql      # Вот здесь добавляем SQL
+    Qt6::Sql
+    Qt6::Charts      # ← ЭТО САМОЕ ВАЖНОЕ!
 )
-target_link_libraries(TagNotes PRIVATE Qt6::Widgets)
-target_link_libraries(TagNotes PRIVATE Qt6::Widgets)
-target_link_libraries(TagNotes PRIVATE Qt6::Widgets)
-target_link_libraries(TagNotes PRIVATE Qt6::Widgets)
-target_link_libraries(TagNotes PRIVATE Qt6::Widgets)
-target_link_libraries(TagNotes PRIVATE Qt6::Widgets)
-target_link_libraries(TagNotes PRIVATE Qt6::Widgets)
 
 # Настройки для Windows
 if(WIN32)

@@ -2,16 +2,16 @@
 
 MainMenuWidget::MainMenuWidget(QWidget *parent) : QWidget{parent}, mainLay(new QVBoxLayout()),
     widgetTitle(new QLabel()),
-    toDeleteWidget(new QPushButton()), toCreateNotes(new QPushButton()), toGraphics(new QPushButton()),
+    toDeleteWidget(new QPushButton()), toCreateNotes(new QPushButton()), toCharts(new QPushButton()),
     navigateButtons(new QHBoxLayout())
 {
     toDeleteWidget->setText("Удаление");
     toCreateNotes->setText("Заметки");
-    toGraphics->setText("Графики");
+    toCharts->setText("Графики");
 
     navigateButtons->addWidget(toDeleteWidget);
     navigateButtons->addWidget(toCreateNotes);
-    navigateButtons->addWidget(toGraphics);
+    navigateButtons->addWidget(toCharts);
 
     mainLay->addWidget(widgetTitle);
     mainLay->addLayout(navigateButtons);
@@ -21,6 +21,9 @@ MainMenuWidget::MainMenuWidget(QWidget *parent) : QWidget{parent}, mainLay(new Q
     });
     connect(toDeleteWidget, &QPushButton::clicked, this, [this](){
         emit onShowDeleteClicked();
+    });
+    connect(toCharts, &QPushButton::clicked, this, [this](){
+        emit onShowChartsClicked();
     });
 
     setLayout(mainLay);
