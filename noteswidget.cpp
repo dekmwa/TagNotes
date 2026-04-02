@@ -55,4 +55,5 @@ void NotesWidget::setupNavigation() {
 
 void NotesWidget::onBecomeActive() {
     categoriesAndTagsWidget->refresh();
+    selectedTags->updateTagsByDate(QDate::currentDate());
 }

@@ -8,6 +8,7 @@ CategoriesAndTagsWidget::CategoriesAndTagsWidget(QWidget *parent, Mode mode) : Q
     categoriesViewer(new CategoriesViewer(this))
 {
     connect(categoriesViewer, &CategoriesViewer::categoryClicked, [this](int categoryId){
+        currentSelectedCategoryId = categoryId;
         updateTagsByCategoryId(categoryId);
     });
     connect(tagsViewer, &TagsViewer::tagClicked, this, [this](int tagId){
@@ -45,6 +46,7 @@ void CategoriesAndTagsWidget::setupWidget() {
 
 void CategoriesAndTagsWidget::refresh() {
     categoriesViewer->updateCategories();
+    updateTagsByCategoryId(currentSelectedCategoryId);
 }
 
 void CategoriesAndTagsWidget::updateTagsByCategoryId(int categoryId) {

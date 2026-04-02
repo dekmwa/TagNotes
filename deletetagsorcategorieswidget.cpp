@@ -2,20 +2,19 @@
 
 DeleteTagsOrCategoriesWidget::DeleteTagsOrCategoriesWidget(QWidget *parent) : QWidget{parent},
     mainLay(new QVBoxLayout()),
-    database(Database::instance())
+    database(Database::instance())//,
+    //categoriesViewer(new CategoriesViewer(this))
 {
     setupNavigation();
-    setupTagsAndCategories();
-
-    mainLay->addLayout(navigation, 0);
-    mainLay->addWidget(selectTagsWidget, 1);
+    setupChangeCategories();
+    setupChangeTags();
 
     setLayout(mainLay);
 }
 
 void DeleteTagsOrCategoriesWidget::setupNavigation() {
     widgetTite = new QLabel();
-    widgetTite->setText("Удаление Категорий и тегов");
+    widgetTite->setText("Редактирование Категорий и Тегов");
 
     backToMenu = new QPushButton();
     backToMenu->setText("Меню");
@@ -26,23 +25,86 @@ void DeleteTagsOrCategoriesWidget::setupNavigation() {
     navigation = new QHBoxLayout();
     navigation->addWidget(backToMenu, 0);
     navigation->addWidget(widgetTite, 1);
+
+    mainLay->addLayout(navigation, 0);
 }
 
-void DeleteTagsOrCategoriesWidget::setupTagsAndCategories() {
-    selectTagsWidget = new SelectTagsWidget();
+void DeleteTagsOrCategoriesWidget::setupChangeCategories() {
+    QVBoxLayout *lay = new QVBoxLayout();
 
-    connect(selectTagsWidget, &SelectTagsWidget::onCategoryClicked, this, [this](int categoryId){
+    QLabel *text = new QLabel();
+    text->setText("Удалить или редактировать категорию");
+
+    categoriesViewer = new CategoriesViewer();
+
+    lay->addWidget(text, 0);
+    lay->addWidget(categoriesViewer, 1);
+
+    connect(categoriesViewer, &CategoriesViewer::categoryClicked, this, [this](int categoryId){
+        categoryActionDialog(categoryId);
+    });
+
+    mainLay->addLayout(lay, 1);
+}
+
+void DeleteTagsOrCategoriesWidget::setupChangeTags() {
+    QVBoxLayout *lay = new QVBoxLayout();
+
+    QLabel *text = new QLabel();
+    text->setText("Удалить или редактировать тег");
+
+    categoriesAndTagsWidget = new CategoriesAndTagsWidget(this, Mode::VIEW_ONLY);
+
+    lay->addWidget(text, 0);
+    lay->addWidget(categoriesAndTagsWidget, 1);
+
+    connect(categoriesAndTagsWidget, &CategoriesAndTagsWidget::onTagClicked, this, [this](int tagId){
+        tagActionDialog(tagId);
+    });
+
+    mainLay->addLayout(lay, 1);
+}
+
+void DeleteTagsOrCategoriesWidget::categoryActionDialog(int categoryId) {
+    QMessageBox msgBox(QMessageBox::Question,
+                       "Редактирование категорий",
+                       "Что вы хотите сделать с этой категорией?",
+                       QMessageBox::NoButton,
+                       this);
+
+    QPushButton *deleteButton = msgBox.addButton("Удалить", QMessageBox::YesRole);
+    QPushButton *changeButton = msgBox.addButton("Редактировать", QMessageBox::YesRole);
+    QPushButton *cancelButton = msgBox.addButton("Отмена", QMessageBox::RejectRole);
+
+    msgBox.exec();
+
+    if (msgBox.clickedButton() == deleteButton) {
         deleteCategoryDialog(categoryId);
-    });
-    connect(selectTagsWidget, &SelectTagsWidget::onTagClicked, this, [this](int tagId){
+    }
+}
+
+void DeleteTagsOrCategoriesWidget::tagActionDialog(int tagId) {
+    QMessageBox msgBox(QMessageBox::Question,
+                       "Редактирование тегов",
+                       "Что вы хотите сделать с этим тегом?",
+                       QMessageBox::NoButton,
+                       this);
+
+    QPushButton *deleteButton = msgBox.addButton("Удалить", QMessageBox::YesRole);
+    QPushButton *changeButton = msgBox.addButton("Редактировать", QMessageBox::YesRole);
+    QPushButton *cancelButton = msgBox.addButton("Отмена", QMessageBox::RejectRole);
+
+    msgBox.exec();
+
+    if (msgBox.clickedButton() == deleteButton) {
         deleteTagDialog(tagId);
-    });
+    }
 }
 
 void DeleteTagsOrCategoriesWidget::deleteCategoryDialog(int categoryId) {
     QMessageBox msgBox(QMessageBox::Question,
                        "Удаление категории",
-                       "Вы хотите удалить эту категорию?",
+                       "Вы действительно хотите удалить эту категорию?",
                        QMessageBox::NoButton,
                        this);
 
@@ -53,7 +115,8 @@ void DeleteTagsOrCategoriesWidget::deleteCategoryDialog(int categoryId) {
 
     if (msgBox.clickedButton() == deleteButton) {
         database.deleteEmptyCategory(categoryId);
-        selectTagsWidget->updateCategories();
+        categoriesViewer->updateCategories();
+        categoriesAndTagsWidget->refresh();
         qDebug() << "oid DeleteTagsOrCategoriesWidget::deleteCategoryDialog " << categoryId;
     } else if (msgBox.clickedButton() == cancelButton) {
     }
@@ -62,7 +125,7 @@ void DeleteTagsOrCategoriesWidget::deleteCategoryDialog(int categoryId) {
 void DeleteTagsOrCategoriesWidget::deleteTagDialog(int tagId) {
     QMessageBox msgBox(QMessageBox::Question,
                        "Удаление тега",
-                       "Вы хотите удалить этот тег?",
+                       "Вы действительно хотите удалить этот тег?",
                        QMessageBox::NoButton,
                        this);
 
@@ -73,11 +136,11 @@ void DeleteTagsOrCategoriesWidget::deleteTagDialog(int tagId) {
 
     if (msgBox.clickedButton() == deleteButton) {
         database.deleteTag(tagId);
-        selectTagsWidget->updateTagsByCurrentCategory();
+        categoriesAndTagsWidget->refresh();
     } else if (msgBox.clickedButton() == cancelButton) {
     }
 }
 
 void DeleteTagsOrCategoriesWidget::onBecomeActive() {
-    selectTagsWidget->updateCategories();
+    categoriesViewer->updateCategories();
 }

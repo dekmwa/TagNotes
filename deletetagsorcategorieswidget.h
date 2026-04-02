@@ -5,8 +5,10 @@
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QPushButton>
-#include "selecttagswidget.h"
+#include <QMessageBox>
 #include "database.h"
+#include "categoriesviewer.h"
+#include "categoriesandtagswidget.h"
 
 
 class DeleteTagsOrCategoriesWidget : public QWidget
@@ -25,14 +27,17 @@ private:
     QLabel *widgetTite;
     QPushButton *backToMenu;
     QHBoxLayout *navigation;
+    CategoriesViewer *categoriesViewer;
+    CategoriesAndTagsWidget *categoriesAndTagsWidget;
 
-    SelectTagsWidget *selectTagsWidget;
-
+    void categoryActionDialog(int categoryId);
+    void tagActionDialog(int tagId);
     void deleteCategoryDialog(int categoryId);
     void deleteTagDialog(int tagId);
 
     void setupNavigation();
-    void setupTagsAndCategories();
+    void setupChangeCategories();
+    void setupChangeTags();
 
 signals:
     void onBackToMenu();
