@@ -35,6 +35,9 @@ private:
     void deleteCategoryDialog(int categoryId);
     void deleteTagDialog(int tagId);
 
+    void updateCategoryDialog(int categoryId);
+    void updateTagDialog(int categoryId);
+
     void setupNavigation();
     void setupChangeCategories();
     void setupChangeTags();

@@ -35,8 +35,10 @@ public:
     QMap<int, QString> getAllCategories();
     QMap<int, QString> getTagsByCategoryId(int categoryId);
     QMap<int, QString> getTagsByDate(QDate date);
-
     const QString getTagTitleById(int tagId);
+
+    void updateCategoryTitle(int categoryId, QString newTitle);
+    void updateTagTitle(int categoryId, QString newTitle);
 
 private:
     Database() = default;

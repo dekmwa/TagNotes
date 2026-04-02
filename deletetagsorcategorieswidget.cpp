@@ -80,6 +80,8 @@ void DeleteTagsOrCategoriesWidget::categoryActionDialog(int categoryId) {
 
     if (msgBox.clickedButton() == deleteButton) {
         deleteCategoryDialog(categoryId);
+    } else if (msgBox.clickedButton() == changeButton) {
+        updateCategoryDialog(categoryId);
     }
 }
 
@@ -98,6 +100,8 @@ void DeleteTagsOrCategoriesWidget::tagActionDialog(int tagId) {
 
     if (msgBox.clickedButton() == deleteButton) {
         deleteTagDialog(tagId);
+    } else if (msgBox.clickedButton() == changeButton) {
+        updateTagDialog(tagId);
     }
 }
 
@@ -141,6 +145,43 @@ void DeleteTagsOrCategoriesWidget::deleteTagDialog(int tagId) {
     }
 }
 
+void DeleteTagsOrCategoriesWidget::updateCategoryDialog(int categoryId) {
+    bool ok;
+    QString title = QInputDialog::getText(
+        this,
+        "Обновление категории",
+        "Введите новое название категории:",
+        QLineEdit::Normal,
+        "",
+        &ok
+        );
+
+    if (ok && !title.isEmpty()) {
+        database.updateCategoryTitle(categoryId, title);
+        categoriesViewer->updateCategories();
+        categoriesAndTagsWidget->refresh();
+    }
+}
+
+void DeleteTagsOrCategoriesWidget::updateTagDialog(int categoryId) {
+    bool ok;
+    QString title = QInputDialog::getText(
+        this,
+        "Обновление тега",
+        "Введите новое название тега:",
+        QLineEdit::Normal,
+        "",
+        &ok
+        );
+
+    if (ok && !title.isEmpty()) {
+        database.updateTagTitle(categoryId, title);
+        categoriesViewer->updateCategories();
+        categoriesAndTagsWidget->refresh();
+    }
+}
+
 void DeleteTagsOrCategoriesWidget::onBecomeActive() {
     categoriesViewer->updateCategories();
+    categoriesAndTagsWidget->refresh();
 }

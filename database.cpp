@@ -262,3 +262,25 @@ bool Database::deleteTag(int tagId) {
 
     return true;
 }
+
+void Database::updateCategoryTitle(int categoryId, QString newTitle) {
+    QSqlQuery query;
+    query.prepare("UPDATE tag_categories SET title = :newTitle WHERE id = :id");
+    query.bindValue(":newTitle", newTitle);
+    query.bindValue(":id", categoryId);
+
+    if (!query.exec()) {
+        qDebug() << "Database::updateCategoryTitle: " << query.lastError().text();
+    }
+}
+
+void Database::updateTagTitle(int tagId, QString newTitle) {
+    QSqlQuery query;
+    query.prepare("UPDATE tags SET title = :newTitle WHERE id = :id");
+    query.bindValue(":newTitle", newTitle);
+    query.bindValue(":id", tagId);
+
+    if (!query.exec()) {
+        qDebug() << "Database::updateTagTitle: " << query.lastError().text();
+    }
+}
