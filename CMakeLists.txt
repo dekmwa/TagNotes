@@ -3,9 +3,8 @@ cmake_minimum_required(VERSION 3.16)
 project(TagNotes VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTOUIC ON)  # ← ДОБАВЬТЕ ЭТУ СТРОКУ! Автоматическая обработка .ui файлов
+set(CMAKE_AUTOUIC ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Widgets Sql Charts)
 
@@ -14,9 +13,7 @@ set(SOURCES
     mainwindow.cpp
     noteswidget.cpp
     qflowlayout.cpp
-    selecttagswidget.cpp
     database.cpp
-    tagsbydatewidget.cpp
     deletetagsorcategorieswidget.cpp
     mainmenuwidget.cpp
     tagsviewer.cpp
@@ -31,9 +28,7 @@ set(HEADERS
     mainwindow.h
     noteswidget.h
     qflowlayout.h
-    selecttagswidget.h
     database.h
-    tagsbydatewidget.h
     deletetagsorcategorieswidget.h
     mainmenuwidget.h
     tagsviewer.h
@@ -48,12 +43,10 @@ set(UI_FILES
     databasesettingswidget.ui
 )
 
-# Qt автоматически обработает UI файлы благодаря CMAKE_AUTOUIC
 qt_add_executable(TagNotes
     ${SOURCES}
     ${HEADERS}
     ${UI_FILES}
-
 )
 
 target_link_libraries(TagNotes PRIVATE
