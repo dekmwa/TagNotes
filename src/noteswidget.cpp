@@ -10,9 +10,14 @@ NotesWidget::NotesWidget(QWidget *parent) : QWidget{parent}, calendar(new QCalen
     setAttribute(Qt::WA_StyledBackground, true);
     setObjectName("NotesWidget");
 
+    selectedDay->setAlignment(Qt::AlignCenter);
+    selectedDay->setProperty("type", "text");
     selectedTagsLay->addWidget(selectedDay, 0);
+
     selectedTagsLay->addWidget(selectedTags, 1);
+
     selectedTagsLay->addWidget(saveDay, 0);
+    selectedTagsLay->setContentsMargins(20, 0, 10, 0);
 
     saveDay->setObjectName("saveDayButton");
 

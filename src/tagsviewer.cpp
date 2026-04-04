@@ -75,6 +75,7 @@ void TagsViewer::setupAddTagButton() {
     connect(plusButton, &QPushButton::clicked, this, [this](){
         emit addTagClicked();
     });
+    plusButton->setObjectName("PlusButton");
     m_mainLay->addWidget(plusButton);
 }
 

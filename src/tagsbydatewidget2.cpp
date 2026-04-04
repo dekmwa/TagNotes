@@ -5,6 +5,9 @@ TagsByDateWidget2::TagsByDateWidget2(QWidget *parent) : QWidget{parent},
     database(Database::instance()),
     m_taskViewer(new TagsViewer(this))
 {
+    setAttribute(Qt::WA_StyledBackground, true);
+    setObjectName("TagsByDateWidget");
+
     m_mainLay->addWidget(m_taskViewer);
     connect(m_taskViewer, &TagsViewer::tagClicked, this, &TagsByDateWidget2::onTagClicked);
 }
