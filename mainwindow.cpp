@@ -5,14 +5,21 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     notesWidget(new NotesWidget(this)),
     mainMenuWidget(new MainMenuWidget(this)),
     deleteTagsOrCategoriesWidget(new DeleteTagsOrCategoriesWidget(this)),
-    charts(new Charts(this))
+    charts(new Charts(this)),
+    databaseSettingsWidget(new DatabaseSettingsWidget()),
+    m_database(Database::instance())
 {
     stackedWidget->addWidget(notesWidget);
     stackedWidget->addWidget(mainMenuWidget);
     stackedWidget->addWidget(deleteTagsOrCategoriesWidget);
     stackedWidget->addWidget(charts);
+    stackedWidget->addWidget(databaseSettingsWidget);
 
     stackedWidget->setCurrentIndex(1);
+    if (!m_database.isOpen()) {
+        databaseSettingsWidget->setupSetDbMode();
+        stackedWidget->setCurrentIndex(4);
+    }
 
     connect(mainMenuWidget, &MainMenuWidget::onShowNotesClicked, this, [this](){
         notesWidget->onBecomeActive();
@@ -26,6 +33,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
         charts->onBecomeActive();
         stackedWidget->setCurrentIndex(3);
     });
+    connect(mainMenuWidget, &MainMenuWidget::onShowDbSettingsClicked, this, [this](){
+        //charts->onBecomeActive();
+        stackedWidget->setCurrentIndex(4);
+    });
 
     connect(notesWidget, &NotesWidget::onBackToMenu, this, [this](){
         stackedWidget->setCurrentIndex(1);
@@ -34,6 +45,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
         stackedWidget->setCurrentIndex(1);
     });
     connect(charts, &Charts::onBackToMenu, this, [this](){
+        stackedWidget->setCurrentIndex(1);
+    });
+    connect(databaseSettingsWidget, &DatabaseSettingsWidget::onBackToMenu, this, [this](){
         stackedWidget->setCurrentIndex(1);
     });
 

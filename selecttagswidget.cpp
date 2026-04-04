@@ -7,7 +7,7 @@ SelectTagsWidget::SelectTagsWidget(QWidget *parent) : QWidget{parent},
     tagsByCategory(new QFlowLayout()),
     database(Database::instance())
 {
-    database.connectDatabase();
+    //database.connectDatabase();
 
     categories->setWidgetResizable(true);
     categories->setFixedHeight(60);

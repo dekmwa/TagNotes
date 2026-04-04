@@ -3,24 +3,50 @@
 // using namespace std;
 
 
-bool Database::connectDatabase() {
-    if (m_dataBase.isOpen()) {
-        return true;
+bool Database::connectDatabase(QString& path) {
+    QFile dbFile(path);
+    if (!dbFile.exists()) {
+        qDebug() << "Database::connectDatabase: файла "
+                 << path << " не существует.";
+        return false;
     }
 
-    m_dataBase = QSqlDatabase::addDatabase("QSQLITE");
-    m_dataBase.setDatabaseName("TagNotes.db");
+    if (dbFile.open(QIODevice::ReadOnly)) {
+        QByteArray header = dbFile.read(16);
+        dbFile.close();
+
+        if (!header.startsWith("SQLite format 3")) {
+            qDebug() << "Database::connectDatabase: Содержимое файла имеет не sqlite3 формат.";
+            return false;
+        }
+    } else {
+        return false;
+    }
+
+    if (m_dataBase.isOpen()) {
+        qDebug() << "Database::connectDatabase: подключение было активно, попытка подключения к другому файлу.";
+        m_dataBase.close();
+    }
+
+    if (QSqlDatabase::contains("notesDb")) QSqlDatabase::removeDatabase("notesDb");
+
+    m_dataBase = QSqlDatabase::addDatabase("QSQLITE", "notesDb");
+    m_dataBase.setDatabaseName(path);
 
     if (!m_dataBase.open()) {
         qDebug() << "Ошибка подключения к базе данных: " << m_dataBase.lastError().text();
         return false;
     } else {
-        qDebug() << "Подключение к базе данных установлено.";
+        qDebug() << "Подключение к базе данных установлено. " << path;
         if (!initTables()) {
             return false;
         }
         return true;
     }
+}
+
+bool Database::isOpen() {
+    return m_dataBase.isOpen();
 }
 
 bool Database::initTables() {

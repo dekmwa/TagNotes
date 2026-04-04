@@ -23,11 +23,13 @@ private:
     QPushButton *toDeleteWidget;
     QPushButton *toCreateNotes;
     QPushButton *toCharts;
+    QPushButton *toDbSettings;
 
 signals:
     void onShowNotesClicked();
     void onShowDeleteClicked();
     void onShowChartsClicked();
+    void onShowDbSettingsClicked();
 };
 
 #endif // MAINMENUWIDGET_H

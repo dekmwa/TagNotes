@@ -7,6 +7,8 @@
 #include "deletetagsorcategorieswidget.h"
 #include "mainmenuwidget.h"
 #include "charts.h"
+#include "databasesettingswidget.h"
+#include "database.h"
 
 
 class MainWindow : public QMainWindow
@@ -22,8 +24,11 @@ private:
     NotesWidget *notesWidget;
     DeleteTagsOrCategoriesWidget *deleteTagsOrCategoriesWidget;
     Charts *charts;
+    DatabaseSettingsWidget *databaseSettingsWidget;
 
     QStackedWidget *stackedWidget;
+
+    Database& m_database;
 
     void setupWindowSettings();
 };

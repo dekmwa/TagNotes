@@ -5,6 +5,7 @@ project(TagNotes VERSION 0.1 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)  # ← ДОБАВЬТЕ ЭТУ СТРОКУ! Автоматическая обработка .ui файлов
 
 find_package(Qt6 REQUIRED COMPONENTS Widgets Sql Charts)
 
@@ -15,6 +16,15 @@ set(SOURCES
     qflowlayout.cpp
     selecttagswidget.cpp
     database.cpp
+    tagsbydatewidget.cpp
+    deletetagsorcategorieswidget.cpp
+    mainmenuwidget.cpp
+    tagsviewer.cpp
+    tagsbydatewidget2.cpp
+    categoriesviewer.cpp
+    categoriesandtagswidget.cpp
+    charts.cpp
+    databasesettingswidget.cpp
 )
 
 set(HEADERS
@@ -23,34 +33,40 @@ set(HEADERS
     qflowlayout.h
     selecttagswidget.h
     database.h
+    tagsbydatewidget.h
+    deletetagsorcategorieswidget.h
+    mainmenuwidget.h
+    tagsviewer.h
+    tagsbydatewidget2.h
+    categoriesviewer.h
+    categoriesandtagswidget.h
+    charts.h
+    databasesettingswidget.h
 )
 
-# Создание исполняемого файла
-qt_add_executable(TagNotes ${SOURCES} ${HEADERS}
-    tagsbydatewidget.h tagsbydatewidget.cpp
-    deletetagsorcategorieswidget.h deletetagsorcategorieswidget.cpp
-    mainmenuwidget.h mainmenuwidget.cpp
-    tagsviewer.h tagsviewer.cpp
-    tagsbydatewidget2.h tagsbydatewidget2.cpp
-    categoriesviewer.h categoriesviewer.cpp
-    categoriesandtagswidget.h categoriesandtagswidget.cpp
-    charts.h charts.cpp
+set(UI_FILES
+    databasesettingswidget.ui
 )
 
-# Линковка с Qt библиотеками
+# Qt автоматически обработает UI файлы благодаря CMAKE_AUTOUIC
+qt_add_executable(TagNotes
+    ${SOURCES}
+    ${HEADERS}
+    ${UI_FILES}
+
+)
+
 target_link_libraries(TagNotes PRIVATE
     Qt6::Core
     Qt6::Widgets
     Qt6::Sql
-    Qt6::Charts      # ← ЭТО САМОЕ ВАЖНОЕ!
+    Qt6::Charts
 )
 
-# Настройки для Windows
 if(WIN32)
     set_target_properties(TagNotes PROPERTIES WIN32_EXECUTABLE TRUE)
 endif()
 
-# Настройки для macOS
 if(APPLE)
     set_target_properties(TagNotes PROPERTIES
         MACOSX_BUNDLE TRUE

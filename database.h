@@ -6,6 +6,7 @@
 #include <QSqlError>
 #include <QDebug>
 #include <QDate>
+#include <QFile>
 
 using namespace std;
 
@@ -23,7 +24,8 @@ public:
     Database(Database&&) = delete;
     Database& operator=(Database&&) = delete;
 
-    bool connectDatabase();
+    bool connectDatabase(QString& path);
+    bool isOpen();
 
     bool addCategory(QString title);
     bool addTag(QString title, int categoryId);
