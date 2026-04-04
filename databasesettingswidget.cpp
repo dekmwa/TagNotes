@@ -19,7 +19,10 @@ void DatabaseSettingsWidget::connectDbByNewPath(QString& path) {
         QSettings config("config.ini", QSettings::IniFormat);
         config.setValue("Database/path", path);
         ui->toMenuButton->setEnabled(true);
-        ui->infoText->setText("Успешное подключение! Новый файл будет использоваться по умолчанию.");
+        ui->infoText->setText("Успешное подключение! Этот файл будет использоваться по умолчанию.");
+    } else {
+        ui->infoText->setText("Не удалось использовать этот файл заметок. Укажите другой файл или создайте новый.");
+        ui->toMenuButton->setEnabled(false);
     }
 }
 
