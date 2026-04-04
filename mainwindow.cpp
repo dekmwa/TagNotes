@@ -34,7 +34,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
         stackedWidget->setCurrentIndex(3);
     });
     connect(mainMenuWidget, &MainMenuWidget::onShowDbSettingsClicked, this, [this](){
-        //charts->onBecomeActive();
+        databaseSettingsWidget->onBecomeActive();
         stackedWidget->setCurrentIndex(4);
     });
 
