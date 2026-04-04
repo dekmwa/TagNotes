@@ -1,25 +1,29 @@
 #include "categoriesviewer.h"
 
 CategoriesViewer::CategoriesViewer(QWidget *parent) : QWidget{parent},
-    database(Database::instance())
+    database(Database::instance()),
+    m_lay(new QHBoxLayout(this))
 {
+    setAttribute(Qt::WA_StyledBackground, true);
+    setObjectName("CategoriesViewer");
+
     setupCategoriesArea();
     updateCategories();
 }
 
 void CategoriesViewer::setupCategoriesArea() {
-    m_lay = new QHBoxLayout();
     categoriesSrcAr = new QScrollArea();
     categoriesWidget = new QWidget();
     categoriesLayout = new QHBoxLayout();
 
     categoriesSrcAr->setWidgetResizable(true);
-    categoriesSrcAr->setFixedHeight(60);
+    categoriesSrcAr->setFixedHeight(80);
+    categoriesSrcAr->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    categoriesSrcAr->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 
     categoriesWidget->setLayout(categoriesLayout);
     categoriesSrcAr->setWidget(categoriesWidget);
     m_lay->addWidget(categoriesSrcAr);
-    setLayout(m_lay);
 }
 
 void CategoriesViewer::updateCategories() {

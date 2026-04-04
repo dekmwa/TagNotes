@@ -5,19 +5,26 @@ DeleteTagsOrCategoriesWidget::DeleteTagsOrCategoriesWidget(QWidget *parent) : QW
     database(Database::instance())//,
     //categoriesViewer(new CategoriesViewer(this))
 {
+    setAttribute(Qt::WA_StyledBackground, true);
+    setObjectName("DeleteTagsOrCategoriesWidget");
+
     setupNavigation();
     setupChangeCategories();
     setupChangeTags();
 
+    mainLay->setContentsMargins(20, 20, 20, 20);
     setLayout(mainLay);
 }
 
 void DeleteTagsOrCategoriesWidget::setupNavigation() {
     widgetTite = new QLabel();
     widgetTite->setText("Редактирование Категорий и Тегов");
+    widgetTite->setAlignment(Qt::AlignCenter);
+    widgetTite->setProperty("type", "text");
 
     backToMenu = new QPushButton();
     backToMenu->setText("Меню");
+    backToMenu->setObjectName("backToMenuButton");
     connect(backToMenu, &QPushButton::clicked, this, [this](){
         emit onBackToMenu();
     });
@@ -34,10 +41,12 @@ void DeleteTagsOrCategoriesWidget::setupChangeCategories() {
 
     QLabel *text = new QLabel();
     text->setText("Удалить или редактировать категорию");
+    text->setAlignment(Qt::AlignCenter);
+    text->setProperty("type", "text");
 
     categoriesViewer = new CategoriesViewer();
 
-    lay->addWidget(text, 0);
+    lay->addWidget(text, 1);
     lay->addWidget(categoriesViewer, 1);
 
     connect(categoriesViewer, &CategoriesViewer::categoryClicked, this, [this](int categoryId){
@@ -52,10 +61,12 @@ void DeleteTagsOrCategoriesWidget::setupChangeTags() {
 
     QLabel *text = new QLabel();
     text->setText("Удалить или редактировать тег");
+    text->setAlignment(Qt::AlignCenter);
+    text->setProperty("type", "text");
 
     categoriesAndTagsWidget = new CategoriesAndTagsWidget(this, Mode::VIEW_ONLY);
 
-    lay->addWidget(text, 0);
+    lay->addWidget(text, 1);
     lay->addWidget(categoriesAndTagsWidget, 1);
 
     connect(categoriesAndTagsWidget, &CategoriesAndTagsWidget::onTagClicked, this, [this](int tagId){

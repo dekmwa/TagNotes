@@ -5,6 +5,9 @@ TagsViewer::TagsViewer(QWidget *parent) : QWidget{parent},
     m_mainLay(new QFlowLayout()),
     plusButton(nullptr)
 {
+    setAttribute(Qt::WA_StyledBackground, true);
+    setObjectName("TagsViewer");
+
     setupAddTagButton();
     setLayout(m_mainLay);
 }

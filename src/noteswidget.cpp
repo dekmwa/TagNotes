@@ -7,9 +7,14 @@ NotesWidget::NotesWidget(QWidget *parent) : QWidget{parent}, calendar(new QCalen
     mainLay(new QVBoxLayout()),
     categoriesAndTagsWidget(new CategoriesAndTagsWidget(this, Mode::ADD_TAGS_AND_ADD_CATEGORIES))
 {
+    setAttribute(Qt::WA_StyledBackground, true);
+    setObjectName("NotesWidget");
+
     selectedTagsLay->addWidget(selectedDay, 0);
     selectedTagsLay->addWidget(selectedTags, 1);
     selectedTagsLay->addWidget(saveDay, 0);
+
+    saveDay->setObjectName("saveDayButton");
 
     calendarAndSelectedTags->addWidget(calendar, 4);
     calendarAndSelectedTags->addLayout(selectedTagsLay, 6);
@@ -17,7 +22,7 @@ NotesWidget::NotesWidget(QWidget *parent) : QWidget{parent}, calendar(new QCalen
     setupNavigation();
 
     mainLay->addLayout(navigation, 0);
-    mainLay->addLayout(calendarAndSelectedTags, 0);
+    mainLay->addLayout(calendarAndSelectedTags, 1);
     mainLay->addWidget(categoriesAndTagsWidget, 1);
 
     connect(calendar, &QCalendarWidget::clicked, this, [this](QDate date){
@@ -35,15 +40,19 @@ NotesWidget::NotesWidget(QWidget *parent) : QWidget{parent}, calendar(new QCalen
 
     selectedTags->updateTagsByDate(QDate::currentDate());
 
+    mainLay->setContentsMargins(20, 20, 20, 20);
     setLayout(mainLay);
 }
 
 void NotesWidget::setupNavigation() {
     widgetTite = new QLabel();
     widgetTite->setText("Создание заметок");
+    widgetTite->setAlignment(Qt::AlignCenter);
+    widgetTite->setProperty("type", "text");
 
     backToMenu = new QPushButton();
     backToMenu->setText("Меню");
+    backToMenu->setObjectName("backToMenuButton");
     connect(backToMenu, &QPushButton::clicked, this, [this](){
         emit onBackToMenu();
     });

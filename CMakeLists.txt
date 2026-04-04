@@ -5,11 +5,13 @@ project(TagNotes VERSION 0.1 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Widgets Sql Charts)
 
 set(SOURCES
     main.cpp
+
     src/mainwindow.cpp
     src/noteswidget.cpp
     src/qflowlayout.cpp
@@ -43,10 +45,13 @@ set(UI_FILES
     src/databasesettingswidget.ui
 )
 
-qt_add_executable(TagNotes
+qt_add_executable(
+    TagNotes
+    resources.qrc
     ${SOURCES}
     ${HEADERS}
     ${UI_FILES}
+    themes/dark.qss
 )
 
 target_link_libraries(TagNotes PRIVATE

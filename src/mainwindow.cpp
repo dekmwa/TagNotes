@@ -57,7 +57,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 }
 
 void MainWindow::setupWindowSettings() {
-    resize(800, 500);
+    resize(1000, 700);
     setMinimumWidth(500);
     setMinimumHeight(300);
 }

@@ -1,0 +1,116 @@
+#MainMenuWidget {
+    background-color: #2C2C2C;
+}
+#MainMenuWidget QPushButton {
+    background-color: #612D53;
+    border-radius: 12px;
+    padding: 8px 8px;
+    border: none;
+    font: 25px;
+}
+#MainMenuWidget QPushButton:hover {
+    background-color: #853953;
+}
+
+#NotesWidget {
+    background-color: #2C2C2C;
+}
+#NotesWidget QLabel[type="text"] {
+    font-size: 20px;
+    color: #F3F4F4;
+}
+#NotesWidget #backToMenuButton {
+    font-size: 16px;
+    padding: 8px 8px;
+    border-radius: 5px;
+    background-color: #612D53;
+    color: #F3F4F4;
+}
+#NotesWidget #backToMenuButton:hover {
+    background-color: #853953;
+}
+#NotesWidget #saveDayButton {
+    font-size: 16px;
+    padding: 8px 8px;
+    border-radius: 5px;
+    background-color: #612D53;
+    color: #F3F4F4;
+}
+#NotesWidget #saveDayButton:hover {
+    background-color: #853953;
+}
+
+#DeleteTagsOrCategoriesWidget {
+    background-color: #2C2C2C;
+    padding: 30px 30px;
+}
+#DeleteTagsOrCategoriesWidget QLabel[type="text"] {
+    font-size: 20px;
+    color: #F3F4F4;
+}
+#DeleteTagsOrCategoriesWidget #backToMenuButton {
+    font-size: 16px;
+    padding: 8px 8px;
+    border-radius: 5px;
+    background-color: #612D53;
+    color: #F3F4F4;
+}
+#DeleteTagsOrCategoriesWidget #backToMenuButton:hover {
+    background-color: #853953;
+}
+
+#CategoriesViewer,
+#CategoriesViewer QScrollArea,
+#CategoriesViewer QWidget {
+    background-color: #2C2C2C;
+}
+#CategoriesViewer QScrollArea {
+    border: 4px solid #853953;
+    border-radius: 10px;
+    padding: 5px;
+}
+#CategoriesViewer QScrollBar:horizontal {
+    height: 10px;
+    background-color: #36064D;
+    background-image: none;
+    border: none;
+}
+#CategoriesViewer QScrollArea::Widget {
+    background-color: #36064D;
+}
+#CategoriesViewer QScrollBar::add-line:horizontal,
+QScrollBar::sub-line:horizontal {
+    border: none;
+    background: none;
+    width: 0px;
+    height: 0px;
+}
+#CategoriesViewer QPushButton {
+    font-size: 16px;
+    padding: 8px 8px;
+    border-radius: 5px;
+    background-color: #612D53;
+    color: #F3F4F4;
+}
+#CategoriesViewer QPushButton:hover {
+    background-color: #853953;
+}
+
+#CategoriesAndTagsWidget {
+
+}
+#CategoriesAndTagsWidget QPushButton:disabled {
+    background-color: #4a4d4f;
+    color: #a0a0a0;
+}
+
+#TagsViewer QPushButton {
+    font-size: 16px;
+    padding: 8px 8px;
+    border-radius: 5px;
+    background-color: #612D53;
+    color: #F3F4F4;
+}
+#TagsViewer QPushButton:hover {
+    background-color: #853953;
+}

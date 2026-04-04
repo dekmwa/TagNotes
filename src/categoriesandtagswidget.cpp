@@ -7,9 +7,13 @@ CategoriesAndTagsWidget::CategoriesAndTagsWidget(QWidget *parent, Mode mode) : Q
     tagsViewer(new TagsViewer(this)),
     categoriesViewer(new CategoriesViewer(this))
 {
+    setAttribute(Qt::WA_StyledBackground, true);
+    setObjectName("CategoriesAndTagsWidget");
+
     connect(categoriesViewer, &CategoriesViewer::categoryClicked, [this](int categoryId){
         currentSelectedCategoryId = categoryId;
         updateTagsByCategoryId(categoryId);
+        tagsViewer->unlockAddButton();
     });
     connect(tagsViewer, &TagsViewer::tagClicked, this, [this](int tagId){
         emit onTagClicked(tagId);
@@ -58,8 +62,6 @@ void CategoriesAndTagsWidget::updateTagsByCategoryId(int categoryId) {
     for (const auto& tagId : tags.keys()) {
         tagsViewer->addTag(tagId);
     }
-
-    tagsViewer->unlockAddButton();
 }
 
 void CategoriesAndTagsWidget::updateTagsByCurrentCategory() {

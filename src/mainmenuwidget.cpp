@@ -5,6 +5,9 @@ MainMenuWidget::MainMenuWidget(QWidget *parent) : QWidget{parent}, mainLay(new Q
     toDeleteWidget(new QPushButton()), toCreateNotes(new QPushButton()), toCharts(new QPushButton()), toDbSettings(new QPushButton()),
     navigateButtons(new QHBoxLayout())
 {
+    setAttribute(Qt::WA_StyledBackground, true);
+    setObjectName("MainMenuWidget");
+
     toDeleteWidget->setText("Удаление");
     toCreateNotes->setText("Заметки");
     toCharts->setText("Графики");
