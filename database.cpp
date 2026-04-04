@@ -1,7 +1,5 @@
 #include "database.h"
 
-// using namespace std;
-
 
 bool Database::connectDatabase(QString& path) {
     QFile dbFile(path);
@@ -26,6 +24,7 @@ bool Database::connectDatabase(QString& path) {
     if (m_dataBase.isOpen()) {
         qDebug() << "Database::connectDatabase: подключение было активно, попытка подключения к другому файлу.";
         m_dataBase.close();
+        m_dataBase = QSqlDatabase();
     }
 
     if (QSqlDatabase::contains("notesDb")) QSqlDatabase::removeDatabase("notesDb");
@@ -50,35 +49,35 @@ bool Database::isOpen() {
 }
 
 bool Database::initTables() {
-    QSqlQuery query;
+    QSqlQuery query(m_dataBase);
     bool success;
 
     success = query.exec("CREATE TABLE IF NOT EXISTS tag_categories ("
-                "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                "title VARCHAR(50) NOT NULL UNIQUE"
-                ")");
+                         "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                         "title VARCHAR(50) NOT NULL UNIQUE"
+                         ")");
     if (!success) {
         qDebug() << "Ошибка создания таблицы tag_categories: " << query.lastError().text();
         return false;
     }
 
     success = query.exec("CREATE TABLE IF NOT EXISTS tags ("
-                "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                "title VARCHAR(50) NOT NULL UNIQUE,"
-                "category_id INTEGER NOT NULL,"
-                "FOREIGN KEY (category_id) REFERENCES tag_categories (id) ON DELETE CASCADE"
-                ")");
+                         "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                         "title VARCHAR(50) NOT NULL UNIQUE,"
+                         "category_id INTEGER NOT NULL,"
+                         "FOREIGN KEY (category_id) REFERENCES tag_categories (id) ON DELETE CASCADE"
+                         ")");
     if (!success) {
         qDebug() << "Ошибка создания таблицы tags: " << query.lastError().text();
         return false;
     }
 
     success = query.exec("CREATE TABLE IF NOT EXISTS tags_by_date ("
-                "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                "date DATE NOT NULL,"
-                "tag_id INTEGER NOT NULL,"
-                "FOREIGN KEY (tag_id) REFERENCES tags (id) ON DELETE CASCADE"
-                ")");
+                         "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                         "date DATE NOT NULL,"
+                         "tag_id INTEGER NOT NULL,"
+                         "FOREIGN KEY (tag_id) REFERENCES tags (id) ON DELETE CASCADE"
+                         ")");
     if (!success) {
         qDebug() << "Ошибка создания таблицы tags_by_date: " << query.lastError().text();
         return false;
@@ -88,7 +87,7 @@ bool Database::initTables() {
 }
 
 bool Database::addCategory(QString title) {
-    QSqlQuery query;
+    QSqlQuery query(m_dataBase);
     query.prepare("INSERT INTO tag_categories (title) VALUES (:title)");
     query.bindValue(":title", title);
 
@@ -100,7 +99,7 @@ bool Database::addCategory(QString title) {
 }
 
 bool Database::addTag(QString title, int categoryId) {
-    QSqlQuery query;
+    QSqlQuery query(m_dataBase);
     query.prepare("INSERT INTO tags (title, category_id) VALUES (:title, :category_id)");
     query.bindValue(":title", title);
     query.bindValue(":category_id", categoryId);
@@ -118,7 +117,7 @@ bool Database::updateAllTagsByDate(QDate date, const QVector<int>& tagsId) {
         return false;
     }
 
-    QSqlQuery deleteQuery;
+    QSqlQuery deleteQuery(m_dataBase);
     deleteQuery.prepare("DELETE FROM tags_by_date WHERE date = :date");
     deleteQuery.bindValue(":date", date);
 
@@ -128,7 +127,7 @@ bool Database::updateAllTagsByDate(QDate date, const QVector<int>& tagsId) {
         return false;
     }
 
-    QSqlQuery insertQuery;
+    QSqlQuery insertQuery(m_dataBase);
     insertQuery.prepare("INSERT INTO tags_by_date (date, tag_id) VALUES (:date, :tag_id)");
     for (int tagId : tagsId) {
         insertQuery.bindValue(":date", date);
@@ -156,8 +155,12 @@ bool Database::updateAllTagsByDate(QDate date, const QVector<int>& tagsId) {
 
 QMap<int, QString> Database::getAllCategories() {
     QMap<int, QString> categories;
-    QSqlQuery query;
-    query.exec("SELECT id, title FROM tag_categories");
+    QSqlQuery query(m_dataBase);
+
+    if (!query.exec("SELECT id, title FROM tag_categories")) {
+        qDebug() << "Ошибка получения категорий: " << query.lastError().text();
+        return categories;
+    }
 
     while (query.next()) {
         int id = query.value(0).toInt();
@@ -170,7 +173,7 @@ QMap<int, QString> Database::getAllCategories() {
 
 QMap<int, QString> Database::getTagsByCategoryId(int categoryId) {
     QMap<int, QString> tags;
-    QSqlQuery query;
+    QSqlQuery query(m_dataBase);
     query.prepare("SELECT id, title FROM tags WHERE category_id = :category_id");
     query.bindValue(":category_id", categoryId);
 
@@ -191,7 +194,7 @@ QMap<int, QString> Database::getTagsByCategoryId(int categoryId) {
 QMap<int, QString> Database::getTagsByDate(QDate date) {
     QMap<int, QString> tags;
 
-    QSqlQuery query;
+    QSqlQuery query(m_dataBase);
     query.prepare("SELECT tags.id, tags.title FROM tags_by_date "
                   "JOIN tags ON tags.id = tags_by_date.tag_id "
                   "WHERE tags_by_date.date = :date");
@@ -212,21 +215,23 @@ QMap<int, QString> Database::getTagsByDate(QDate date) {
 }
 
 const QString Database::getTagTitleById(int tagId) {
-    QSqlQuery query;
+    QSqlQuery query(m_dataBase);
     query.prepare("SELECT title FROM tags WHERE id = :tagId");
     query.bindValue(":tagId", tagId);
 
     if (!query.exec()) {
-        qDebug() <<  "Database::getTagTitleById";
+        qDebug() <<  "Database::getTagTitleById: " << query.lastError().text();
         return "";
     }
 
-    query.next();
-    return query.value(0).toString();
+    if (query.next()) {
+        return query.value(0).toString();
+    }
+    return "";
 }
 
 bool Database::deleteEmptyCategory(int categoryId) {
-    QSqlQuery tagsByCategory;
+    QSqlQuery tagsByCategory(m_dataBase);
     tagsByCategory.prepare("SELECT COUNT(*) FROM tags WHERE category_id = :categoryId");
     tagsByCategory.bindValue(":categoryId", categoryId);
 
@@ -243,7 +248,7 @@ bool Database::deleteEmptyCategory(int categoryId) {
         }
     }
 
-    QSqlQuery deleteCategory;
+    QSqlQuery deleteCategory(m_dataBase);
     deleteCategory.prepare("DELETE FROM tag_categories WHERE id = :categoryId");
     deleteCategory.bindValue(":categoryId", categoryId);
     if (!deleteCategory.exec()) {
@@ -261,7 +266,7 @@ bool Database::deleteTag(int tagId) {
         return false;
     }
 
-    QSqlQuery deleteFromTagsByDate;
+    QSqlQuery deleteFromTagsByDate(m_dataBase);
     deleteFromTagsByDate.prepare("DELETE FROM tags_by_date WHERE tag_id = :tagId");
     deleteFromTagsByDate.bindValue(":tagId", tagId);
 
@@ -271,7 +276,7 @@ bool Database::deleteTag(int tagId) {
         return false;
     }
 
-    QSqlQuery deleteFromTags;
+    QSqlQuery deleteFromTags(m_dataBase);
     deleteFromTags.prepare("DELETE FROM tags WHERE id = :tagId");
     deleteFromTags.bindValue(":tagId", tagId);
 
@@ -290,7 +295,7 @@ bool Database::deleteTag(int tagId) {
 }
 
 void Database::updateCategoryTitle(int categoryId, QString newTitle) {
-    QSqlQuery query;
+    QSqlQuery query(m_dataBase);
     query.prepare("UPDATE tag_categories SET title = :newTitle WHERE id = :id");
     query.bindValue(":newTitle", newTitle);
     query.bindValue(":id", categoryId);
@@ -301,7 +306,7 @@ void Database::updateCategoryTitle(int categoryId, QString newTitle) {
 }
 
 void Database::updateTagTitle(int tagId, QString newTitle) {
-    QSqlQuery query;
+    QSqlQuery query(m_dataBase);
     query.prepare("UPDATE tags SET title = :newTitle WHERE id = :id");
     query.bindValue(":newTitle", newTitle);
     query.bindValue(":id", tagId);
