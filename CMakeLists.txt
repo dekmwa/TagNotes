@@ -10,37 +10,37 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets Sql Charts)
 
 set(SOURCES
     main.cpp
-    mainwindow.cpp
-    noteswidget.cpp
-    qflowlayout.cpp
-    database.cpp
-    deletetagsorcategorieswidget.cpp
-    mainmenuwidget.cpp
-    tagsviewer.cpp
-    tagsbydatewidget2.cpp
-    categoriesviewer.cpp
-    categoriesandtagswidget.cpp
-    charts.cpp
-    databasesettingswidget.cpp
+    src/mainwindow.cpp
+    src/noteswidget.cpp
+    src/qflowlayout.cpp
+    src/database.cpp
+    src/deletetagsorcategorieswidget.cpp
+    src/mainmenuwidget.cpp
+    src/tagsviewer.cpp
+    src/tagsbydatewidget2.cpp
+    src/categoriesviewer.cpp
+    src/categoriesandtagswidget.cpp
+    src/charts.cpp
+    src/databasesettingswidget.cpp
 )
 
 set(HEADERS
-    mainwindow.h
-    noteswidget.h
-    qflowlayout.h
-    database.h
-    deletetagsorcategorieswidget.h
-    mainmenuwidget.h
-    tagsviewer.h
-    tagsbydatewidget2.h
-    categoriesviewer.h
-    categoriesandtagswidget.h
-    charts.h
-    databasesettingswidget.h
+    src/mainwindow.h
+    src/noteswidget.h
+    src/qflowlayout.h
+    src/database.h
+    src/deletetagsorcategorieswidget.h
+    src/mainmenuwidget.h
+    src/tagsviewer.h
+    src/tagsbydatewidget2.h
+    src/categoriesviewer.h
+    src/categoriesandtagswidget.h
+    src/charts.h
+    src/databasesettingswidget.h
 )
 
 set(UI_FILES
-    databasesettingswidget.ui
+    src/databasesettingswidget.ui
 )
 
 qt_add_executable(TagNotes
