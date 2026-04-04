@@ -25,6 +25,7 @@ public:
     Database& operator=(Database&&) = delete;
 
     bool connectDatabase(QString& path);
+    bool createAndConnect(QString& path);
     bool isOpen();
 
     bool addCategory(QString title);

@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QSettings>
 #include <QFileDialog>
+#include <QInputDialog>
+#include <QLineEdit>
 #include "database.h"
 
 
@@ -22,6 +24,7 @@ public:
     void onBecomeActive();
     void setupSetDbMode();
     void connectDbByNewPath(QString& path);
+    void createNewDbAndConnect(QString& path);
 
 private:
     Ui::DatabaseSettingsWidget *ui;
@@ -30,6 +33,7 @@ private:
 private slots:
     void on_toMenuButton_clicked();
     void on_selectFileButton_clicked();
+    void on_selectPathButton_clicked();
 
 signals:
     void onBackToMenu();

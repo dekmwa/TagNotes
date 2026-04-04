@@ -191,7 +191,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="selectPathButton">
        <property name="text">
         <string>открыть</string>
        </property>

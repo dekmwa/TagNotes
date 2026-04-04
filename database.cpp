@@ -33,10 +33,33 @@ bool Database::connectDatabase(QString& path) {
     m_dataBase.setDatabaseName(path);
 
     if (!m_dataBase.open()) {
-        qDebug() << "Ошибка подключения к базе данных: " << m_dataBase.lastError().text();
+        qDebug() << "Database::connectDatabase: Ошибка подключения к базе данных: " << m_dataBase.lastError().text();
         return false;
     } else {
-        qDebug() << "Подключение к базе данных установлено. " << path;
+        qDebug() << "Database::connectDatabase: Подключение к базе данных установлено. " << path;
+        if (!initTables()) {
+            return false;
+        }
+        return true;
+    }
+}
+
+bool Database::createAndConnect(QString& path) {
+    if (m_dataBase.isOpen()) {
+        m_dataBase.close();
+        m_dataBase = QSqlDatabase();
+    }
+
+    if (QSqlDatabase::contains("notesDb")) QSqlDatabase::removeDatabase("notesDb");
+
+    m_dataBase = QSqlDatabase::addDatabase("QSQLITE", "notesDb");
+    m_dataBase.setDatabaseName(path);
+
+    if (!m_dataBase.open()) {
+        qDebug() << "Database::createAndConnect: Ошибка подключения к базе данных: " << m_dataBase.lastError().text();
+        return false;
+    } else {
+        qDebug() << "Database::createAndConnect: Подключение к базе данных установлено. " << path;
         if (!initTables()) {
             return false;
         }
