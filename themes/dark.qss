@@ -135,25 +135,12 @@ QScrollBar::sub-line:horizontal {
     padding: 5px 5px;
 }
 
-QCalendarWidget {
-    background-color: #2C2C2C;
-    color: F3F4F4;
+#CustomCalendar {
+    background-color: #612D53;
 }
-QCalendarWidget QAbstractItemView {
-    background-color: #46253e;
+#CustomCalendar QPushButton[type="today"] {
+    background-color: #853953;
 }
-QCalendarWidget QWidget#qt_calendar_navigationbar {
-    background-color: #23020a;
-}
-QCalendarWidget QToolButton {
-    background-color: #23020a;
-}
-#qt_calendar_calendarview QHeaderView {
-    background-color: #23020a;
-}
-QCalendarWidget QAbstractItemView::item {
-    color: #000000;
-}
-QCalendarWidget QAbstractItemView::item:!active {
-    color: #696969;
+#CustomCalendar QPushButton[type="selected"] {
+    background-color: #FF85BB;
 }

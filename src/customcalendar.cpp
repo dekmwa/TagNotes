@@ -4,8 +4,12 @@ CustomCalendar::CustomCalendar(QWidget *parent)
     : QWidget{parent},
     m_lay(new QVBoxLayout(this)),
     m_daysLay(new QGridLayout()),
-    m_currentMonth(QDate::currentDate())
+    m_currentMonth(QDate::currentDate()),
+    m_selectedDate(QDate::currentDate())
 {
+    setAttribute(Qt::WA_StyledBackground, true);
+    setObjectName("CustomCalendar");
+
     setupTopPanel();
     setupWeekdayPanel();
     updateDaysByCurrentMonth();
@@ -70,10 +74,29 @@ void CustomCalendar::updateDaysByCurrentMonth() {
         for (int j = 0; j <= 6; ++j) {
             QDate date = startDate.addDays(dayNumber++);
             QPushButton *day = new QPushButton(QString::number(date.day()), this);
+
+            day->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+
             connect(day, &QPushButton::clicked, this, [this, date](){
                 m_selectedDate = date;
                 emit onDayClicked(date);
+                updateDaysByCurrentMonth();
             });
+
+            if (date.month() == m_currentMonth.month() && date.year() == m_currentMonth.year()) {
+                day->setProperty("type", "currentMonthDay");
+            } else {
+                day->setProperty("type", "anotherMonthDay");
+            }
+
+            if (date == QDate::currentDate()) {
+                day->setProperty("type", "today");
+            }
+
+            if (date == m_selectedDate) {
+                day->setProperty("type", "selected");
+            }
+
             m_daysLay->addWidget(day, i, j);
             m_daysButtons.push_back(day);
         }
