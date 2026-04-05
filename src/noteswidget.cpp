@@ -21,7 +21,9 @@ NotesWidget::NotesWidget(QWidget *parent) : QWidget{parent}, calendar(new QCalen
 
     saveDay->setObjectName("saveDayButton");
 
+    calendar->setVerticalHeaderFormat(QCalendarWidget::NoVerticalHeader);
     calendarAndSelectedTags->addWidget(calendar, 4);
+
     calendarAndSelectedTags->addLayout(selectedTagsLay, 6);
 
     setupNavigation();

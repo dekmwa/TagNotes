@@ -52,6 +52,8 @@ qt_add_executable(
     ${HEADERS}
     ${UI_FILES}
     themes/dark.qss
+
+
 )
 
 target_link_libraries(TagNotes PRIVATE
