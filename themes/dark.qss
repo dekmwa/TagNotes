@@ -136,11 +136,56 @@ QScrollBar::sub-line:horizontal {
 }
 
 #CustomCalendar {
-    background-color: #612D53;
+    background-color: #2C2C2C;
+}
+#CustomCalendar QPushButton[dayButton=true] {
+    border: 2px solid #612D53;
+    border-radius: 15px;
+    color: #1B0C0C;
+    font-size: 16px;
+    background-color: #F5F5F5;
+
 }
 #CustomCalendar QPushButton[type="today"] {
-    background-color: #853953;
+    background-color: #FFE5D4;
 }
 #CustomCalendar QPushButton[type="selected"] {
-    background-color: #FF85BB;
+    background-color: #BFD3C1;
+}
+#CustomCalendar QPushButton[type="anotherMonthDay"] {
+    background-color: #2C2C2C;
+    color: #86898b;
+}
+#CustomCalendar QPushButton[type="currentMonthDay"] {
+    background-color: #694F5D;
+    color: #000000;
+}
+#CustomCalendar #weekDayLabel {
+    color: #F3F4F4;
+}
+#CustomCalendar QPushButton[type="prevMonthButton"] {
+    background-color: 2C2C2C;
+    border: 1px solid #612D53;
+    border-radius: 10px;
+    color: #F3F4F4;
+    font-size: 16px;
+}
+#CustomCalendar QPushButton[type="nextMonthButton"] {
+    background-color: 2C2C2C;
+    border: 1px solid #612D53;
+    border-radius: 10px;
+    color: #F3F4F4;
+    font-size: 16px;
+}
+#CustomCalendar QLabel[type="monthAndYear"] {
+    background-color: 2C2C2C;
+    color: #F3F4F4;
+    font-size: 16px;
+}
+#CustomCalendar QPushButton[type="toToday"] {
+    background-color: 2C2C2C;
+    border: 1px solid #612D53;
+    border-radius: 10px;
+    color: #F3F4F4;
+    font-size: 16px;
 }
