@@ -1,7 +1,7 @@
 #include "noteswidget.h"
 
 
-NotesWidget::NotesWidget(QWidget *parent) : QWidget{parent}, calendar(new QCalendarWidget()),
+NotesWidget::NotesWidget(QWidget *parent) : QWidget{parent}, calendar(new CustomCalendar()),
     calendarAndSelectedTags(new QHBoxLayout()), selectedTagsLay(new QVBoxLayout()),
     selectedDay(new QLabel(this)), selectedTags(new TagsByDateWidget2()), saveDay(new QPushButton("Сохранить", this)),
     mainLay(new QVBoxLayout()),
@@ -21,7 +21,6 @@ NotesWidget::NotesWidget(QWidget *parent) : QWidget{parent}, calendar(new QCalen
 
     saveDay->setObjectName("saveDayButton");
 
-    calendar->setVerticalHeaderFormat(QCalendarWidget::NoVerticalHeader);
     calendarAndSelectedTags->addWidget(calendar, 4);
 
     calendarAndSelectedTags->addLayout(selectedTagsLay, 6);
@@ -32,7 +31,7 @@ NotesWidget::NotesWidget(QWidget *parent) : QWidget{parent}, calendar(new QCalen
     mainLay->addLayout(calendarAndSelectedTags, 1);
     mainLay->addWidget(categoriesAndTagsWidget, 1);
 
-    connect(calendar, &QCalendarWidget::clicked, this, [this](QDate date){
+    connect(calendar, &CustomCalendar::onDayClicked, this, [this](QDate date){
         selectedDay->setText("Теги по дате: " + date.toString());
         selectedTags->updateTagsByDate(date);
     });
@@ -42,7 +41,7 @@ NotesWidget::NotesWidget(QWidget *parent) : QWidget{parent}, calendar(new QCalen
     });
 
     connect(saveDay, &QPushButton::clicked, [this](){
-        selectedTags->saveTags(calendar->selectedDate());
+        selectedTags->saveTags(calendar->getSelectedDate());
     });
 
     selectedTags->updateTagsByDate(QDate::currentDate());

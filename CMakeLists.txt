@@ -24,6 +24,7 @@ set(SOURCES
     src/categoriesandtagswidget.cpp
     src/charts.cpp
     src/databasesettingswidget.cpp
+    src/customcalendar.cpp
 )
 
 set(HEADERS
@@ -39,6 +40,7 @@ set(HEADERS
     src/categoriesandtagswidget.h
     src/charts.h
     src/databasesettingswidget.h
+    src/customcalendar.h
 )
 
 set(UI_FILES

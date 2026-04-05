@@ -2,7 +2,6 @@
 #define NOTESWIDGET_H
 
 #include <QWidget>
-#include <QCalendarWidget>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPushButton>
@@ -10,6 +9,7 @@
 #include <QVBoxLayout>
 #include "tagsbydatewidget2.h"
 #include "categoriesandtagswidget.h"
+#include "customcalendar.h"
 
 
 class NotesWidget : public QWidget
@@ -22,7 +22,7 @@ public:
     void onBecomeActive();
 
 private:
-    QCalendarWidget *calendar;
+    CustomCalendar *calendar;
 
     QVBoxLayout *selectedTagsLay;
     QHBoxLayout *calendarAndSelectedTags;

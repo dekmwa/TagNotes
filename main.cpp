@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
     QFile colorTheme(":/themes/dark.qss");
     if (colorTheme.open(QFile::ReadOnly)) {
         QString styleSheet = QTextStream(&colorTheme).readAll();
-        //a.setStyleSheet(styleSheet);
+        a.setStyleSheet(styleSheet);
         colorTheme.close();
     } else {
         qDebug() << "main: Не удалось загрузить цветовую тему из ресурсов.";
