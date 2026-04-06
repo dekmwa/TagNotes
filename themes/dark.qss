@@ -99,6 +99,9 @@ QScrollBar::sub-line:horizontal {
 #CategoriesViewer QPushButton:hover {
     background-color: #853953;
 }
+#CategoriesViewer QPushButton[type="selected"] {
+    background-color: #853953;
+}
 
 #CategoriesAndTagsWidget {
 
@@ -106,6 +109,16 @@ QScrollBar::sub-line:horizontal {
 #CategoriesAndTagsWidget QPushButton:disabled {
     background-color: #4a4d4f;
     color: #a0a0a0;
+}
+#CategoriesAndTagsWidget QPushButton[type="addCategory"] {
+    font-size: 16px;
+    padding: 8px 8px;
+    border-radius: 5px;
+    background-color: #AE2448;
+    color: #F3F4F4;
+}
+#CategoriesAndTagsWidget QPushButton[type="addCategory"]:hover {
+    background-color: #853953;
 }
 
 #TagsViewer QPushButton {
@@ -170,12 +183,18 @@ QScrollBar::sub-line:horizontal {
     color: #F3F4F4;
     font-size: 16px;
 }
+#CustomCalendar QPushButton[type="prevMonthButton"]:hover {
+    background-color: #853953;
+}
 #CustomCalendar QPushButton[type="nextMonthButton"] {
     background-color: 2C2C2C;
     border: 1px solid #612D53;
     border-radius: 10px;
     color: #F3F4F4;
     font-size: 16px;
+}
+#CustomCalendar QPushButton[type="nextMonthButton"]:hover {
+    background-color: #853953;
 }
 #CustomCalendar QLabel[type="monthAndYear"] {
     background-color: 2C2C2C;
@@ -188,4 +207,7 @@ QScrollBar::sub-line:horizontal {
     border-radius: 10px;
     color: #F3F4F4;
     font-size: 16px;
+}
+#CustomCalendar QPushButton[type="toToday"]:hover {
+    background-color: #853953;
 }

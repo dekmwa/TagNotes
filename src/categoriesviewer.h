@@ -23,6 +23,7 @@ private:
     QWidget *categoriesWidget;
     QHBoxLayout *categoriesLayout;
     QMap<int, QPushButton*> m_categories;
+    int selectedCategory;
 
     void clearDisplayedCategories();
     void setupCategoriesArea();

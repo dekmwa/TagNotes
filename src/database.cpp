@@ -67,6 +67,8 @@ bool Database::createAndConnect(QString& path) {
         }
         return true;
     }
+
+    emit onConnectDb();
 }
 
 bool Database::isOpen() {

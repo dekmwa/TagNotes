@@ -2,7 +2,8 @@
 
 CategoriesViewer::CategoriesViewer(QWidget *parent) : QWidget{parent},
     database(Database::instance()),
-    m_lay(new QHBoxLayout(this))
+    m_lay(new QHBoxLayout(this)),
+    selectedCategory(-1)
 {
     setAttribute(Qt::WA_StyledBackground, true);
     setObjectName("CategoriesViewer");
@@ -33,8 +34,17 @@ void CategoriesViewer::updateCategories() {
 
     for (const auto& categoryId : categories.keys()) {
         QPushButton *categoryButton = new QPushButton(categories[categoryId], categoriesWidget);
+
+        if (categoryId == selectedCategory) {
+            categoryButton->setProperty("type", "selected");
+        } else {
+            categoryButton->setProperty("type", "notSelected");
+        }
+
         m_categories.insert(categoryId, categoryButton);
         connect(categoryButton, &QPushButton::clicked, this, [this, categoryId](){
+            selectedCategory = categoryId;
+            updateCategories();
             emit categoryClicked(categoryId);
         });
 
@@ -48,4 +58,5 @@ void CategoriesViewer::clearDisplayedCategories() {
         delete category;
     }
     m_categories.clear();
+    selectedCategory = -1;
 }
