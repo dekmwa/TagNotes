@@ -31,6 +31,7 @@ bool Database::connectDatabase(QString& path) {
 
     m_dataBase = QSqlDatabase::addDatabase("QSQLITE", "notesDb");
     m_dataBase.setDatabaseName(path);
+    emit onConnectDb();
 
     if (!m_dataBase.open()) {
         qDebug() << "Database::connectDatabase: Ошибка подключения к базе данных: " << m_dataBase.lastError().text();
@@ -42,8 +43,6 @@ bool Database::connectDatabase(QString& path) {
         }
         return true;
     }
-
-    emit onConnectDb();
 }
 
 bool Database::createAndConnect(QString& path) {
@@ -56,6 +55,7 @@ bool Database::createAndConnect(QString& path) {
 
     m_dataBase = QSqlDatabase::addDatabase("QSQLITE", "notesDb");
     m_dataBase.setDatabaseName(path);
+    emit onConnectDb();
 
     if (!m_dataBase.open()) {
         qDebug() << "Database::createAndConnect: Ошибка подключения к базе данных: " << m_dataBase.lastError().text();
@@ -67,8 +67,6 @@ bool Database::createAndConnect(QString& path) {
         }
         return true;
     }
-
-    emit onConnectDb();
 }
 
 bool Database::isOpen() {
