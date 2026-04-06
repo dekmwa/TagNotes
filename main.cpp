@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    QFile colorTheme(":/themes/dark.qss");
+    QFile colorTheme(":/themes/light.qss");
     if (colorTheme.open(QFile::ReadOnly)) {
         QString styleSheet = QTextStream(&colorTheme).readAll();
         a.setStyleSheet(styleSheet);

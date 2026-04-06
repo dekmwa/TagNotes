@@ -53,7 +53,9 @@ qt_add_executable(
     ${SOURCES}
     ${HEADERS}
     ${UI_FILES}
-    themes/dark.qss
+    themes/purple1.qss
+    themes/blue.qss
+    themes/light.qss
 
 
 )

@@ -1,0 +1,234 @@
+#MainMenuWidget {
+    background-color: #0A0E17;
+}
+#MainMenuWidget QPushButton {
+    background-color: #1E3A5F;
+    border-radius: 12px;
+    padding: 8px 8px;
+    border: none;
+    font: 25px;
+}
+#MainMenuWidget QPushButton:hover {
+    background-color: #2E4A73;
+}
+
+#NotesWidget {
+    background-color: #0A0E17;
+}
+#NotesWidget QLabel[type="text"] {
+    font-size: 20px;
+    color: #E0E5EC;
+}
+#NotesWidget #backToMenuButton {
+    font-size: 16px;
+    padding: 8px 8px;
+    border-radius: 5px;
+    background-color: #1E3A5F;
+    color: #E0E5EC;
+}
+#NotesWidget #backToMenuButton:hover {
+    background-color: #2E4A73;
+}
+#NotesWidget #saveDayButton {
+    font-size: 16px;
+    padding: 8px 8px;
+    border-radius: 5px;
+    background-color: #1E3A5F;
+    color: #E0E5EC;
+}
+#NotesWidget #saveDayButton:hover {
+    background-color: #2E4A73;
+}
+#NotesWidget QLabel[type="text"] {
+    font-size: 20px;
+    color: #E0E5EC;
+}
+
+#DeleteTagsOrCategoriesWidget {
+    background-color: #0A0E17;
+    padding: 30px 30px;
+}
+#DeleteTagsOrCategoriesWidget QLabel[type="text"] {
+    font-size: 20px;
+    color: #E0E5EC;
+}
+#DeleteTagsOrCategoriesWidget #backToMenuButton {
+    font-size: 16px;
+    padding: 8px 8px;
+    border-radius: 5px;
+    background-color: #1E3A5F;
+    color: #E0E5EC;
+}
+#DeleteTagsOrCategoriesWidget #backToMenuButton:hover {
+    background-color: #2E4A73;
+}
+
+#CategoriesViewer,
+#CategoriesViewer QScrollArea,
+#CategoriesViewer QWidget {
+    background-color: #0A0E17;
+}
+#CategoriesViewer QScrollArea {
+    border: 4px solid #2E4A73;
+    border-radius: 10px;
+    padding: 5px;
+}
+#CategoriesViewer QScrollBar:horizontal {
+    height: 10px;
+    background-color: #141A24;
+    background-image: none;
+    border: none;
+}
+#CategoriesViewer QScrollArea::Widget {
+    background-color: #141A24;
+}
+#CategoriesViewer QScrollBar::add-line:horizontal,
+QScrollBar::sub-line:horizontal {
+    border: none;
+    background: none;
+    width: 0px;
+    height: 0px;
+}
+#CategoriesViewer QPushButton {
+    font-size: 16px;
+    padding: 8px 8px;
+    border-radius: 5px;
+    background-color: #1E3A5F;
+    color: #E0E5EC;
+}
+#CategoriesViewer QPushButton:hover {
+    background-color: #2E4A73;
+}
+#CategoriesViewer QPushButton[type="selected"] {
+    background-color: #2E4A73;
+}
+
+#CategoriesAndTagsWidget {
+
+}
+#CategoriesAndTagsWidget QPushButton:disabled {
+    background-color: #2A2F3A;
+    color: #6B7280;
+}
+#CategoriesAndTagsWidget QPushButton[type="addCategory"] {
+    font-size: 16px;
+    padding: 8px 8px;
+    border-radius: 5px;
+    background-color: #1A4C6E;
+    color: #E0E5EC;
+}
+#CategoriesAndTagsWidget QPushButton[type="addCategory"]:hover {
+    background-color: #2E4A73;
+}
+
+#TagsViewer QPushButton {
+    font-size: 16px;
+    padding: 8px 8px;
+    border-radius: 5px;
+    background-color: #1E3A5F;
+    color: #E0E5EC;
+}
+#TagsViewer QPushButton:hover {
+    background-color: #2E4A73;
+}
+#TagsViewer #PlusButton {
+    background-color: #1A4C6E;
+}
+#TagsViewer #PlusButton:hover {
+    background-color: #2E4A73;
+}
+#TagsViewer #PlusButton:disabled {
+    background-color: #2A2F3A;
+    color: #6B7280;
+}
+
+#TagsByDateWidget {
+    border: 4px solid #2E4A73;
+    border-radius: 10px;
+    padding: 5px 5px;
+}
+
+#CustomCalendar {
+    background-color: #0A0E17;
+}
+#CustomCalendar QPushButton[dayButton=true] {
+    border: 2px solid #1E3A5F;
+    border-radius: 15px;
+    color: #0A0E17;
+    font-size: 16px;
+    background-color: #D1D8E6;
+}
+#CustomCalendar QPushButton[type="today"] {
+    background-color: #5A7D9A;
+}
+#CustomCalendar QPushButton[type="selected"] {
+    background-color: #3A6B8C;
+}
+#CustomCalendar QPushButton[type="anotherMonthDay"] {
+    background-color: #0A0E17;
+    color: #5A6A7A;
+}
+#CustomCalendar QPushButton[type="currentMonthDay"] {
+    background-color: #1A2C3F;
+    color: #E0E5EC;
+}
+#CustomCalendar #weekDayLabel {
+    color: #E0E5EC;
+}
+#CustomCalendar QPushButton[type="prevMonthButton"] {
+    background-color: #0A0E17;
+    border: 1px solid #1E3A5F;
+    border-radius: 10px;
+    color: #E0E5EC;
+    font-size: 16px;
+}
+#CustomCalendar QPushButton[type="prevMonthButton"]:hover {
+    background-color: #2E4A73;
+}
+#CustomCalendar QPushButton[type="nextMonthButton"] {
+    background-color: #0A0E17;
+    border: 1px solid #1E3A5F;
+    border-radius: 10px;
+    color: #E0E5EC;
+    font-size: 16px;
+}
+#CustomCalendar QPushButton[type="nextMonthButton"]:hover {
+    background-color: #2E4A73;
+}
+#CustomCalendar QLabel[type="monthAndYear"] {
+    background-color: #0A0E17;
+    color: #E0E5EC;
+    font-size: 16px;
+}
+#CustomCalendar QPushButton[type="toToday"] {
+    background-color: #0A0E17;
+    border: 1px solid #1E3A5F;
+    border-radius: 10px;
+    color: #E0E5EC;
+    font-size: 16px;
+}
+#CustomCalendar QPushButton[type="toToday"]:hover {
+    background-color: #2E4A73;
+}
+
+#DatabaseSettingsWidget {
+    background-color: #0A0E17;
+}
+#DatabaseSettingsWidget QLabel {
+    font-size: 16px;
+    color: #E0E5EC;
+}
+#DatabaseSettingsWidget #widgetTitle {
+    font-size: 20px;
+    color: #E0E5EC;
+}
+#DatabaseSettingsWidget #backToMenuButton {
+    font-size: 16px;
+    padding: 8px 8px;
+    border-radius: 5px;
+    background-color: #1E3A5F;
+    color: #E0E5EC;
+}
+#DatabaseSettingsWidget #backToMenuButton:hover {
+    background-color: #2E4A73;
+}
