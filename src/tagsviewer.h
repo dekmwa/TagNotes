@@ -21,6 +21,7 @@ public:
     void clearAll();
     QVector<int> getTagIds();
     void unlockAddButton();
+    void lockAddButton();
     void showAddTagButton();
 
 private:

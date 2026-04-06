@@ -9,6 +9,9 @@ TagsViewer::TagsViewer(QWidget *parent) : QWidget{parent},
     setObjectName("TagsViewer");
 
     setupAddTagButton();
+
+    connect(&database, &Database::onConnectDb, this, &TagsViewer::lockAddButton);
+
     setLayout(m_mainLay);
 }
 
@@ -81,6 +84,10 @@ void TagsViewer::setupAddTagButton() {
 
 void TagsViewer::unlockAddButton() {
     if (plusButton != nullptr) plusButton->setDisabled(false);
+}
+
+void TagsViewer::lockAddButton() {
+    if (plusButton != nullptr) plusButton->setDisabled(true);
 }
 
 void TagsViewer::showAddTagButton() {

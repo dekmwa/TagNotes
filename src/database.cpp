@@ -42,6 +42,8 @@ bool Database::connectDatabase(QString& path) {
         }
         return true;
     }
+
+    emit onConnectDb();
 }
 
 bool Database::createAndConnect(QString& path) {

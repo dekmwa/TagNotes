@@ -7,12 +7,15 @@
 #include <QDebug>
 #include <QDate>
 #include <QFile>
+#include <QObject>
 
 using namespace std;
 
 
-class Database
+class Database : public QObject
 {
+    Q_OBJECT
+
 public:
     static Database& instance() {
         static Database instance;
@@ -50,6 +53,9 @@ private:
     bool initTables();
 
     QSqlDatabase m_dataBase;
+
+signals:
+    void onConnectDb();
 };
 
 #endif // DATABASE_H
