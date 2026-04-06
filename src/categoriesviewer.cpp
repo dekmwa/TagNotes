@@ -58,5 +58,4 @@ void CategoriesViewer::clearDisplayedCategories() {
         delete category;
     }
     m_categories.clear();
-    selectedCategory = -1;
 }
