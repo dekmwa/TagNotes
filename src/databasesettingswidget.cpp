@@ -7,6 +7,12 @@ DatabaseSettingsWidget::DatabaseSettingsWidget(QWidget *parent)
     m_database(Database::instance())
 {
     ui->setupUi(this);
+
+    setAttribute(Qt::WA_StyledBackground, true);
+    setObjectName("DatabaseSettingsWidget");
+
+    ui->toMenuButton->setObjectName("backToMenuButton");
+    ui->headerText->setObjectName("widgetTitle");
 }
 
 void DatabaseSettingsWidget::setupSetDbMode() {

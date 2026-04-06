@@ -211,3 +211,25 @@ QScrollBar::sub-line:horizontal {
 #CustomCalendar QPushButton[type="toToday"]:hover {
     background-color: #853953;
 }
+
+#DatabaseSettingsWidget {
+    background-color: #2C2C2C;
+}
+#DatabaseSettingsWidget QLabel {
+    font-size: 16px;
+    color: #F3F4F4;
+}
+#DatabaseSettingsWidget #widgetTitle {
+    font-size: 20px;
+    color: #F3F4F4;
+}
+#DatabaseSettingsWidget #backToMenuButton {
+    font-size: 16px;
+    padding: 8px 8px;
+    border-radius: 5px;
+    background-color: #612D53;
+    color: #F3F4F4;
+}
+#DatabaseSettingsWidget #backToMenuButton:hover {
+    background-color: #853953;
+}
