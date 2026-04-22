@@ -19,7 +19,7 @@ public:
 
 private:
     QHBoxLayout *m_mainLay;
-    TagsViewer *m_taskViewer;
+    TagsViewer *m_tagsViewer;
     void clearDisplayedTags();
 
     Database& database;
