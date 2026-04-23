@@ -11,6 +11,17 @@
 
 using namespace std;
 
+enum MarkType {
+    WITHOUT = 0,
+    NUMBER = 1
+};
+
+struct MarkValue {
+    int valueInt;
+    QString valueString;
+    int valueTime;
+};
+
 
 class Database : public QObject
 {
@@ -32,8 +43,8 @@ public:
     bool isOpen();
 
     bool addCategory(QString title);
-    bool addTag(QString title, int categoryId);
-    bool updateAllTagsByDate(QDate date, const QVector<int>& tagsId);
+    bool addTag(QString title, int categoryId, MarkType markType);
+    bool updateAllTagsByDate(QDate date, const QMap<int, MarkValue>& tagsMarks);
 
     bool deleteEmptyCategory(int categoryId);
     bool deleteTag(int tagId);

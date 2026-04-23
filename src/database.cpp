@@ -90,6 +90,7 @@ bool Database::initTables() {
                          "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                          "title VARCHAR(50) NOT NULL UNIQUE,"
                          "category_id INTEGER NOT NULL,"
+                         "mark_type INTEGER NOT NULL,"
                          "FOREIGN KEY (category_id) REFERENCES tag_categories (id) ON DELETE CASCADE"
                          ")");
     if (!success) {
@@ -97,11 +98,23 @@ bool Database::initTables() {
         return false;
     }
 
+    success = query.exec("CREATE TABLE IF NOT EXISTS tags_marks ("
+                         "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                         "value_int INTEGER,"
+                         "value_time INTEGER"
+                         ")");
+    if (!success) {
+        qDebug() << "Ошибка создания таблицы tags_marks: " << query.lastError().text();
+        return false;
+    }
+
     success = query.exec("CREATE TABLE IF NOT EXISTS tags_by_date ("
                          "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                          "date DATE NOT NULL,"
                          "tag_id INTEGER NOT NULL,"
-                         "FOREIGN KEY (tag_id) REFERENCES tags (id) ON DELETE CASCADE"
+                         "mark_id INTEGER,"
+                         "FOREIGN KEY (tag_id) REFERENCES tags (id) ON DELETE CASCADE,"
+                         "FOREIGN KEY (mark_id) REFERENCES tags_marks (id) ON DELETE CASCADE"
                          ")");
     if (!success) {
         qDebug() << "Ошибка создания таблицы tags_by_date: " << query.lastError().text();
@@ -123,11 +136,20 @@ bool Database::addCategory(QString title) {
     return true;
 }
 
-bool Database::addTag(QString title, int categoryId) {
+bool Database::addTag(QString title, int categoryId, MarkType markType) {
     QSqlQuery query(m_dataBase);
-    query.prepare("INSERT INTO tags (title, category_id) VALUES (:title, :category_id)");
+    query.prepare("INSERT INTO tags (title, category_id, mark_type) VALUES (:title, :category_id, :mark_type_id)");
     query.bindValue(":title", title);
     query.bindValue(":category_id", categoryId);
+
+    switch (markType){
+    case MarkType::WITHOUT:
+        query.bindValue(":mark_type_id", 0);
+        break;
+    case MarkType::NUMBER:
+        query.bindValue(":mark_type_id", 1);
+        break;
+    }
 
     if (!query.exec()) {
         qDebug() << "Ошибка добавления тега: " << query.lastError().text();
@@ -136,7 +158,7 @@ bool Database::addTag(QString title, int categoryId) {
     return true;
 }
 
-bool Database::updateAllTagsByDate(QDate date, const QVector<int>& tagsId) {
+bool Database::updateAllTagsByDate(QDate date, const QMap<int, MarkValue>& tags) {
     if (!m_dataBase.transaction()) {
         qDebug() << "Не удалось начать транзакцию: " << m_dataBase.lastError().text();
         return false;
@@ -145,21 +167,31 @@ bool Database::updateAllTagsByDate(QDate date, const QVector<int>& tagsId) {
     QSqlQuery deleteQuery(m_dataBase);
     deleteQuery.prepare("DELETE FROM tags_by_date WHERE date = :date");
     deleteQuery.bindValue(":date", date);
-
     if (!deleteQuery.exec()) {
         qDebug() << "Ошибка при удалении старых тегов: " << deleteQuery.lastError().text();
         m_dataBase.rollback();
         return false;
     }
 
-    QSqlQuery insertQuery(m_dataBase);
-    insertQuery.prepare("INSERT INTO tags_by_date (date, tag_id) VALUES (:date, :tag_id)");
-    for (int tagId : tagsId) {
-        insertQuery.bindValue(":date", date);
-        insertQuery.bindValue(":tag_id", tagId);
+    for (const auto tagId : tags.keys()) {
+        QSqlQuery insertMark(m_dataBase);
+        insertMark.prepare("INSERT INTO tags_marks (value_int, value_time) VALUES (:value_int, :value_time)");
+        insertMark.bindValue(":value_int", tags[tagId].valueInt);
+        insertMark.bindValue(":value_time", tags[tagId].valueTime);
+        if (!insertMark.exec()) {
+            qDebug() << "Ошибка при добавлении метки: " << insertMark.lastError().text();
+            m_dataBase.rollback();
+            return false;
+        }
 
-        if (!insertQuery.exec()) {
-            qDebug() << "Ошибка при добавлении тега с id: " << tagId << " " << insertQuery.lastError().text();
+        int lastMarkId = insertMark.lastInsertId().toInt();
+        QSqlQuery insertTag(m_dataBase);
+        insertTag.prepare("INSERT INTO tags_by_date (date, tag_id, mark_id) VALUES (:date, :tag_id, :mark_id)");
+        insertTag.bindValue(":date", date);
+        insertTag.bindValue(":tag_id", tagId);
+        insertTag.bindValue(":mark_id", lastMarkId);
+        if (!insertTag.exec()) {
+            qDebug() << "Ошибка при добавлении тега с id: " << tagId << " " << insertTag.lastError().text();
             m_dataBase.rollback();
             return false;
         }
@@ -170,11 +202,6 @@ bool Database::updateAllTagsByDate(QDate date, const QVector<int>& tagsId) {
         return false;
     }
 
-    qDebug() << "";
-    qDebug() << "БД: сохраненные теги";
-    for (int id : tagsId) {
-        qDebug() << id;
-    }
     return true;
 }
 
@@ -220,9 +247,10 @@ QMap<int, QString> Database::getTagsByDate(QDate date) {
     QMap<int, QString> tags;
 
     QSqlQuery query(m_dataBase);
-    query.prepare("SELECT tags.id, tags.title FROM tags_by_date "
-                  "JOIN tags ON tags.id = tags_by_date.tag_id "
-                  "WHERE tags_by_date.date = :date");
+    query.prepare("SELECT tags.id, tags.title, tags.mark_type, tags_by_date.mark_id, tags_marks.value_int, tags_marks.value_time FROM tags_by_date "
+                  " JOIN tags ON tags.id = tags_by_date.tag_id "
+                  " JOIN tags_marks ON tags_marks.id = tags_by_date.mark_id "
+                  " WHERE tags_by_date.date = :date");
     query.bindValue(":date", date.toString(Qt::ISODate));
 
     if (!query.exec()) {
@@ -233,7 +261,21 @@ QMap<int, QString> Database::getTagsByDate(QDate date) {
     while(query.next()) {
         int id = query.value(0).toInt();
         QString title = query.value(1).toString();
-        tags.insert(id, title);
+        int markType = query.value(2).toInt();
+        int markId = query.value(3).toInt();
+        int valueNumber = query.value(4).toInt();
+        QString markValue = "";
+
+        switch (markType) {
+        case MarkType::WITHOUT:
+            markValue = "";
+            break;
+        case MarkType::NUMBER:
+            markValue = QString::number(valueNumber);
+            break;
+        }
+
+        tags.insert(id, title + " " + markValue);
     }
 
     return tags;
