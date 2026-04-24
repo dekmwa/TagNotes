@@ -1,7 +1,9 @@
 #include "noteswidget.h"
 
 
-NotesWidget::NotesWidget(QWidget *parent) : QWidget{parent}, calendar(new CustomCalendar()),
+NotesWidget::NotesWidget(QWidget *parent) : QWidget{parent},
+    db(Database::instance()),
+    calendar(new CustomCalendar()),
     calendarAndSelectedTags(new QHBoxLayout()), selectedTagsLay(new QVBoxLayout()),
     selectedDay(new QLabel(this)), selectedTags(new TagsByDateWidget2()), saveDay(new QPushButton("Сохранить", this)),
     mainLay(new QVBoxLayout()),
@@ -36,9 +38,7 @@ NotesWidget::NotesWidget(QWidget *parent) : QWidget{parent}, calendar(new Custom
         selectedTags->updateTagsByDate(date);
     });
 
-    connect(categoriesAndTagsWidget, &CategoriesAndTagsWidget::onTagClicked, this, [this](int tagId){
-        selectedTags->addTagToSelected(tagId);
-    });
+    connect(categoriesAndTagsWidget, &CategoriesAndTagsWidget::onTagClicked, this, &NotesWidget::onTagClicked);
 
     connect(saveDay, &QPushButton::clicked, [this](){
         selectedTags->saveTags(calendar->getSelectedDate());
@@ -48,6 +48,34 @@ NotesWidget::NotesWidget(QWidget *parent) : QWidget{parent}, calendar(new Custom
 
     mainLay->setContentsMargins(20, 20, 20, 20);
     setLayout(mainLay);
+}
+
+void NotesWidget::onTagClicked(int tagId) {
+    int markType = db.getTagMarkTypeById(tagId);
+    MarkValue markValue;
+    bool ok;
+    QMap<int, MarkValue> tagAndValue;
+
+    switch (markType) {
+    case MarkType::WITHOUT:
+        break;
+    case MarkType::NUMBER:
+        int value = QInputDialog::getInt(
+            this,
+            "Значение метки",
+            "Введите число:",
+            0, -999999, 999999, 1, &ok
+            );
+        if (ok) {
+            markValue.valueInt = value;
+        }
+        break;
+    }
+
+    if (ok) {
+        tagAndValue.insert(tagId, markValue);
+        selectedTags->addTagToSelected(tagAndValue);
+    }
 }
 
 void NotesWidget::setupNavigation() {

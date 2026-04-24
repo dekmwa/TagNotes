@@ -53,6 +53,7 @@ public:
     QMap<int, QString> getTagsByCategoryId(int categoryId);
     QMap<int, QString> getTagsByDate(QDate date);
     const QString getTagTitleById(int tagId);
+    const int getTagMarkTypeById(int tagId);
 
     void updateCategoryTitle(int categoryId, QString newTitle);
     void updateTagTitle(int categoryId, QString newTitle);

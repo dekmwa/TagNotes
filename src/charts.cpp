@@ -54,31 +54,31 @@ void Charts::setupDatesChoice() {
 }
 
 void Charts::setupTagsSelect() {
-    QHBoxLayout *lay = new QHBoxLayout();
+    // QHBoxLayout *lay = new QHBoxLayout();
 
-    QVBoxLayout *layV = new QVBoxLayout();
-    tagsViewer = new TagsViewer(this);
-    QPushButton *button = new QPushButton();
-    button->setText("Создать график");
-    connect(button, &QPushButton::clicked, this, [this](){
-        updateChart();
-    });
+    // QVBoxLayout *layV = new QVBoxLayout();
+    // tagsViewer = new TagsViewer(this);
+    // QPushButton *button = new QPushButton();
+    // button->setText("Создать график");
+    // connect(button, &QPushButton::clicked, this, [this](){
+    //     updateChart();
+    // });
 
-    categoriesAndTagsWidget = new CategoriesAndTagsWidget(this, Mode::VIEW_ONLY);
-    connect(categoriesAndTagsWidget, &CategoriesAndTagsWidget::onTagClicked, this, [this](int tagId){
-        tagsViewer->addTag(tagId);
-    });
-    connect(tagsViewer, &TagsViewer::tagClicked, this, [this](int tagId){
-        tagsViewer->removeTag(tagId);
-    });
+    // categoriesAndTagsWidget = new CategoriesAndTagsWidget(this, Mode::VIEW_ONLY);
+    // connect(categoriesAndTagsWidget, &CategoriesAndTagsWidget::onTagClicked, this, [this](int tagId){
+    //     tagsViewer->addTag(tagId);
+    // });
+    // connect(tagsViewer, &TagsViewer::onTagClicked, this, [this](int tagId){
+    //     tagsViewer->removeTag(tagId);
+    // });
 
-    layV->addWidget(tagsViewer);
-    layV->addWidget(button);
+    // layV->addWidget(tagsViewer);
+    // layV->addWidget(button);
 
-    lay->addLayout(layV, 3);
-    lay->addWidget(categoriesAndTagsWidget, 7);
+    // lay->addLayout(layV, 3);
+    // lay->addWidget(categoriesAndTagsWidget, 7);
 
-    m_lay->addLayout(lay, 0);
+    // m_lay->addLayout(lay, 0);
 }
 
 void Charts::setupChart() {
@@ -110,50 +110,50 @@ void Charts::setupChart() {
 }
 
 void Charts::updateChart() {
-    QDate startDate = m_startDate->date();
-    QDate endDate = m_endDate->date();
+    // QDate startDate = m_startDate->date();
+    // QDate endDate = m_endDate->date();
 
-    if (endDate <= startDate) {
-        qDebug() << "Charts::updateChart: endDate <= startDate";
-        return;
-    }
+    // if (endDate <= startDate) {
+    //     qDebug() << "Charts::updateChart: endDate <= startDate";
+    //     return;
+    // }
 
-    QVector<int> tagIds = tagsViewer->getTagIds();
-    if (tagIds.isEmpty()) {
-        qDebug() << "Charts::updateChart: нет выбранных тегов";
-        m_series->clear();
-        return;
-    }
+    // QVector<int> tagIds = tagsViewer->getTagIds();
+    // if (tagIds.isEmpty()) {
+    //     qDebug() << "Charts::updateChart: нет выбранных тегов";
+    //     m_series->clear();
+    //     return;
+    // }
 
-    m_series->clear();
+    // m_series->clear();
 
-    int maxTagsOfDay = 0;
+    // int maxTagsOfDay = 0;
 
-    for (QDate date = startDate; date <= endDate; date = date.addDays(1)) {
-        int tagsOfDay = 0;
-        QMap<int, QString> tagsByDate = m_database.getTagsByDate(date);
+    // for (QDate date = startDate; date <= endDate; date = date.addDays(1)) {
+    //     int tagsOfDay = 0;
+    //     QMap<int, QString> tagsByDate = m_database.getTagsByDate(date);
 
-        for (int id : tagsByDate.keys()) {
-            if (tagIds.contains(id)) {
-                tagsOfDay++;
-            }
-        }
+    //     for (int id : tagsByDate.keys()) {
+    //         if (tagIds.contains(id)) {
+    //             tagsOfDay++;
+    //         }
+    //     }
 
-        if (tagsOfDay > maxTagsOfDay) {
-            maxTagsOfDay = tagsOfDay;
-        }
+    //     if (tagsOfDay > maxTagsOfDay) {
+    //         maxTagsOfDay = tagsOfDay;
+    //     }
 
-        QDateTime dateTime(date, QTime(0, 0, 0));
-        m_series->append(dateTime.toMSecsSinceEpoch(), tagsOfDay);
-    }
+    //     QDateTime dateTime(date, QTime(0, 0, 0));
+    //     m_series->append(dateTime.toMSecsSinceEpoch(), tagsOfDay);
+    // }
 
-    QDateTime startDateTime(startDate, QTime(0, 0, 0));
-    QDateTime endDateTime(endDate, QTime(0, 0, 0));
-    m_axisX->setRange(startDateTime, endDateTime);
-    m_axisX->setTickCount(startDateTime.daysTo(endDateTime) + 1);
+    // QDateTime startDateTime(startDate, QTime(0, 0, 0));
+    // QDateTime endDateTime(endDate, QTime(0, 0, 0));
+    // m_axisX->setRange(startDateTime, endDateTime);
+    // m_axisX->setTickCount(startDateTime.daysTo(endDateTime) + 1);
 
-    m_axisY->setRange(0, maxTagsOfDay + 1);
-    m_axisY->setTickCount(maxTagsOfDay + 2);
+    // m_axisY->setRange(0, maxTagsOfDay + 1);
+    // m_axisY->setTickCount(maxTagsOfDay + 2);
 }
 
 void Charts::onBecomeActive() {

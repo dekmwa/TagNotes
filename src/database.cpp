@@ -247,9 +247,9 @@ QMap<int, QString> Database::getTagsByDate(QDate date) {
     QMap<int, QString> tags;
 
     QSqlQuery query(m_dataBase);
-    query.prepare("SELECT tags.id, tags.title, tags.mark_type, tags_by_date.mark_id, tags_marks.value_int, tags_marks.value_time FROM tags_by_date "
-                  " JOIN tags ON tags.id = tags_by_date.tag_id "
-                  " JOIN tags_marks ON tags_marks.id = tags_by_date.mark_id "
+    query.prepare("SELECT tags.id, tags.title, tags.mark_type, tags_by_date.mark_id, tags_marks.value_int, tags_marks.value_time FROM tags_by_date"
+                  " JOIN tags ON tags.id = tags_by_date.tag_id"
+                  " JOIN tags_marks ON tags_marks.id = tags_by_date.mark_id"
                   " WHERE tags_by_date.date = :date");
     query.bindValue(":date", date.toString(Qt::ISODate));
 
@@ -295,6 +295,22 @@ const QString Database::getTagTitleById(int tagId) {
         return query.value(0).toString();
     }
     return "";
+}
+
+const int Database::getTagMarkTypeById(int tagId) {
+    QSqlQuery query(m_dataBase);
+    query.prepare("SELECT mark_type FROM tags WHERE id = :tagId");
+    query.bindValue(":tagId", tagId);
+
+    if (!query.exec()) {
+        qDebug() <<  "Database::getTagMarkTypeById: " << query.lastError().text();
+        return 0;
+    }
+
+    if (query.next()) {
+        return query.value(0).toInt();
+    }
+    return 0;
 }
 
 bool Database::deleteEmptyCategory(int categoryId) {

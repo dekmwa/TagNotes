@@ -11,6 +11,8 @@ enum class Mode {
 #include <QInputDialog>
 #include <QLineEdit>
 #include <QMessageBox>
+#include <QComboBox>
+#include <QFormLayout>
 #include "tagsviewer.h"
 #include "categoriesviewer.h"
 #include "database.h"

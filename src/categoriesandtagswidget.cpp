@@ -15,7 +15,7 @@ CategoriesAndTagsWidget::CategoriesAndTagsWidget(QWidget *parent, Mode mode) : Q
         updateTagsByCategoryId(categoryId);
         tagsViewer->unlockAddButton();
     });
-    connect(tagsViewer, &TagsViewer::tagClicked, this, [this](int tagId){
+    connect(tagsViewer, &TagsViewer::onTagClicked, this, [this](int tagId){
         emit onTagClicked(tagId);
     });
     connect(tagsViewer, &TagsViewer::addTagClicked, this, &CategoriesAndTagsWidget::addTagDialog);
@@ -61,7 +61,20 @@ void CategoriesAndTagsWidget::updateTagsByCategoryId(int categoryId) {
     QMap<int, QString> tags = database.getTagsByCategoryId(categoryId);
 
     for (const auto& tagId : tags.keys()) {
-        tagsViewer->addTag(tagId);
+        QMap<int, QString> tagAndTitle;
+        QString markTypeForTitle = "";
+
+        switch (database.getTagMarkTypeById(tagId)) {
+        case MarkType::WITHOUT:
+            markTypeForTitle = "";
+            break;
+        case MarkType::NUMBER:
+            markTypeForTitle = " <число>";
+            break;
+        }
+
+        tagAndTitle.insert(tagId, tags[tagId] + markTypeForTitle);
+        tagsViewer->addTag(tagAndTitle);
     }
 }
 
@@ -96,27 +109,33 @@ void CategoriesAndTagsWidget::addCategoryDialog() {
 }
 
 void CategoriesAndTagsWidget::addTagDialog() {
-    bool ok;
-    QString title = QInputDialog::getText(
-        this,
-        "Добавление тега",
-        "Что хотите отмечать?",
-        QLineEdit::Normal,
-        "",
-        &ok
-        );
+    QDialog dialog(this);
+    dialog.setWindowTitle("Создание тега");
+    dialog.setModal(true);
 
-    if (ok && !title.isEmpty()) {
-        if (database.addTag(title, currentSelectedCategoryId)) {
+    QFormLayout *form = new QFormLayout(&dialog);
+
+    QLineEdit *nameEdit = new QLineEdit();
+    nameEdit->setPlaceholderText("Отжимания");
+    form->addRow("Название:", nameEdit);
+
+    QComboBox *typeCombo = new QComboBox();
+    typeCombo->addItems({"Без значения", "Число"});
+    form->addRow("Тип:", typeCombo);
+
+    QDialogButtonBox *buttons = new QDialogButtonBox(
+        QDialogButtonBox::Ok | QDialogButtonBox::Cancel
+        );
+    form->addRow(buttons);
+
+    connect(buttons, &QDialogButtonBox::accepted, &dialog, &QDialog::accept);
+    connect(buttons, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
+
+    if (dialog.exec() == QDialog::Accepted && !nameEdit->text().isEmpty()) {
+        MarkType markType = static_cast<MarkType>(typeCombo->currentIndex());
+
+        if (database.addTag(nameEdit->text(), currentSelectedCategoryId, markType)) {
             updateTagsByCategoryId(currentSelectedCategoryId);
-            QMessageBox success;
-            success.setText("Тег добавлен");
-            success.exec();
-        } else {
-            QMessageBox error;
-            error.setText("Ошибка добавления тега");
-            error.setIcon(QMessageBox::Warning);
-            error.exec();
         }
     }
 }

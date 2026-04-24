@@ -14,7 +14,7 @@ public:
     explicit TagsByDateWidget2(QWidget *parent = nullptr);
 
     void updateTagsByDate(QDate date);
-    void addTagToSelected(int tagId);
+    void addTagToSelected(QMap<int, MarkValue> tagAndValue);
     void saveTags(QDate date);
 
 private:

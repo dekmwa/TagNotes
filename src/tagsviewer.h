@@ -16,10 +16,10 @@ class TagsViewer : public QWidget
 public:
     explicit TagsViewer(QWidget *parent);
 
-    void addTag(int tagId);
+    void addTag(QMap<int, QString> tagIdAndTitle);
     void removeTag(int tagId);
     void clearAll();
-    QVector<int> getTagIds();
+    //QMap<int, MarkValue> getTagIds();
     void unlockAddButton();
     void lockAddButton();
     void showAddTagButton();
@@ -27,13 +27,13 @@ public:
 private:
     Database& database;
     QFlowLayout *m_mainLay;
-    QMap<int, QPushButton*> m_tags;
+    QMap<int, QPushButton*> m_tagsButtons;
 
     QPushButton *plusButton;
     void setupAddTagButton();
 
 signals:
-    void tagClicked(int tagId);
+    void onTagClicked(int tagId);
     void addTagClicked();
     void tagRemoved(int tagId);
     void plusButtonClicked();

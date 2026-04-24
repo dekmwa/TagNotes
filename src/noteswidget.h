@@ -10,6 +10,7 @@
 #include "tagsbydatewidget2.h"
 #include "categoriesandtagswidget.h"
 #include "customcalendar.h"
+#include "database.h"
 
 
 class NotesWidget : public QWidget
@@ -22,6 +23,8 @@ public:
     void onBecomeActive();
 
 private:
+    Database &db;
+
     CustomCalendar *calendar;
 
     QVBoxLayout *selectedTagsLay;
@@ -43,6 +46,9 @@ private:
 
 signals:
     void onBackToMenu();
+
+private slots:
+    void onTagClicked(int tagId);
 };
 
 #endif // NOTESWIDGET_H

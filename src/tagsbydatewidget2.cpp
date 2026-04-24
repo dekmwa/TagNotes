@@ -9,7 +9,7 @@ TagsByDateWidget2::TagsByDateWidget2(QWidget *parent) : QWidget{parent},
     setObjectName("TagsByDateWidget");
 
     m_mainLay->addWidget(m_tagsViewer);
-    connect(m_tagsViewer, &TagsViewer::tagClicked, this, &TagsByDateWidget2::onTagClicked);
+    connect(m_tagsViewer, &TagsViewer::onTagClicked, this, &TagsByDateWidget2::onTagClicked);
 }
 
 void TagsByDateWidget2::updateTagsByDate(QDate date) {
@@ -18,16 +18,16 @@ void TagsByDateWidget2::updateTagsByDate(QDate date) {
     QMap<int, QString> tags = database.getTagsByDate(date);
 
     for (const auto& tagId : tags.keys()) {
-        m_tagsViewer->addTag(tagId);
+        //m_tagsViewer->addTag(tagId);
     }
 }
 
-void TagsByDateWidget2::addTagToSelected(int tagId) {
-    m_tagsViewer->addTag(tagId);
+void TagsByDateWidget2::addTagToSelected(QMap<int, MarkValue> tagAndValue) {
+    //m_tagsViewer->addTag(tagAndValue);
 }
 
 void TagsByDateWidget2::saveTags(QDate date) {
-    database.updateAllTagsByDate(date, m_tagsViewer->getTagIds());
+    //database.updateAllTagsByDate(date, m_tagsViewer->getTagIds());
 }
 
 void TagsByDateWidget2::onTagClicked(int tagId) {

@@ -15,57 +15,49 @@ TagsViewer::TagsViewer(QWidget *parent) : QWidget{parent},
     setLayout(m_mainLay);
 }
 
-void TagsViewer::addTag(int tagId) {
-    if (m_tags.contains(tagId)) {
+void TagsViewer::addTag(QMap<int, QString> tagIdAndTitle) {
+    int tagId = tagIdAndTitle.firstKey();
+
+    if (m_tagsButtons.contains(tagId)) {
         qDebug() << "TagsViewer::addTag - тег уже есть";
         return;
     }
 
-    QString title = database.getTagTitleById(tagId);
-    if (title.isEmpty()) {
-        qDebug() << "TagsViewer::addTag - тег не найден";
-        return;
-    }
-
     QPushButton *tagBtn = new QPushButton();
-    tagBtn->setText(title);
+    tagBtn->setText(tagIdAndTitle[tagId]);
 
-    m_tags.insert(tagId, tagBtn);
+    m_tagsButtons.insert(tagId, tagBtn);
     m_mainLay->addWidget(tagBtn);
 
     connect(tagBtn, &QPushButton::clicked, [this, tagId](){
-        emit tagClicked(tagId);
+        emit onTagClicked(tagId);
     });
 }
 
 void TagsViewer::removeTag(int tagId) {
-    if (!m_tags.contains(tagId)) {
+    if (!m_tagsButtons.contains(tagId)) {
         qDebug() << "TagsViewer::addTag - тега нет";
         return;
     }
 
-    m_mainLay->removeWidget(m_tags[tagId]);
-    delete m_tags[tagId];
-    m_tags.remove(tagId);
+    m_mainLay->removeWidget(m_tagsButtons[tagId]);
+    delete m_tagsButtons[tagId];
+    m_tagsButtons.remove(tagId);
 
     emit tagRemoved(tagId);
 }
 
 void TagsViewer::clearAll() {
-    for (auto it = m_tags.begin(); it != m_tags.end(); ++it) {
+    for (auto it = m_tagsButtons.begin(); it != m_tagsButtons.end(); ++it) {
         m_mainLay->removeWidget(it.value());
         delete it.value();
     }
-    m_tags.clear();
+    m_tagsButtons.clear();
 }
 
-QVector<int> TagsViewer::getTagIds() {
-    QVector<int> ids;
-    for (auto it = m_tags.begin(); it != m_tags.end(); ++it) {
-        ids.append(it.key());
-    }
-    return ids;
-}
+// QMap<int, MarkValue> TagsViewer::getTagIds() {
+    //return m_tagsMarks;
+// }
 
 void TagsViewer::setupAddTagButton() {
     if (plusButton != nullptr) return;
