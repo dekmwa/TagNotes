@@ -51,7 +51,8 @@ public:
 
     QMap<int, QString> getAllCategories();
     QMap<int, QString> getTagsByCategoryId(int categoryId);
-    QMap<int, QString> getTagsByDate(QDate date);
+    QMap<int, QString> getTagsDisplayTitleByDate(QDate date);
+    QMap<int, MarkValue> getTagsWithMarkValue(QDate date);
     const QString getTagTitleById(int tagId);
     const int getTagMarkTypeById(int tagId);
 

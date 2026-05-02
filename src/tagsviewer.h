@@ -19,7 +19,6 @@ public:
     void addTag(QMap<int, QString> tagIdAndTitle);
     void removeTag(int tagId);
     void clearAll();
-    //QMap<int, MarkValue> getTagIds();
     void unlockAddButton();
     void lockAddButton();
     void showAddTagButton();

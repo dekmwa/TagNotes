@@ -5,7 +5,7 @@ NotesWidget::NotesWidget(QWidget *parent) : QWidget{parent},
     db(Database::instance()),
     calendar(new CustomCalendar()),
     calendarAndSelectedTags(new QHBoxLayout()), selectedTagsLay(new QVBoxLayout()),
-    selectedDay(new QLabel(this)), selectedTags(new TagsByDateWidget2()), saveDay(new QPushButton("Сохранить", this)),
+    selectedDay(new QLabel(this)), selectedTags(new TagsByDateWidget()), saveDay(new QPushButton("Сохранить", this)),
     mainLay(new QVBoxLayout()),
     categoriesAndTagsWidget(new CategoriesAndTagsWidget(this, Mode::ADD_TAGS_AND_ADD_CATEGORIES))
 {
@@ -55,15 +55,17 @@ void NotesWidget::onTagClicked(int tagId) {
     MarkValue markValue;
     bool ok;
     QMap<int, MarkValue> tagAndValue;
+    QString tagTitle = db.getTagTitleById(tagId);
 
     switch (markType) {
     case MarkType::WITHOUT:
+        ok = true;
         break;
     case MarkType::NUMBER:
         int value = QInputDialog::getInt(
             this,
             "Значение метки",
-            "Введите число:",
+            tagTitle,
             0, -999999, 999999, 1, &ok
             );
         if (ok) {

@@ -7,7 +7,7 @@
 #include <QPushButton>
 #include <QScrollArea>
 #include <QVBoxLayout>
-#include "tagsbydatewidget2.h"
+#include "tagsbydatewidget.h"
 #include "categoriesandtagswidget.h"
 #include "customcalendar.h"
 #include "database.h"
@@ -35,7 +35,7 @@ private:
     QHBoxLayout *navigation;
 
     QLabel *selectedDay;
-    TagsByDateWidget2 *selectedTags;
+    TagsByDateWidget *selectedTags;
     QPushButton *saveDay;
 
     QVBoxLayout *mainLay;

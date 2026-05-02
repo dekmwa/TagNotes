@@ -55,10 +55,6 @@ void TagsViewer::clearAll() {
     m_tagsButtons.clear();
 }
 
-// QMap<int, MarkValue> TagsViewer::getTagIds() {
-    //return m_tagsMarks;
-// }
-
 void TagsViewer::setupAddTagButton() {
     if (plusButton != nullptr) return;
 

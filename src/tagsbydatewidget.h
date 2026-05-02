@@ -6,12 +6,12 @@
 #include <QHBoxLayout>
 
 
-class TagsByDateWidget2 : public QWidget
+class TagsByDateWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit TagsByDateWidget2(QWidget *parent = nullptr);
+    explicit TagsByDateWidget(QWidget *parent = nullptr);
 
     void updateTagsByDate(QDate date);
     void addTagToSelected(QMap<int, MarkValue> tagAndValue);
@@ -20,9 +20,10 @@ public:
 private:
     QHBoxLayout *m_mainLay;
     TagsViewer *m_tagsViewer;
+    QMap<int, MarkValue> m_tagsAndValues;
     void clearDisplayedTags();
 
-    Database& database;
+    Database& m_database;
 
 private slots:
     void onTagClicked(int tagId);

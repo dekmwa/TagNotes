@@ -19,7 +19,7 @@ set(SOURCES
     src/deletetagsorcategorieswidget.cpp
     src/mainmenuwidget.cpp
     src/tagsviewer.cpp
-    src/tagsbydatewidget2.cpp
+    src/tagsbydatewidget.cpp
     src/categoriesviewer.cpp
     src/categoriesandtagswidget.cpp
     src/charts.cpp
@@ -35,7 +35,7 @@ set(HEADERS
     src/deletetagsorcategorieswidget.h
     src/mainmenuwidget.h
     src/tagsviewer.h
-    src/tagsbydatewidget2.h
+    src/tagsbydatewidget.h
     src/categoriesviewer.h
     src/categoriesandtagswidget.h
     src/charts.h
@@ -56,8 +56,6 @@ qt_add_executable(
     themes/purple1.qss
     themes/blue.qss
     themes/light.qss
-
-
 )
 
 target_link_libraries(TagNotes PRIVATE

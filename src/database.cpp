@@ -243,7 +243,7 @@ QMap<int, QString> Database::getTagsByCategoryId(int categoryId) {
     return tags;
 }
 
-QMap<int, QString> Database::getTagsByDate(QDate date) {
+QMap<int, QString> Database::getTagsDisplayTitleByDate(QDate date) {
     QMap<int, QString> tags;
 
     QSqlQuery query(m_dataBase);
@@ -276,6 +276,43 @@ QMap<int, QString> Database::getTagsByDate(QDate date) {
         }
 
         tags.insert(id, title + " " + markValue);
+    }
+
+    return tags;
+}
+
+QMap<int, MarkValue> Database::getTagsWithMarkValue(QDate date) {
+    QMap<int, MarkValue> tags;
+
+    QSqlQuery query(m_dataBase);
+    query.prepare("SELECT tags.id, tags.mark_type, tags_by_date.mark_id, tags_marks.value_int, tags_marks.value_time FROM tags_by_date "
+                  " JOIN tags ON tags.id = tags_by_date.tag_id"
+                  " LEFT JOIN tags_marks ON tags_marks.id = tags_by_date.mark_id"
+                  " WHERE tags_by_date.date = :date");
+    query.bindValue(":date", date.toString(Qt::ISODate));
+
+    if (!query.exec()) {
+        qDebug() << "Database::getTagsByDate " << query.lastError().text();
+        return tags;
+    }
+
+    while(query.next()) {
+        MarkValue markValue;
+
+        int id = query.value(0).toInt();
+        int markType = query.value(1).toInt();
+        int markId = query.value(2).toInt();
+        int valueNumber = query.value(3).toInt();
+
+        switch (markType) {
+        case MarkType::WITHOUT:
+            break;
+        case MarkType::NUMBER:
+            markValue.valueInt = valueNumber;
+            break;
+        }
+
+        tags.insert(id, markValue);
     }
 
     return tags;
