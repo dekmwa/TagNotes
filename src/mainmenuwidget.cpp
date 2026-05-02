@@ -12,9 +12,13 @@ MainMenuWidget::MainMenuWidget(QWidget *parent) : QWidget{parent}, mainLay(new Q
     widgetTitle->setProperty("type", "text");
 
     toDeleteWidget->setText("Удаление");
+    toDeleteWidget->setProperty("type", "navigationButton");
     toCreateNotes->setText("Заметки");
+    toCreateNotes->setProperty("type", "navigationButton");
     toCharts->setText("Графики");
+    toCharts->setProperty("type", "navigationButton");
     toDbSettings->setText("Настройка Бд");
+    toDbSettings->setProperty("type", "navigationButton");
 
     navigateButtons->addWidget(toDeleteWidget);
     navigateButtons->addWidget(toCreateNotes);
@@ -50,7 +54,7 @@ void MainMenuWidget::setupCalendarAndTagsView() {
 
     calendar = new CustomCalendar();
     calendar->setMaximumWidth(400);
-    calendar->setMaximumHeight(350);
+    calendar->setMaximumHeight(500);
 
     tagsByDate = new TagsByDateWidget();
 
