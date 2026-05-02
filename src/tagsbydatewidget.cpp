@@ -23,7 +23,6 @@ void TagsByDateWidget::updateTagsByDate(QDate date) {
     QMap<int, MarkValue> tags = m_database.getTagsWithMarkValue(date);
 
     for (const auto& tagId : tags.keys()) {
-        qDebug() << tagId;
         QString tagTitle = m_database.getTagTitleById(tagId);
 
         int markType = m_database.getTagMarkTypeById(tagId);
@@ -44,8 +43,13 @@ void TagsByDateWidget::updateTagsByDate(QDate date) {
 }
 
 void TagsByDateWidget::addTagToSelected(QMap<int, MarkValue> tagAndValue) {
-    QMap<int, QString> tagAndTitle;
     int tagId = tagAndValue.firstKey();
+    if (m_tagsAndValues.contains(tagId)) {
+        qDebug() << "TagsByDateWidget::addTagToSelected: тег уже есть " << tagId;
+        return;
+    }
+
+    QMap<int, QString> tagAndTitle;
     int markType = m_database.getTagMarkTypeById(tagId);
     QString tagTitle = m_database.getTagTitleById(tagId);
 
@@ -63,9 +67,10 @@ void TagsByDateWidget::addTagToSelected(QMap<int, MarkValue> tagAndValue) {
 }
 
 void TagsByDateWidget::saveTags(QDate date) {
-    //database.updateAllTagsByDate(date, m_tagsViewer->getTagIds());
+    m_database.updateAllTagsByDate(date, m_tagsAndValues);
 }
 
 void TagsByDateWidget::onTagClicked(int tagId) {
+    m_tagsAndValues.remove(tagId);
     m_tagsViewer->removeTag(tagId);
 }

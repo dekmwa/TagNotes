@@ -121,6 +121,18 @@ bool Database::initTables() {
         return false;
     }
 
+    success = query.exec(
+        "CREATE TRIGGER IF NOT EXISTS delete_tags_marks_trigger "
+        "AFTER DELETE ON tags_by_date "
+        "BEGIN "
+        "    DELETE FROM tags_marks WHERE id = OLD.mark_id; "
+        "END"
+        );
+    if (!success) {
+        qDebug() << "Ошибка создания триггера delete_tags_marks_trigger: " << query.lastError().text();
+        return false;
+    }
+
     return true;
 }
 
@@ -174,22 +186,27 @@ bool Database::updateAllTagsByDate(QDate date, const QMap<int, MarkValue>& tags)
     }
 
     for (const auto tagId : tags.keys()) {
-        QSqlQuery insertMark(m_dataBase);
-        insertMark.prepare("INSERT INTO tags_marks (value_int, value_time) VALUES (:value_int, :value_time)");
-        insertMark.bindValue(":value_int", tags[tagId].valueInt);
-        insertMark.bindValue(":value_time", tags[tagId].valueTime);
-        if (!insertMark.exec()) {
-            qDebug() << "Ошибка при добавлении метки: " << insertMark.lastError().text();
-            m_dataBase.rollback();
-            return false;
+        int markType = getTagMarkTypeById(tagId);
+        int lastMarkId = 0;
+
+        if (markType != MarkType::WITHOUT) {
+            QSqlQuery insertMark(m_dataBase);
+            insertMark.prepare("INSERT INTO tags_marks (value_int, value_time) VALUES (:value_int, :value_time)");
+            insertMark.bindValue(":value_int", tags[tagId].valueInt ? tags[tagId].valueInt : QVariant());
+            insertMark.bindValue(":value_time", tags[tagId].valueTime ? tags[tagId].valueTime : QVariant());
+            if (!insertMark.exec()) {
+                qDebug() << "Ошибка при добавлении метки: " << insertMark.lastError().text();
+                m_dataBase.rollback();
+                return false;
+            }
+            lastMarkId = insertMark.lastInsertId().toInt();
         }
 
-        int lastMarkId = insertMark.lastInsertId().toInt();
         QSqlQuery insertTag(m_dataBase);
         insertTag.prepare("INSERT INTO tags_by_date (date, tag_id, mark_id) VALUES (:date, :tag_id, :mark_id)");
         insertTag.bindValue(":date", date);
         insertTag.bindValue(":tag_id", tagId);
-        insertTag.bindValue(":mark_id", lastMarkId);
+        insertTag.bindValue(":mark_id", lastMarkId ? lastMarkId : QVariant());
         if (!insertTag.exec()) {
             qDebug() << "Ошибка при добавлении тега с id: " << tagId << " " << insertTag.lastError().text();
             m_dataBase.rollback();

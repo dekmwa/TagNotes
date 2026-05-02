@@ -17,9 +17,9 @@ enum MarkType {
 };
 
 struct MarkValue {
-    int valueInt;
+    int valueInt = 0;
     QString valueString;
-    int valueTime;
+    int valueTime = 0;
 };
 
 
