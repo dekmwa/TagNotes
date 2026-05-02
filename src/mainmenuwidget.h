@@ -6,6 +6,8 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include "customcalendar.h"
+#include "tagsbydatewidget.h"
 
 
 class MainMenuWidget : public QWidget
@@ -13,6 +15,7 @@ class MainMenuWidget : public QWidget
     Q_OBJECT
 public:
     explicit MainMenuWidget(QWidget *parent = nullptr);
+    void onBecomeActive();
 
 private:
     QLabel *widgetTitle;
@@ -24,6 +27,11 @@ private:
     QPushButton *toCreateNotes;
     QPushButton *toCharts;
     QPushButton *toDbSettings;
+
+    QHBoxLayout *calendarAndTagsView;
+    CustomCalendar *calendar;
+    TagsByDateWidget *tagsByDate;
+    void setupCalendarAndTagsView();
 
 signals:
     void onShowNotesClicked();

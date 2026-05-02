@@ -39,15 +39,19 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     });
 
     connect(notesWidget, &NotesWidget::onBackToMenu, this, [this](){
+        mainMenuWidget->onBecomeActive();
         stackedWidget->setCurrentIndex(1);
     });
     connect(deleteTagsOrCategoriesWidget, &DeleteTagsOrCategoriesWidget::onBackToMenu, this, [this](){
+        mainMenuWidget->onBecomeActive();
         stackedWidget->setCurrentIndex(1);
     });
     connect(charts, &Charts::onBackToMenu, this, [this](){
+        mainMenuWidget->onBecomeActive();
         stackedWidget->setCurrentIndex(1);
     });
     connect(databaseSettingsWidget, &DatabaseSettingsWidget::onBackToMenu, this, [this](){
+        mainMenuWidget->onBecomeActive();
         stackedWidget->setCurrentIndex(1);
     });
 
