@@ -1,28 +1,46 @@
 #MainMenuWidget {
     background-color: #FDF9F2;
 }
-#MainMenuWidget QPushButton {
+#MainMenuWidget QPushButton[type="navigationButton"] {
     background-color: #D9835D;
-    border-radius: 12px;
-    padding: 8px 8px;
-    border: none;
-    font: 25px;
+    border-radius: 16px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-left: 5px;
+    margin-right: 5px;
+    font: 22px;
 }
 #MainMenuWidget QPushButton[type="navigationButton"]:hover {
     background-color: #C26A47;
-    padding-top: 10px;
+    padding-bottom: 4px;
 }
 #MainMenuWidget QPushButton[type="navigationButton"]:pressed {
     background-color: #A04E30;
-    padding-top: 10px;
-    padding-bottom: 6px;
-    padding-left: 10px;
-    padding-right: 6px;
+    padding-bottom: 4px;
+    padding-right: 15px;
 }
-#MainMenuWidget QLabel[type="text"] {
-    font-size: 20px;
+#MainMenuWidget QPushButton[name="toDeleteWidget"] {
+
+}
+#MainMenuWidget QPushButton[name="toCreateNotes"] {
+
+}
+#MainMenuWidget QPushButton[name="toCharts"] {
+
+}
+#MainMenuWidget QPushButton[name="toDbSettings"] {
+
+}
+#MainMenuWidget QWidget[type="buttonsContainer"] {
+
+}
+#MainMenuWidget QLabel[type="widgetTitle"] {
+    font-size: 28px;
     color: #2D3E2B;
 }
+
 
 #NotesWidget {
     background-color: #FDF9F2;

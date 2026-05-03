@@ -1,35 +1,19 @@
 #include "mainmenuwidget.h"
 
 MainMenuWidget::MainMenuWidget(QWidget *parent) : QWidget{parent}, mainLay(new QVBoxLayout(this)),
-    widgetTitle(new QLabel("Главное меню")),
-    toDeleteWidget(new QPushButton()), toCreateNotes(new QPushButton()), toCharts(new QPushButton()), toDbSettings(new QPushButton()),
-    navigateButtons(new QHBoxLayout())
+    widgetTitle(new QLabel("Главное меню"))
 {
     setAttribute(Qt::WA_StyledBackground, true);
     setObjectName("MainMenuWidget");
 
     widgetTitle->setAlignment(Qt::AlignCenter);
-    widgetTitle->setProperty("type", "text");
-
-    toDeleteWidget->setText("Удаление");
-    toDeleteWidget->setProperty("type", "navigationButton");
-    toCreateNotes->setText("Заметки");
-    toCreateNotes->setProperty("type", "navigationButton");
-    toCharts->setText("Графики");
-    toCharts->setProperty("type", "navigationButton");
-    toDbSettings->setText("Настройка Бд");
-    toDbSettings->setProperty("type", "navigationButton");
-
-    navigateButtons->addWidget(toDeleteWidget);
-    navigateButtons->addWidget(toCreateNotes);
-    navigateButtons->addWidget(toCharts);
-    navigateButtons->addWidget(toDbSettings);
+    widgetTitle->setProperty("type", "widgetTitle");
 
     mainLay->addWidget(widgetTitle);
     mainLay->addStretch();
     setupCalendarAndTagsView();
     mainLay->addStretch();
-    mainLay->addLayout(navigateButtons);
+    setupNavigationButtons();
 
     connect(toCreateNotes, &QPushButton::clicked, this, [this](){
         emit onShowNotesClicked();
@@ -47,6 +31,52 @@ MainMenuWidget::MainMenuWidget(QWidget *parent) : QWidget{parent}, mainLay(new Q
     tagsByDate->updateTagsByDate(QDate::currentDate());
 
     setLayout(mainLay);
+}
+
+void MainMenuWidget::setupNavigationButtons() {
+    QWidget *buttonsContainer = new QWidget();
+    buttonsLay = new QHBoxLayout();
+    QHBoxLayout *centeredLay = new QHBoxLayout();
+
+    toDeleteWidget = new QPushButton();
+    toCreateNotes = new QPushButton();
+    toCharts = new QPushButton();
+    toDbSettings = new QPushButton();
+
+    toDeleteWidget->setText("Удаление");
+    toDeleteWidget->setProperty("type", "navigationButton");
+    toDeleteWidget->setProperty("name", "toDeleteWidget");
+    toDeleteWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+
+    toCreateNotes->setText("Заметки");
+    toCreateNotes->setProperty("type", "navigationButton");
+    toCreateNotes->setProperty("name", "toCreateNotes");
+    toCreateNotes->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+
+    toCharts->setText("Графики");
+    toCharts->setProperty("type", "navigationButton");
+    toCharts->setProperty("name", "toCharts");
+    toCharts->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+
+    toDbSettings->setText("Настройка Бд");
+    toDbSettings->setProperty("type", "navigationButton");
+    toDbSettings->setProperty("name", "toDbSettings");
+    toDbSettings->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+
+    buttonsLay->addWidget(toDeleteWidget);
+    buttonsLay->addWidget(toCreateNotes);
+    buttonsLay->addWidget(toCharts);
+    buttonsLay->addWidget(toDbSettings);
+
+    buttonsContainer->setLayout(buttonsLay);
+
+    centeredLay->addStretch();
+    centeredLay->addWidget(buttonsContainer);
+    centeredLay->addStretch();
+
+    buttonsContainer->setProperty("type", "buttonsContainer");
+
+    mainLay->addLayout(centeredLay);
 }
 
 void MainMenuWidget::setupCalendarAndTagsView() {

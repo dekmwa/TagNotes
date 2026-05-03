@@ -21,12 +21,13 @@ private:
     QLabel *widgetTitle;
 
     QVBoxLayout *mainLay;
-    QHBoxLayout *navigateButtons;
 
+    QHBoxLayout *buttonsLay;
     QPushButton *toDeleteWidget;
     QPushButton *toCreateNotes;
     QPushButton *toCharts;
     QPushButton *toDbSettings;
+    void setupNavigationButtons();
 
     QHBoxLayout *calendarAndTagsView;
     CustomCalendar *calendar;
