@@ -18,10 +18,14 @@ NotesWidget::NotesWidget(QWidget *parent) : QWidget{parent},
 
     selectedTagsLay->addWidget(selectedTags, 1);
 
-    selectedTagsLay->addWidget(saveDay, 0);
+    QHBoxLayout *saveBntLay = new QHBoxLayout();
+    saveBntLay->addStretch();
+    saveBntLay->addWidget(saveDay);
+    saveBntLay->addStretch();
+    selectedTagsLay->addLayout(saveBntLay, 0);
     selectedTagsLay->setContentsMargins(20, 0, 10, 0);
 
-    saveDay->setObjectName("saveDayButton");
+    saveDay->setProperty("type", "saveDayButton");
 
     calendarAndSelectedTags->addWidget(calendar, 4);
 
@@ -81,10 +85,10 @@ void NotesWidget::onTagClicked(int tagId) {
 }
 
 void NotesWidget::setupNavigation() {
-    widgetTite = new QLabel();
-    widgetTite->setText("Создание заметок");
-    widgetTite->setAlignment(Qt::AlignCenter);
-    widgetTite->setProperty("type", "text");
+    widgetTitle = new QLabel();
+    widgetTitle->setText("Создание заметок");
+    widgetTitle->setAlignment(Qt::AlignCenter);
+    widgetTitle->setProperty("type", "widgetTitle");
 
     backToMenu = new QPushButton();
     backToMenu->setText("Меню");
@@ -95,7 +99,7 @@ void NotesWidget::setupNavigation() {
 
     navigation = new QHBoxLayout();
     navigation->addWidget(backToMenu, 0);
-    navigation->addWidget(widgetTite, 1);
+    navigation->addWidget(widgetTitle, 1);
 }
 
 void NotesWidget::onBecomeActive() {

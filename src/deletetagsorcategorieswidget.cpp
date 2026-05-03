@@ -9,18 +9,21 @@ DeleteTagsOrCategoriesWidget::DeleteTagsOrCategoriesWidget(QWidget *parent) : QW
     setObjectName("DeleteTagsOrCategoriesWidget");
 
     setupNavigation();
+    mainLay->addStretch();
     setupChangeCategories();
+    mainLay->addStretch();
     setupChangeTags();
+    mainLay->addStretch();
 
     mainLay->setContentsMargins(20, 20, 20, 20);
     setLayout(mainLay);
 }
 
 void DeleteTagsOrCategoriesWidget::setupNavigation() {
-    widgetTite = new QLabel();
-    widgetTite->setText("Редактирование Категорий и Тегов");
-    widgetTite->setAlignment(Qt::AlignCenter);
-    widgetTite->setProperty("type", "text");
+    widgetTitle = new QLabel();
+    widgetTitle->setText("Редактирование Категорий и Тегов");
+    widgetTitle->setAlignment(Qt::AlignCenter);
+    widgetTitle->setProperty("type", "widgetTitle");
 
     backToMenu = new QPushButton();
     backToMenu->setText("Меню");
@@ -31,9 +34,9 @@ void DeleteTagsOrCategoriesWidget::setupNavigation() {
 
     navigation = new QHBoxLayout();
     navigation->addWidget(backToMenu, 0);
-    navigation->addWidget(widgetTite, 1);
+    navigation->addWidget(widgetTitle, 1);
 
-    mainLay->addLayout(navigation, 0);
+    mainLay->addLayout(navigation);
 }
 
 void DeleteTagsOrCategoriesWidget::setupChangeCategories() {
@@ -53,7 +56,7 @@ void DeleteTagsOrCategoriesWidget::setupChangeCategories() {
         categoryActionDialog(categoryId);
     });
 
-    mainLay->addLayout(lay, 1);
+    mainLay->addLayout(lay);
 }
 
 void DeleteTagsOrCategoriesWidget::setupChangeTags() {
@@ -73,7 +76,7 @@ void DeleteTagsOrCategoriesWidget::setupChangeTags() {
         tagActionDialog(tagId);
     });
 
-    mainLay->addLayout(lay, 1);
+    mainLay->addLayout(lay);
 }
 
 void DeleteTagsOrCategoriesWidget::categoryActionDialog(int categoryId) {

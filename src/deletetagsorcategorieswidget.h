@@ -24,7 +24,7 @@ private:
 
     QVBoxLayout *mainLay;
 
-    QLabel *widgetTite;
+    QLabel *widgetTitle;
     QPushButton *backToMenu;
     QHBoxLayout *navigation;
     CategoriesViewer *categoriesViewer;

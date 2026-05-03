@@ -30,7 +30,7 @@ private:
     QVBoxLayout *selectedTagsLay;
     QHBoxLayout *calendarAndSelectedTags;
 
-    QLabel *widgetTite;
+    QLabel *widgetTitle;
     QPushButton *backToMenu;
     QHBoxLayout *navigation;
 
