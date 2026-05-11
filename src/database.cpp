@@ -243,7 +243,8 @@ bool Database::updateAllTagsByDate(QDate date, const QMap<int, MarkValue>& tags)
     }
 
     if (!m_dataBase.commit()) {
-        qDebug() << "Не удалось сделать commit изменений: " << m_dataBase.lastError().text();
+        qDebug() << "Database::updateAllTagsByDate: Не удалось сделать commit изменений: " << m_dataBase.lastError().text();
+        m_dataBase.rollback();
         return false;
     }
 
@@ -453,6 +454,7 @@ bool Database::deleteTag(int tagId) {
 
     if (!m_dataBase.commit()) {
         qDebug() << "Database::deleteTag - Не удалось сделать commit изменений: " << m_dataBase.lastError().text();
+        m_dataBase.rollback();
         return false;
     }
 
