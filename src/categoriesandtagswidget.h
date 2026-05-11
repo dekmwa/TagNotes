@@ -38,6 +38,10 @@ private:
     void updateTagsByCategoryId(int categoryId);
     void updateTagsByCurrentCategory();
 
+    QPushButton *searchBtn;
+    QString currentFilter = "";
+    void setFilterDialog();
+
     void addCategoryDialog();
     void addTagDialog();
 

@@ -27,6 +27,13 @@ CategoriesAndTagsWidget::CategoriesAndTagsWidget(QWidget *parent, Mode mode) : Q
 void CategoriesAndTagsWidget::setupWidget() {
     QHBoxLayout *categoriesAndPlus = new QHBoxLayout();
 
+    searchBtn = new QPushButton();
+    searchBtn->setIcon(QIcon(":/icons/search.svg"));
+    searchBtn->setFixedSize(42, 42);
+    searchBtn->setIconSize(QSize(32, 32));
+    searchBtn->setProperty("type", "filter");
+    connect(searchBtn, &QPushButton::clicked, this, &CategoriesAndTagsWidget::setFilterDialog);
+
     QPushButton *addCategory = new QPushButton(this);
     connect(addCategory, &QPushButton::clicked, this, &CategoriesAndTagsWidget::addCategoryDialog);
     addCategory->setText("+");
@@ -41,6 +48,7 @@ void CategoriesAndTagsWidget::setupWidget() {
     }
 
     categoriesAndPlus->addWidget(categoriesViewer);
+    categoriesAndPlus->addWidget(searchBtn);
     categoriesAndPlus->addWidget(addCategory);
 
     mainLay->addLayout(categoriesAndPlus, 0);
@@ -61,6 +69,11 @@ void CategoriesAndTagsWidget::updateTagsByCategoryId(int categoryId) {
     QMap<int, QString> tags = database.getTagsByCategoryId(categoryId);
 
     for (const auto& tagId : tags.keys()) {
+        if (!currentFilter.trimmed().isEmpty() &&
+            !tags[tagId].toLower().contains(currentFilter.trimmed().toLower())) {
+            continue;
+        }
+
         QMap<int, QString> tagAndTitle;
         QString markTypeForTitle = "";
 
@@ -137,5 +150,30 @@ void CategoriesAndTagsWidget::addTagDialog() {
         if (database.addTag(nameEdit->text(), currentSelectedCategoryId, markType)) {
             updateTagsByCategoryId(currentSelectedCategoryId);
         }
+    }
+}
+
+void CategoriesAndTagsWidget::setFilterDialog() {
+    if (!currentFilter.isEmpty()) {
+        currentFilter = "";
+        searchBtn->setIcon(QIcon(":/icons/search.svg"));
+        updateTagsByCategoryId(currentSelectedCategoryId);
+        return;
+    }
+
+    bool ok;
+    QString filter = QInputDialog::getText(
+        this,
+        "Фильтр по названию",
+        "Введите название/часть названия тега",
+        QLineEdit::Normal,
+        "",
+        &ok
+        );
+
+    if (ok && !filter.isEmpty()) {
+        currentFilter = filter;
+        searchBtn->setIcon(QIcon(":/icons/search_off.svg"));
+        updateTagsByCategoryId(currentSelectedCategoryId);
     }
 }

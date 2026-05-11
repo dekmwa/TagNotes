@@ -3,5 +3,7 @@
         <file>themes/purple1.qss</file>
         <file>themes/blue.qss</file>
         <file>themes/light.qss</file>
+        <file>icons/search.svg</file>
+        <file>icons/search_off.svg</file>
     </qresource>
 </RCC>

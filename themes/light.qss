@@ -187,6 +187,17 @@ QScrollBar::sub-line:horizontal {
     padding-left: 10px;
     padding-right: 6px;
 }
+#CategoriesAndTagsWidget QPushButton[type="filter"] {
+    padding: 3px 3px;
+    border-radius: 16px;
+    background-color: #D9835D;
+    color: #FDF9F2;
+}
+#CategoriesAndTagsWidget QPushButton[type="filter"]:hover {
+    background-color: #C26A47;
+    padding-top: 10px;
+}
+
 
 #TagsViewer QPushButton {
     font-size: 16px;
