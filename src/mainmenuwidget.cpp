@@ -24,9 +24,9 @@ MainMenuWidget::MainMenuWidget(QWidget *parent) : QWidget{parent}, mainLay(new Q
     connect(toDeleteWidget, &QPushButton::clicked, this, [this](){
         emit onShowDeleteClicked();
     });
-    connect(toCharts, &QPushButton::clicked, this, [this](){
-        emit onShowChartsClicked();
-    });
+    // connect(toCharts, &QPushButton::clicked, this, [this](){
+    //     emit onShowChartsClicked();
+    // });
     connect(toDbSettings, &QPushButton::clicked, this, [this](){
         emit onShowDbSettingsClicked();
     });
@@ -44,7 +44,7 @@ void MainMenuWidget::setupNavigationButtons() {
 
     toDeleteWidget = new QPushButton();
     toCreateNotes = new QPushButton();
-    toCharts = new QPushButton();
+    // toCharts = new QPushButton();
     toDbSettings = new QPushButton();
 
     toDeleteWidget->setText("Удаление");
@@ -57,10 +57,10 @@ void MainMenuWidget::setupNavigationButtons() {
     toCreateNotes->setProperty("name", "toCreateNotes");
     toCreateNotes->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-    toCharts->setText("Графики");
-    toCharts->setProperty("type", "navigationButton");
-    toCharts->setProperty("name", "toCharts");
-    toCharts->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    // toCharts->setText("Графики");
+    // toCharts->setProperty("type", "navigationButton");
+    // toCharts->setProperty("name", "toCharts");
+    // toCharts->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     toDbSettings->setText("Настройка Бд");
     toDbSettings->setProperty("type", "navigationButton");
@@ -69,7 +69,7 @@ void MainMenuWidget::setupNavigationButtons() {
 
     buttonsLay->addWidget(toDeleteWidget);
     buttonsLay->addWidget(toCreateNotes);
-    buttonsLay->addWidget(toCharts);
+    // buttonsLay->addWidget(toCharts);
     buttonsLay->addWidget(toDbSettings);
 
     buttonsContainer->setLayout(buttonsLay);
