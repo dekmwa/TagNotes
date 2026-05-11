@@ -22,15 +22,22 @@ CustomCalendar::CustomCalendar(QWidget *parent)
 void CustomCalendar::setupUI() {
     QHBoxLayout* topPanel = new QHBoxLayout();
 
-    QPushButton* prevBtn = new QPushButton("<");
+    QPushButton* prevBtn = new QPushButton();
+    prevBtn->setIcon(QIcon(":/icons/arrow_back.svg"));
+    prevBtn->setFixedSize(28, 28);
+    prevBtn->setIconSize(QSize(23, 23));
     prevBtn->setProperty("type", "prevMonthButton");
-    prevBtn->setMinimumSize(20, 20);
 
-    QPushButton* nextBtn = new QPushButton(">");
+    QPushButton* nextBtn = new QPushButton();
+    nextBtn->setIcon(QIcon(":/icons/arrow_forward.svg"));
+    nextBtn->setFixedSize(28, 28);
+    nextBtn->setIconSize(QSize(23, 23));
     nextBtn->setProperty("type", "nextMonthButton");
-    nextBtn->setMinimumSize(20, 20);
 
-    QPushButton* todayBtn = new QPushButton("Сегодня");
+    QPushButton* todayBtn = new QPushButton();
+    todayBtn->setIcon(QIcon(":/icons/today.svg"));
+    todayBtn->setFixedSize(28, 28);
+    todayBtn->setIconSize(QSize(23, 23));
     todayBtn->setProperty("type", "toToday");
 
     m_monthYearLabel = new QLabel();

@@ -47,12 +47,16 @@ void MainMenuWidget::setupNavigationButtons() {
     // toCharts = new QPushButton();
     toDbSettings = new QPushButton();
 
-    toDeleteWidget->setText("Удаление");
+    toDeleteWidget->setText("Редактирование");
+    toDeleteWidget->setIcon(QIcon(":/icons/edit.svg"));
+    toDeleteWidget->setIconSize(QSize(30, 30));
     toDeleteWidget->setProperty("type", "navigationButton");
     toDeleteWidget->setProperty("name", "toDeleteWidget");
     toDeleteWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     toCreateNotes->setText("Заметки");
+    toCreateNotes->setIcon(QIcon(":/icons/add_notes.svg"));
+    toCreateNotes->setIconSize(QSize(30, 30));
     toCreateNotes->setProperty("type", "navigationButton");
     toCreateNotes->setProperty("name", "toCreateNotes");
     toCreateNotes->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -62,7 +66,9 @@ void MainMenuWidget::setupNavigationButtons() {
     // toCharts->setProperty("name", "toCharts");
     // toCharts->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-    toDbSettings->setText("Настройка Бд");
+    toDbSettings->setText("Хранилище");
+    toDbSettings->setIcon(QIcon(":/icons/database.svg"));
+    toDbSettings->setIconSize(QSize(30, 30));
     toDbSettings->setProperty("type", "navigationButton");
     toDbSettings->setProperty("name", "toDbSettings");
     toDbSettings->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);

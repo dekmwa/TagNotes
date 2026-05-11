@@ -5,5 +5,12 @@
         <file>themes/light.qss</file>
         <file>icons/search.svg</file>
         <file>icons/search_off.svg</file>
+        <file>icons/add.svg</file>
+        <file>icons/arrow_forward.svg</file>
+        <file>icons/arrow_back.svg</file>
+        <file>icons/today.svg</file>
+        <file>icons/add_notes.svg</file>
+        <file>icons/database.svg</file>
+        <file>icons/edit.svg</file>
     </qresource>
 </RCC>

@@ -59,10 +59,12 @@ void TagsViewer::setupAddTagButton() {
     if (plusButton != nullptr) return;
 
     plusButton = new QPushButton(this);
-    plusButton->setText("+");
     plusButton->setDisabled(true);
     plusButton->hide();
-    plusButton->setFixedWidth(25);
+    plusButton->setIcon(QIcon(":/icons/add.svg"));
+    plusButton->setFixedSize(40, 40);
+    plusButton->setIconSize(QSize(28, 28));
+    plusButton->setProperty("type", "addCategory");
     connect(plusButton, &QPushButton::clicked, this, [this](){
         emit addTagClicked();
     });

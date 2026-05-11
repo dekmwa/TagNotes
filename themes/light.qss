@@ -171,9 +171,8 @@ QScrollBar::sub-line:horizontal {
     color: #8E8A82;
 }
 #CategoriesAndTagsWidget QPushButton[type="addCategory"] {
-    font-size: 16px;
-    padding: 8px 8px;
-    border-radius: 5px;
+    padding: 3px 3px;
+    border-radius: 16px;
     background-color: #D9835D;
     color: #FDF9F2;
 }
@@ -210,16 +209,17 @@ QScrollBar::sub-line:horizontal {
     background-color: #628551;
     padding-top: 10px;
 }
-#TagsViewer #PlusButton {
+#TagsViewer QPushButton[type="plusButton"] {
+    padding: 3px 3px;
+    border-radius: 16px;
     background-color: #D9835D;
 }
-#TagsViewer #PlusButton:hover {
+#TagsViewer QPushButton[type="plusButton"]:hover {
     background-color: #C26A47;
     padding-top: 10px;
 }
-#TagsViewer #PlusButton:disabled {
-    background-color: #D1C9BC;
-    color: #8E8A82;
+#TagsViewer QPushButton[type="plusButton"]:disabled {
+    background-color: #7f7679;
 }
 
 #TagsByDateWidget {

@@ -36,8 +36,9 @@ void CategoriesAndTagsWidget::setupWidget() {
 
     QPushButton *addCategory = new QPushButton(this);
     connect(addCategory, &QPushButton::clicked, this, &CategoriesAndTagsWidget::addCategoryDialog);
-    addCategory->setText("+");
-    addCategory->setFixedWidth(25);
+    addCategory->setIcon(QIcon(":/icons/add.svg"));
+    addCategory->setFixedSize(42, 42);
+    addCategory->setIconSize(QSize(28, 28));
     addCategory->setProperty("type", "addCategory");
 
     if (currentMode == Mode::VIEW_ONLY) {
