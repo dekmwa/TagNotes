@@ -25,6 +25,7 @@ set(SOURCES
     src/charts.cpp
     src/databasesettingswidget.cpp
     src/customcalendar.cpp
+    src/statisticswidget.cpp
 )
 
 set(HEADERS
@@ -41,6 +42,7 @@ set(HEADERS
     src/charts.h
     src/databasesettingswidget.h
     src/customcalendar.h
+    src/statisticswidget.h
 )
 
 set(UI_FILES
@@ -64,6 +66,7 @@ target_link_libraries(TagNotes PRIVATE
     Qt6::Sql
     Qt6::Charts
 )
+target_link_libraries(TagNotes PRIVATE Qt6::Widgets)
 
 if(WIN32)
     set_target_properties(TagNotes PROPERTIES WIN32_EXECUTABLE TRUE)

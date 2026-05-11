@@ -389,3 +389,7 @@ QScrollBar::sub-line:horizontal {
     padding-bottom: 1px;
     padding-right: 2px;
 }
+
+#StatisticsWidget QLabel {
+    font-size: 16px;
+}

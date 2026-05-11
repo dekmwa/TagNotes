@@ -133,6 +133,34 @@ bool Database::initTables() {
         return false;
     }
 
+    success = query.exec(
+        "CREATE VIEW IF NOT EXISTS tag_statistics AS "
+        "SELECT "
+        "   (SELECT COUNT(*) FROM tag_categories) AS total_categories, "
+        "   (SELECT COUNT(*) FROM tags) AS total_tags, "
+        "   (SELECT COUNT(DISTINCT id) FROM tags_by_date) AS total_tags_marked, "
+        "   (SELECT COUNT(DISTINCT date) FROM tags_by_date) AS total_days_used, "
+        "   (SELECT t.title "
+        "    FROM tags t "
+        "    JOIN tags_by_date td ON t.id = td.tag_id "
+        "    GROUP BY t.id "
+        "    ORDER BY COUNT(td.id) DESC "
+        "    LIMIT 1) AS most_popular_tag, "
+        "   (SELECT COUNT(*) "
+        "    FROM tags_by_date td "
+        "    JOIN tags t ON t.id = td.tag_id "
+        "    WHERE t.title = (SELECT t2.title "
+        "                     FROM tags t2 "
+        "                     JOIN tags_by_date td2 ON t2.id = td2.tag_id "
+        "                     GROUP BY t2.id "
+        "                     ORDER BY COUNT(td2.id) DESC "
+        "                     LIMIT 1)) AS most_popular_tag_count"
+        );
+    if (!success) {
+        qDebug() << "Ошибка создания VIEW tag_statistics: " << query.lastError().text();
+        return false;
+    }
+
     return true;
 }
 
@@ -451,4 +479,25 @@ void Database::updateTagTitle(int tagId, QString newTitle) {
     if (!query.exec()) {
         qDebug() << "Database::updateTagTitle: " << query.lastError().text();
     }
+}
+
+StatisticsDTO Database::getStatistics() {
+    StatisticsDTO statisticsDTO;
+
+    QSqlQuery query(m_dataBase);
+    if (!query.exec("SELECT * FROM tag_statistics;")) {
+        qDebug() << "Ошибка запроса статистики:" << query.lastError().text();
+        return statisticsDTO;
+    }
+
+    if (query.next()) {
+        statisticsDTO.totalCategories = query.value("total_categories").toInt();
+        statisticsDTO.totalTags = query.value("total_tags").toInt();
+        statisticsDTO.totalTagsUsed = query.value("total_tags_marked").toInt();
+        statisticsDTO.totalDaysUsed = query.value("total_days_used").toInt();
+        statisticsDTO.mostPopularTag = query.value("most_popular_tag").toString();
+        statisticsDTO.mostPopularTagCount = query.value("most_popular_tag_count").toInt();
+    }
+
+    return statisticsDTO;
 }

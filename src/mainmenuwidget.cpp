@@ -1,7 +1,8 @@
 #include "mainmenuwidget.h"
 
 MainMenuWidget::MainMenuWidget(QWidget *parent) : QWidget{parent}, mainLay(new QVBoxLayout(this)),
-    widgetTitle(new QLabel("Главное меню"))
+    widgetTitle(new QLabel("Главное меню")),
+    statisticsWidget(new StatisticsWidget())
 {
     setAttribute(Qt::WA_StyledBackground, true);
     setObjectName("MainMenuWidget");
@@ -10,6 +11,8 @@ MainMenuWidget::MainMenuWidget(QWidget *parent) : QWidget{parent}, mainLay(new Q
     widgetTitle->setProperty("type", "widgetTitle");
 
     mainLay->addWidget(widgetTitle);
+    mainLay->addStretch();
+    mainLay->addWidget(statisticsWidget);
     mainLay->addStretch();
     setupCalendarAndTagsView();
     mainLay->addStretch();
@@ -29,6 +32,7 @@ MainMenuWidget::MainMenuWidget(QWidget *parent) : QWidget{parent}, mainLay(new Q
     });
 
     tagsByDate->updateTagsByDate(QDate::currentDate());
+    statisticsWidget->updateStatistics();
 
     setLayout(mainLay);
 }
@@ -98,4 +102,5 @@ void MainMenuWidget::setupCalendarAndTagsView() {
 
 void MainMenuWidget::onBecomeActive() {
     tagsByDate->updateTagsByDate(QDate::currentDate());
+    statisticsWidget->updateStatistics();
 }

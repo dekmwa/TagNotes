@@ -22,6 +22,15 @@ struct MarkValue {
     int valueTime = 0;
 };
 
+struct StatisticsDTO {
+    int totalTags = 0;
+    int totalCategories = 0;
+    int totalTagsUsed = 0;
+    int totalDaysUsed = 0;
+    QString mostPopularTag = "";
+    int mostPopularTagCount = 0;
+};
+
 
 class Database : public QObject
 {
@@ -58,6 +67,8 @@ public:
 
     void updateCategoryTitle(int categoryId, QString newTitle);
     void updateTagTitle(int categoryId, QString newTitle);
+
+    StatisticsDTO getStatistics();
 
 private:
     Database() = default;

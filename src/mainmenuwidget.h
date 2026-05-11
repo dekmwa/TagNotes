@@ -8,6 +8,7 @@
 #include <QHBoxLayout>
 #include "customcalendar.h"
 #include "tagsbydatewidget.h"
+#include "statisticswidget.h"
 
 
 class MainMenuWidget : public QWidget
@@ -32,6 +33,8 @@ private:
     QHBoxLayout *calendarAndTagsView;
     CustomCalendar *calendar;
     TagsByDateWidget *tagsByDate;
+    StatisticsWidget *statisticsWidget;
+
     void setupCalendarAndTagsView();
 
 signals:
