@@ -4,6 +4,8 @@
 #include <QGridLayout>
 #include <QLabel>
 #include <QPushButton>
+#include <QLocale>
+
 
 CustomCalendar::CustomCalendar(QWidget *parent)
     : QWidget{parent}
@@ -84,7 +86,9 @@ void CustomCalendar::clearCalendar() {
 void CustomCalendar::updateCalendar() {
     clearCalendar();
 
-    m_monthYearLabel->setText(m_currentMonth.toString("MMMM yyyy"));
+    QLocale russian(QLocale::Russian, QLocale::Russia);
+    QString monthName = russian.standaloneMonthName(m_currentMonth.month());
+    m_monthYearLabel->setText(monthName + " " + QString::number(m_currentMonth.year()));
 
     QDate firstDayOfMonth(m_currentMonth.year(), m_currentMonth.month(), 1);
     int dayOfWeek = firstDayOfMonth.dayOfWeek();

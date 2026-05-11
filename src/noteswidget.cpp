@@ -38,7 +38,10 @@ NotesWidget::NotesWidget(QWidget *parent) : QWidget{parent},
     mainLay->addWidget(categoriesAndTagsWidget, 1);
 
     connect(calendar, &CustomCalendar::onDayClicked, this, [this](QDate date){
-        selectedDay->setText("Теги по дате: " + date.toString());
+        QLocale russian(QLocale::Russian, QLocale::Russia);
+        QString formattedDate = russian.toString(date, "d MMMM yyyy");
+
+        selectedDay->setText("Теги по дате: " + formattedDate);
         selectedTags->updateTagsByDate(date);
     });
 
@@ -49,6 +52,9 @@ NotesWidget::NotesWidget(QWidget *parent) : QWidget{parent},
     });
 
     selectedTags->updateTagsByDate(QDate::currentDate());
+    QLocale russian(QLocale::Russian, QLocale::Russia);
+    QString formattedDate = russian.toString(QDate::currentDate(), "d MMMM yyyy");
+    selectedDay->setText("Теги по дате: " + formattedDate);
 
     mainLay->setContentsMargins(20, 20, 20, 20);
     setLayout(mainLay);
