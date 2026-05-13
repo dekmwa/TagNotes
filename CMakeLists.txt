@@ -16,7 +16,7 @@ set(SOURCES
     src/noteswidget.cpp
     src/qflowlayout.cpp
     src/database.cpp
-    src/deletetagsorcategorieswidget.cpp
+    src/edittagsorcategorieswidget.cpp
     src/mainmenuwidget.cpp
     src/tagsviewer.cpp
     src/tagsbydatewidget.cpp
@@ -33,7 +33,7 @@ set(HEADERS
     src/noteswidget.h
     src/qflowlayout.h
     src/database.h
-    src/deletetagsorcategorieswidget.h
+    src/edittagsorcategorieswidget.h
     src/mainmenuwidget.h
     src/tagsviewer.h
     src/tagsbydatewidget.h

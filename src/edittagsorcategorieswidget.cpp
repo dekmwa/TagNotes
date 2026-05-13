@@ -1,6 +1,6 @@
-#include "deletetagsorcategorieswidget.h"
+#include "edittagsorcategorieswidget.h"
 
-DeleteTagsOrCategoriesWidget::DeleteTagsOrCategoriesWidget(QWidget *parent) : QWidget{parent},
+EditTagsOrCategoriesWidget::EditTagsOrCategoriesWidget(QWidget *parent) : QWidget{parent},
     mainLay(new QVBoxLayout()),
     database(Database::instance())//,
     //categoriesViewer(new CategoriesViewer(this))
@@ -19,7 +19,7 @@ DeleteTagsOrCategoriesWidget::DeleteTagsOrCategoriesWidget(QWidget *parent) : QW
     setLayout(mainLay);
 }
 
-void DeleteTagsOrCategoriesWidget::setupNavigation() {
+void EditTagsOrCategoriesWidget::setupNavigation() {
     widgetTitle = new QLabel();
     widgetTitle->setText("Редактирование Категорий и Тегов");
     widgetTitle->setAlignment(Qt::AlignCenter);
@@ -39,7 +39,7 @@ void DeleteTagsOrCategoriesWidget::setupNavigation() {
     mainLay->addLayout(navigation);
 }
 
-void DeleteTagsOrCategoriesWidget::setupChangeCategories() {
+void EditTagsOrCategoriesWidget::setupChangeCategories() {
     QVBoxLayout *lay = new QVBoxLayout();
 
     QLabel *text = new QLabel();
@@ -59,7 +59,7 @@ void DeleteTagsOrCategoriesWidget::setupChangeCategories() {
     mainLay->addLayout(lay);
 }
 
-void DeleteTagsOrCategoriesWidget::setupChangeTags() {
+void EditTagsOrCategoriesWidget::setupChangeTags() {
     QVBoxLayout *lay = new QVBoxLayout();
 
     QLabel *text = new QLabel();
@@ -79,7 +79,7 @@ void DeleteTagsOrCategoriesWidget::setupChangeTags() {
     mainLay->addLayout(lay);
 }
 
-void DeleteTagsOrCategoriesWidget::categoryActionDialog(int categoryId) {
+void EditTagsOrCategoriesWidget::categoryActionDialog(int categoryId) {
     QMessageBox msgBox(QMessageBox::Question,
                        "Редактирование категорий",
                        "Что вы хотите сделать с этой категорией?",
@@ -99,7 +99,7 @@ void DeleteTagsOrCategoriesWidget::categoryActionDialog(int categoryId) {
     }
 }
 
-void DeleteTagsOrCategoriesWidget::tagActionDialog(int tagId) {
+void EditTagsOrCategoriesWidget::tagActionDialog(int tagId) {
     QMessageBox msgBox(QMessageBox::Question,
                        "Редактирование тегов",
                        "Что вы хотите сделать с этим тегом?",
@@ -119,7 +119,7 @@ void DeleteTagsOrCategoriesWidget::tagActionDialog(int tagId) {
     }
 }
 
-void DeleteTagsOrCategoriesWidget::deleteCategoryDialog(int categoryId) {
+void EditTagsOrCategoriesWidget::deleteCategoryDialog(int categoryId) {
     QMessageBox msgBox(QMessageBox::Question,
                        "Удаление категории",
                        "Вы действительно хотите удалить эту категорию?",
@@ -140,7 +140,7 @@ void DeleteTagsOrCategoriesWidget::deleteCategoryDialog(int categoryId) {
     }
 }
 
-void DeleteTagsOrCategoriesWidget::deleteTagDialog(int tagId) {
+void EditTagsOrCategoriesWidget::deleteTagDialog(int tagId) {
     QMessageBox msgBox(QMessageBox::Question,
                        "Удаление тега",
                        "Вы действительно хотите удалить этот тег?",
@@ -159,7 +159,7 @@ void DeleteTagsOrCategoriesWidget::deleteTagDialog(int tagId) {
     }
 }
 
-void DeleteTagsOrCategoriesWidget::updateCategoryDialog(int categoryId) {
+void EditTagsOrCategoriesWidget::updateCategoryDialog(int categoryId) {
     bool ok;
     QString title = QInputDialog::getText(
         this,
@@ -177,7 +177,7 @@ void DeleteTagsOrCategoriesWidget::updateCategoryDialog(int categoryId) {
     }
 }
 
-void DeleteTagsOrCategoriesWidget::updateTagDialog(int categoryId) {
+void EditTagsOrCategoriesWidget::updateTagDialog(int categoryId) {
     bool ok;
     QString title = QInputDialog::getText(
         this,
@@ -195,7 +195,7 @@ void DeleteTagsOrCategoriesWidget::updateTagDialog(int categoryId) {
     }
 }
 
-void DeleteTagsOrCategoriesWidget::onBecomeActive() {
+void EditTagsOrCategoriesWidget::onBecomeActive() {
     categoriesViewer->updateCategories();
     categoriesAndTagsWidget->refresh();
 }

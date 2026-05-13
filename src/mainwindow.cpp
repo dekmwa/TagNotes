@@ -4,7 +4,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     stackedWidget(new QStackedWidget()),
     notesWidget(new NotesWidget(this)),
     mainMenuWidget(new MainMenuWidget(this)),
-    deleteTagsOrCategoriesWidget(new DeleteTagsOrCategoriesWidget(this)),
+    deleteTagsOrCategoriesWidget(new EditTagsOrCategoriesWidget(this)),
     charts(new Charts(this)),
     databaseSettingsWidget(new DatabaseSettingsWidget()),
     m_database(Database::instance())
@@ -42,7 +42,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
         mainMenuWidget->onBecomeActive();
         stackedWidget->setCurrentIndex(1);
     });
-    connect(deleteTagsOrCategoriesWidget, &DeleteTagsOrCategoriesWidget::onBackToMenu, this, [this](){
+    connect(deleteTagsOrCategoriesWidget, &EditTagsOrCategoriesWidget::onBackToMenu, this, [this](){
         mainMenuWidget->onBecomeActive();
         stackedWidget->setCurrentIndex(1);
     });

@@ -1,5 +1,5 @@
-#ifndef DELETETAGSORCATEGORIESWIDGET_H
-#define DELETETAGSORCATEGORIESWIDGET_H
+#ifndef EDITTAGSORCATEGORIESWIDGET_H
+#define EDITTAGSORCATEGORIESWIDGET_H
 
 #include <QWidget>
 #include <QVBoxLayout>
@@ -11,11 +11,11 @@
 #include "categoriesandtagswidget.h"
 
 
-class DeleteTagsOrCategoriesWidget : public QWidget
+class EditTagsOrCategoriesWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit DeleteTagsOrCategoriesWidget(QWidget *parent = nullptr);
+    explicit EditTagsOrCategoriesWidget(QWidget *parent = nullptr);
 
     void onBecomeActive();
 
@@ -46,4 +46,4 @@ signals:
     void onBackToMenu();
 };
 
-#endif // DELETETAGSORCATEGORIESWIDGET_H
+#endif // EDITTAGSORCATEGORIESWIDGET_H

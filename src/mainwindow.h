@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QStackedWidget>
 #include "noteswidget.h"
-#include "deletetagsorcategorieswidget.h"
+#include "edittagsorcategorieswidget.h"
 #include "mainmenuwidget.h"
 #include "charts.h"
 #include "databasesettingswidget.h"
@@ -22,7 +22,7 @@ public:
 private:
     MainMenuWidget *mainMenuWidget;
     NotesWidget *notesWidget;
-    DeleteTagsOrCategoriesWidget *deleteTagsOrCategoriesWidget;
+    EditTagsOrCategoriesWidget *deleteTagsOrCategoriesWidget;
     Charts *charts;
     DatabaseSettingsWidget *databaseSettingsWidget;
 
