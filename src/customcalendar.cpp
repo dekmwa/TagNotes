@@ -152,5 +152,6 @@ void CustomCalendar::goToNextMonth() {
 void CustomCalendar::goToToday() {
     m_currentMonth = QDate::currentDate();
     m_selectedDate = QDate::currentDate();
+    emit onDayClicked(QDate::currentDate());
     updateCalendar();
 }
