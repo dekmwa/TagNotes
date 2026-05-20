@@ -10,6 +10,7 @@ CategoriesViewer::CategoriesViewer(QWidget *parent) : QWidget{parent},
 
     setupCategoriesArea();
     updateCategories();
+    m_lay->setContentsMargins(0, 0, 0, 0);
 }
 
 void CategoriesViewer::setupCategoriesArea() {

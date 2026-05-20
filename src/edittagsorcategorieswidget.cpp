@@ -9,11 +9,11 @@ EditTagsOrCategoriesWidget::EditTagsOrCategoriesWidget(QWidget *parent) : QWidge
     setObjectName("DeleteTagsOrCategoriesWidget");
 
     setupNavigation();
-    mainLay->addStretch();
+    mainLay->addSpacing(60);
     setupChangeCategories();
-    mainLay->addStretch();
+    mainLay->addSpacing(60);
     setupChangeTags();
-    mainLay->addStretch();
+    // mainLay->addStretch();
 
     mainLay->setContentsMargins(20, 20, 20, 20);
     setLayout(mainLay);
@@ -36,7 +36,7 @@ void EditTagsOrCategoriesWidget::setupNavigation() {
     navigation->addWidget(backToMenu, 0);
     navigation->addWidget(widgetTitle, 1);
 
-    mainLay->addLayout(navigation);
+    mainLay->addLayout(navigation, 0);
 }
 
 void EditTagsOrCategoriesWidget::setupChangeCategories() {
@@ -49,14 +49,14 @@ void EditTagsOrCategoriesWidget::setupChangeCategories() {
 
     categoriesViewer = new CategoriesViewer();
 
-    lay->addWidget(text, 1);
+    lay->addWidget(text, 0);
     lay->addWidget(categoriesViewer, 1);
 
     connect(categoriesViewer, &CategoriesViewer::categoryClicked, this, [this](int categoryId){
         categoryActionDialog(categoryId);
     });
 
-    mainLay->addLayout(lay);
+    mainLay->addLayout(lay, 2);
 }
 
 void EditTagsOrCategoriesWidget::setupChangeTags() {
@@ -69,14 +69,14 @@ void EditTagsOrCategoriesWidget::setupChangeTags() {
 
     categoriesAndTagsWidget = new CategoriesAndTagsWidget(this, Mode::VIEW_ONLY);
 
-    lay->addWidget(text, 1);
+    lay->addWidget(text, 0);
     lay->addWidget(categoriesAndTagsWidget, 1);
 
     connect(categoriesAndTagsWidget, &CategoriesAndTagsWidget::onTagClicked, this, [this](int tagId){
         tagActionDialog(tagId);
     });
 
-    mainLay->addLayout(lay);
+    mainLay->addLayout(lay, 8);
 }
 
 void EditTagsOrCategoriesWidget::categoryActionDialog(int categoryId) {

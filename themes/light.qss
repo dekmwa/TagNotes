@@ -250,6 +250,39 @@ QScrollBar::sub-line:horizontal {
 #TagsViewer QPushButton[type="plusButton"]:disabled {
     background-color: #7f7679;
 }
+#TagsViewer QWidget[type="contentWidget"] {
+    background-color: #FDF9F2;
+}
+/* Вертикальная полоса */
+#TagsViewer QScrollBar:vertical {
+    background-color: #e9ecef;
+    width: 10px;
+    border-radius: 5px;
+    margin: 2px 0px 2px 0px;
+}
+/* Бегунок */
+#TagsViewer QScrollBar::handle:vertical {
+    background-color: #adb5bd;
+    border-radius: 5px;
+    min-height: 30px;
+}
+#TagsViewer QScrollBar::handle:vertical:hover {
+    background-color: #6c757d;
+}
+#TagsViewer QScrollBar::handle:vertical:pressed {
+    background-color: #495057;
+}
+/* Убираем стрелки */
+#TagsViewer QScrollBar::add-line:vertical,
+#TagsViewer QScrollBar::sub-line:vertical {
+    height: 0px;
+}
+/* Уголок */
+#TagsViewer QAbstractScrollArea::corner {
+    background-color: #e9ecef;
+    border: none;
+}
+
 
 #TagsByDateWidget {
     border: 4px solid #C7B27B;

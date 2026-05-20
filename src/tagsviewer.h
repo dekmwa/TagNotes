@@ -6,6 +6,7 @@
 #include "qflowlayout.h"
 #include <QPushButton>
 #include <QMap>
+#include <QScrollArea>
 #include "database.h"
 
 
@@ -25,7 +26,10 @@ public:
 
 private:
     Database& database;
-    QFlowLayout *m_mainLay;
+    QScrollArea *scrollArea;
+    QVBoxLayout *m_mainLay;
+    QFlowLayout *flowLay;
+    QWidget *contentWidget;
     QMap<int, QPushButton*> m_tagsButtons;
 
     QPushButton *plusButton;

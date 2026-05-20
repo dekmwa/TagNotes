@@ -36,6 +36,7 @@ NotesWidget::NotesWidget(QWidget *parent) : QWidget{parent},
     mainLay->addLayout(navigation, 0);
     mainLay->addLayout(calendarAndSelectedTags, 1);
     mainLay->addWidget(categoriesAndTagsWidget, 1);
+    categoriesAndTagsWidget->setMaximumHeight(250);
 
     connect(calendar, &CustomCalendar::onDayClicked, this, [this](QDate date){
         QLocale russian(QLocale::Russian, QLocale::Russia);

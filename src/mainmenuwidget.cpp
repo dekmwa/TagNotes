@@ -93,10 +93,11 @@ void MainMenuWidget::setupCalendarAndTagsView() {
     calendarAndTagsView = new QHBoxLayout();
 
     calendar = new CustomCalendar();
-    calendar->setMaximumWidth(400);
-    calendar->setMaximumHeight(500);
+    calendar->setMaximumWidth(350);
+    calendar->setMaximumHeight(350);
 
     tagsByDate = new TagsByDateWidget();
+    tagsByDate->setMaximumHeight(350);
 
     connect(calendar, &CustomCalendar::onDayClicked, tagsByDate, &TagsByDateWidget::updateTagsByDate);
 
