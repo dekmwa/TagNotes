@@ -26,6 +26,7 @@ set(SOURCES
     src/databasesettingswidget.cpp
     src/customcalendar.cpp
     src/statisticswidget.cpp
+    src/customapppanel.cpp
 )
 
 set(HEADERS
@@ -43,6 +44,7 @@ set(HEADERS
     src/databasesettingswidget.h
     src/customcalendar.h
     src/statisticswidget.h
+    src/customapppanel.h
 )
 
 set(UI_FILES

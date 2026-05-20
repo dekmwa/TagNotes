@@ -12,5 +12,7 @@
         <file>icons/add_notes.svg</file>
         <file>icons/database.svg</file>
         <file>icons/edit.svg</file>
+        <file>icons/close.svg</file>
+        <file>icons/minimize.svg</file>
     </qresource>
 </RCC>
